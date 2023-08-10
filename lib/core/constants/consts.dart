@@ -1,3 +1,3 @@
 import 'package:flutter/material.dart';
 
-const tealColor= Colors.teal;
+const tealColor = Colors.teal;

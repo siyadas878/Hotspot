@@ -1,0 +1,169 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hotspot/applications/provider/login.dart';
+import 'package:hotspot/core/constants/consts.dart';
+import 'package:hotspot/infrastructure/functions/google_login.dart';
+import 'package:hotspot/presentation/screens/signup_screen/sign_up_screen.dart';
+import 'package:hotspot/presentation/widgets/app_logo.dart';
+import 'package:hotspot/presentation/widgets/teal_login_button.dart';
+import 'package:hotspot/presentation/widgets/text_field.dart';
+import 'package:provider/provider.dart';
+import '../../widgets/space_with_height.dart';
+
+class LoginScreen extends StatelessWidget {
+const LoginScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(children: [
+            SizedBox(height: size.height * 0.14),
+            const AppLogo(size: 50),
+            const Text('Log In your account',
+                style: TextStyle(color: tealColor, fontSize: 13)),
+            SpaceWithHeight(size: size),
+            RoundedTealTextFormField(
+              controller: Provider.of<LoginProvider>(context).emailController,
+              labelText: 'Email',
+            ),
+            SpaceWithHeight(size: size),
+            RoundedTealTextFormField(
+              controller:
+                  Provider.of<LoginProvider>(context).passwordController,
+              labelText: 'Password',
+            ),
+            SpaceWithHeight(size: size),
+            const Text('Forgot your password?',
+                style: TextStyle(
+                  color: tealColor,
+                  fontSize: 13,
+                )),
+            SpaceWithHeight(size: size),
+            TealLoginButton(
+              onPressed: () {
+                final loginProvider =
+                    Provider.of<LoginProvider>(context, listen: false);
+
+                loginProvider.loginUser(context);
+
+                // // checkLogin.check();
+                // if (emailController.text.isEmpty ||
+                //     passwordController.text.isEmpty) {
+                //   warning(context, 'Please fill in all the fields.');
+                //   return;
+                // }
+
+                // if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                //     .hasMatch(emailController.text)) {
+                //   warning(context, 'Please enter a valid email address.');
+                //   return;
+                // }
+
+                // if (passwordController.text.length < 6 ||
+                //     passwordController.text.isEmpty) {
+                //   warning(
+                //       context, 'Password must be at least 6 characters long.');
+                //   return;
+                // }
+
+                // FirebaseAuth.instance
+                //     .signInWithEmailAndPassword(
+                //         email: emailController.text,
+                //         password: passwordController.text)
+                //     .then((value) {
+                //   Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //       builder: (context) => NavScreen(),
+                //     ),
+                //   );
+                // }).catchError((error) {
+                //   // checkLogin.isLoading;
+                //   warning(
+                //       context, 'Invalid email or password. Please try again.');
+                // });
+                // emailController.clear();
+                // passwordController.clear();
+              },
+              text: 'Login',
+            ),
+            SpaceWithHeight(size: size),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 70),
+              child: Row(children: [
+                Expanded(
+                    child: Divider(
+                  color: tealColor,
+                )),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  child: Text("Or With",
+                      style: TextStyle(
+                        color: tealColor,
+                        fontSize: 13,
+                      )),
+                ),
+                Expanded(
+                    child: Divider(
+                  color: tealColor,
+                )),
+              ]),
+            ),
+            SpaceWithHeight(size: size),
+            InkWell(
+              onTap: () {
+                signinWithGoogle(context: context);
+              },
+              child: Container(
+                width: size.width * 0.7,
+                height: size.height * 0.06,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(6)),
+                  border: Border.all(
+                    color: tealColor,
+                    width: 1,
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'G  ',
+                      style: GoogleFonts.roboto(
+                          fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    const Text(
+                      'Login with google',
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SpaceWithHeight(size: size),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Don’t have account? Let’s '),
+                InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SignUp(),
+                          ));
+                    },
+                    child: const Text(
+                      'Sign Up',
+                      style: TextStyle(color: tealColor),
+                    ))
+              ],
+            )
+          ]),
+        ),
+      ),
+    );
+  }
+}

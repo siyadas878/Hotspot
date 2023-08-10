@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hotspot/core/constants/consts.dart';
-import 'package:hotspot/presentation/screens/add_screen.dart';
-import 'package:hotspot/presentation/screens/home_screen.dart';
-import 'package:hotspot/presentation/screens/notification_screen.dart';
-import 'package:hotspot/presentation/screens/profile_screen.dart';
-import 'package:hotspot/presentation/screens/search_screen.dart';
+import 'package:hotspot/presentation/screens/add_screen/add_screen.dart';
+import 'package:hotspot/presentation/screens/home_screen/home_screen.dart';
+import 'package:hotspot/presentation/screens/notification_screen/notification_screen.dart';
+import 'package:hotspot/presentation/screens/profile_screen/profile_screen.dart';
+import 'package:hotspot/presentation/screens/search_screen/search_screen.dart';
 import 'package:provider/provider.dart';
 
-import '../../application/provider/nav_state.dart';
+import '../../applications/provider/nav_state.dart';
 
 class NavScreen extends StatelessWidget {
   NavScreen({super.key});
 
-  final List<Widget> _screens = const [
-    HomeScreen(),
-    SearchScreen(),
-    AddScreen(),
-    NotificationScreen(),
+  final List<Widget> _screens =  [
+    const HomeScreen(),
+     SearchScreen(),
+    const AddScreen(),
+    const NotificationScreen(),
     ProfileScreen(),
   ];
 
@@ -48,7 +48,7 @@ class NavScreen extends StatelessWidget {
                   label: 'add',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(FontAwesomeIcons.circleExclamation),
+                  icon: Icon(FontAwesomeIcons.bell),
                   label: 'notification',
                 ),
                 BottomNavigationBarItem(

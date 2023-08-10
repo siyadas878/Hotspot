@@ -20,7 +20,10 @@ class TealLoginButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.0), // Rounded corner radius
         ),
       ),
-      child: Text(text,style:const TextStyle(color: Colors.white),),
+      child: Text(
+        text,
+        style: const TextStyle(color: Colors.white),
+      ),
     );
   }
 }

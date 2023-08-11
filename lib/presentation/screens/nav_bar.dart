@@ -7,7 +7,6 @@ import 'package:hotspot/presentation/screens/notification_screen/notification_sc
 import 'package:hotspot/presentation/screens/profile_screen/profile_screen.dart';
 import 'package:hotspot/presentation/screens/search_screen/search_screen.dart';
 import 'package:provider/provider.dart';
-
 import '../../applications/provider/nav_state.dart';
 
 class NavScreen extends StatelessWidget {
@@ -23,9 +22,7 @@ class NavScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<NavBAr>(
-      create: (context) => NavBAr(),
-      child: Scaffold(
+    return  Scaffold(
         body: Consumer<NavBAr>(
           builder: (context, navcontroller, child) {
             return _screens[navcontroller.currentIndex];
@@ -63,7 +60,6 @@ class NavScreen extends StatelessWidget {
             );
           },
         ),
-      ),
     );
   }
 }

@@ -104,31 +104,11 @@ class GoogleUser extends StatelessWidget {
                               builder: (context) => NavScreen(),
                             ),
                             (route) => false);
-                        // if (name.text.isEmpty ||
-                        //     username.text.isEmpty) {
-                        //   warning(context, 'Please fill in all the fields.');
-                        //   return;
-                        // }
 
-                        //  try {
-                        //     adduser.addSignUpDetails(
-                        //     UserModel(
-                        //       name: name.text,
-                        //       username: username.text,
-                        //       imgpath: imagepic.imageUrl.toString(),
-                        //     ),
-                        //   );
-                        //   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NavScreen(),));
-                        //  } catch (e) {
-                        //    warning(context, e.toString());
-                        //  }
-
-                        //   name.clear();
-                        //   username.clear();
-                        //   imagepic.clearImage();
-                        //   warning(context, 'Successfully signed up');
                       },
                       text: 'Add',
+                       isLoading:
+                    Provider.of<GoogleInProvider>(context).isLoading,
                     ),
                     SpaceWithHeight(size: size),
                   ],

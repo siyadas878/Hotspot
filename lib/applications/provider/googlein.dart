@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hotspot/applications/provider/user_signup.dart';
-import 'package:hotspot/domain/models/user_model/user_model.dart';
 import 'package:hotspot/presentation/widgets/snackbar_warning.dart';
 
+import '../../domain/user_model/user_model.dart';
+
 class GoogleInProvider extends ChangeNotifier {
+
+   bool _isLoading = false;
+
+  bool get isLoading => _isLoading;
   
   AddUser adduser = AddUser();
 
@@ -12,6 +17,11 @@ class GoogleInProvider extends ChangeNotifier {
 
   Future<void> signUpUser(BuildContext context, String imagePath) async {
     try {
+
+       _isLoading = true;
+      notifyListeners();
+
+
       final String name = nameController.text;
       final String username = usernameController.text;
 
@@ -32,7 +42,14 @@ class GoogleInProvider extends ChangeNotifier {
       nameController.clear();
       usernameController.clear();
       notifyListeners();
+
+      _isLoading = false;
+      notifyListeners();
+
     } catch (error) {
+
+      _isLoading = false;
+      notifyListeners();
       warning(context, 'Error creating user: $error');
     }
   }

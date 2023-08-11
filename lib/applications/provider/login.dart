@@ -4,6 +4,11 @@ import 'package:hotspot/presentation/screens/nav_bar.dart';
 import 'package:hotspot/presentation/widgets/snackbar_warning.dart';
 
 class LoginProvider extends ChangeNotifier {
+
+    bool _isLoading = false;
+
+  bool get isLoading => _isLoading;
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   final TextEditingController emailController = TextEditingController();
@@ -11,6 +16,10 @@ class LoginProvider extends ChangeNotifier {
 
   Future<void> loginUser(BuildContext context) async {
     try {
+
+        _isLoading = true;
+      notifyListeners();
+
       final String email = emailController.text;
       final String password = passwordController.text;
 
@@ -47,7 +56,13 @@ class LoginProvider extends ChangeNotifier {
             ),
             (route) => false); // Replace with your navigation route
       }
+
+      _isLoading = false;
+      notifyListeners();
+
     } catch (error) {
+        _isLoading = false;
+      notifyListeners();
       warning(context, 'Invalid email or password. Please try again.');
     }
   }

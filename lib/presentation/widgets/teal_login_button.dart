@@ -4,10 +4,12 @@ import 'package:hotspot/core/constants/consts.dart';
 class TealLoginButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
+  final bool isLoading;
 
   TealLoginButton({
     required this.onPressed,
     required this.text,
+    required this.isLoading,
   });
 
   @override
@@ -17,10 +19,11 @@ class TealLoginButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: tealColor,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0), // Rounded corner radius
+          borderRadius: BorderRadius.circular(10.0), 
         ),
       ),
-      child: Text(
+      child:  isLoading
+          ?const CircularProgressIndicator(color: Colors.white):Text(
         text,
         style: const TextStyle(color: Colors.white),
       ),

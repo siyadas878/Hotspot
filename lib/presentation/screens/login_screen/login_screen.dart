@@ -34,6 +34,7 @@ const LoginScreen({super.key});
               controller:
                   Provider.of<LoginProvider>(context).passwordController,
               labelText: 'Password',
+              obscureText: true,
             ),
             SpaceWithHeight(size: size),
             const Text('Forgot your password?',
@@ -49,46 +50,10 @@ const LoginScreen({super.key});
 
                 loginProvider.loginUser(context);
 
-                // // checkLogin.check();
-                // if (emailController.text.isEmpty ||
-                //     passwordController.text.isEmpty) {
-                //   warning(context, 'Please fill in all the fields.');
-                //   return;
-                // }
-
-                // if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                //     .hasMatch(emailController.text)) {
-                //   warning(context, 'Please enter a valid email address.');
-                //   return;
-                // }
-
-                // if (passwordController.text.length < 6 ||
-                //     passwordController.text.isEmpty) {
-                //   warning(
-                //       context, 'Password must be at least 6 characters long.');
-                //   return;
-                // }
-
-                // FirebaseAuth.instance
-                //     .signInWithEmailAndPassword(
-                //         email: emailController.text,
-                //         password: passwordController.text)
-                //     .then((value) {
-                //   Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //       builder: (context) => NavScreen(),
-                //     ),
-                //   );
-                // }).catchError((error) {
-                //   // checkLogin.isLoading;
-                //   warning(
-                //       context, 'Invalid email or password. Please try again.');
-                // });
-                // emailController.clear();
-                // passwordController.clear();
               },
               text: 'Login',
+              isLoading:
+                    Provider.of<LoginProvider>(context).isLoading,
             ),
             SpaceWithHeight(size: size),
             const Padding(

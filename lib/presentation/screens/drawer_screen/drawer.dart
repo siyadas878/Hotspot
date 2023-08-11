@@ -7,7 +7,8 @@ import 'package:hotspot/core/constants/consts.dart';
 import 'package:hotspot/presentation/screens/login_screen/login_screen.dart';
 import 'package:hotspot/presentation/widgets/snackbar_warning.dart';
 import 'package:hotspot/presentation/widgets/space_with_height.dart';
-import '../../../domain/models/user_model/user_model.dart';
+
+import '../../../domain/user_model/user_model.dart';
 
 // ignore: must_be_immutable
 class DrawerScreen extends StatelessWidget {

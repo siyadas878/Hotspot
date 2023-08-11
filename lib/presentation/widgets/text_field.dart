@@ -6,13 +6,15 @@ class RoundedTealTextFormField extends StatelessWidget {
   final String labelText;
   final String? hintText;
     final String? Function(String?)? validator; // Validator function
+  bool? obscureText; 
 
 
   RoundedTealTextFormField({
     required this.controller,
     required this.labelText,
     this.hintText,
-    this.validator
+    this.validator,
+    this.obscureText
   });
 
   @override
@@ -27,6 +29,7 @@ class RoundedTealTextFormField extends StatelessWidget {
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: TextFormField(
+        obscureText: obscureText?? false,
         controller: controller,
         style: const TextStyle(color: tealColor),
         decoration: InputDecoration(

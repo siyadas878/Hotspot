@@ -103,7 +103,8 @@ class SignUp extends StatelessWidget {
                     RoundedTealTextFormField(
                         controller: Provider.of<SignUpProvider>(context)
                             .passwordController,
-                        labelText: 'Password'),
+                        labelText: 'Password',
+                        obscureText: true),
                     SpaceWithHeight(size: size),
                     TealLoginButton(
                       onPressed: () async {
@@ -113,60 +114,10 @@ class SignUp extends StatelessWidget {
                         signUpProvider.signUpUser(
                             context, imagepic.imageUrl.toString());
 
-
-                        // if (name.text.isEmpty ||
-                        //     username.text.isEmpty ||
-                        //     email.text.isEmpty ||
-                        //     password.text.isEmpty) {
-                        //   warning(context, 'Please fill in all the fields.');
-                        //   return;
-                        // }
-
-                        // if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                        //     .hasMatch(email.text)) {
-                        //   warning(
-                        //       context, 'Please enter a valid email address.');
-                        //   return;
-                        // }
-
-                        // if (password.text.length < 6) {
-                        //   warning(context,
-                        //       'Password must be at least 6 characters long.');
-                        //   return;
-                        // }
-
-                        // print(email.text);
-                        // try {
-                        //   await FirebaseAuth
-                        //       .instance
-                        //       .createUserWithEmailAndPassword(
-                        //     email: email.text,
-                        //     password: password.text,
-                        //   );
-                        //   print('-----------signedUp--------');
-
-                        //   adduser.addSignUpDetails(
-                        //     UserModel(
-                        //       name: name.text,
-                        //       username: username.text,
-                        //       email: email.text,
-                        //       imgpath: imagepic.imageUrl.toString(),
-                        //       password: password.text,
-                        //     ),
-                        //   );
-
-                        //   name.clear();
-                        //   username.clear();
-                        //   email.clear();
-                        //   password.clear();
-                        //   imagepic.clearImage();
-                        //   warning(context, 'Successfully signed up');
-
-                        // } catch (error) {
-                        //   print('Error creating user: $error');
-                        // }
                       },
                       text: 'Sign Up',
+                      isLoading:
+                    Provider.of<SignUpProvider>(context).isLoading,
                     ),
                     SpaceWithHeight(size: size),
                     Row(

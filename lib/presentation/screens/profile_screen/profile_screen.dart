@@ -5,8 +5,8 @@ import 'package:hotspot/applications/provider/get_data_in_profile.dart';
 import 'package:hotspot/presentation/screens/drawer_screen/drawer.dart';
 import 'package:hotspot/presentation/widgets/app_bar.dart';
 import 'package:hotspot/presentation/widgets/space_with_height.dart';
-import 'package:hotspot/domain/models/user_model/user_model.dart';
 import '../../../core/constants/consts.dart';
+import '../../../domain/user_model/user_model.dart';
 
 
 // ignore: must_be_immutable

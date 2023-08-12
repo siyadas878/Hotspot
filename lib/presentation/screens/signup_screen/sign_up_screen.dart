@@ -11,14 +11,8 @@ import '../../widgets/space_with_height.dart';
 import '../../widgets/teal_login_button.dart';
 import '../../widgets/text_field.dart';
 
-// ignore: must_be_immutable
 class SignUp extends StatelessWidget {
   SignUp({Key? key}) : super(key: key);
-
-  TextEditingController name = TextEditingController();
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
-  TextEditingController username = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +21,7 @@ class SignUp extends StatelessWidget {
       body: SafeArea(
         child: ChangeNotifierProvider<ImageProviderClass>(
           create: (context) =>
-              ImageProviderClass(), // Provide the instance here
+              ImageProviderClass(), 
           child: Consumer<ImageProviderClass>(
             builder: (context, imagepic, _) {
               return SingleChildScrollView(
@@ -104,21 +98,19 @@ class SignUp extends StatelessWidget {
                         controller: Provider.of<SignUpProvider>(context)
                             .passwordController,
                         labelText: 'Password',
-                        obscureText: true),
+                        obscureText: false),
                     SpaceWithHeight(size: size),
                     TealLoginButton(
-                      onPressed: () async {
-                        final signUpProvider =
-                            Provider.of<SignUpProvider>(context, listen: false);
-
-                        signUpProvider.signUpUser(
-                            context, imagepic.imageUrl.toString());
-
-                      },
-                      text: 'Sign Up',
-                      isLoading:
-                    Provider.of<SignUpProvider>(context).isLoading,
-                    ),
+                        onPressed: () async {
+                        try {
+                            Provider.of<SignUpProvider>(context, listen: false).signUpUser(
+                              context, imagepic.imageUrl.toString());
+                        } catch (e) {
+                          print(e);
+                        }
+                        },
+                        text: 'Sign Up',
+                        isLoading: Provider.of<SignUpProvider>(context).isLoading),
                     SpaceWithHeight(size: size),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

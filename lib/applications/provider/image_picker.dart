@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -33,7 +34,7 @@ class ImageProviderClass extends ChangeNotifier {
         notifyListeners();
       }
     } catch (e) {
-      print("Error uploading image: $e");
+      log("Error uploading image: $e");
     }
   }
 }

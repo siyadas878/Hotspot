@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hotspot/presentation/screens/login_screen/login_screen.dart';
 import 'package:hotspot/presentation/screens/nav_bar.dart';
+import 'package:hotspot/presentation/widgets/snackbar_warning.dart';
 import '../../widgets/app_logo.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -50,7 +52,11 @@ class SplashScreen extends StatelessWidget {
 
 wait(context) async{
   FirebaseAuth auth = FirebaseAuth.instance;
+   var connectivityResult = await Connectivity().checkConnectivity();
   await Future.delayed(const Duration(milliseconds: 3700));
+  if (connectivityResult == ConnectivityResult.none) {
+    warning(context, 'No Interner Connection');
+  }
   auth.currentUser?.uid != null
       ? Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => NavScreen()))

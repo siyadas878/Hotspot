@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hotspot/core/constants/consts.dart';
 import 'package:hotspot/presentation/widgets/app_bar.dart';
+import 'package:hotspot/presentation/widgets/space_with_height.dart';
 
 import '../../widgets/follow_icon.dart';
 
 class SearchScreen extends StatelessWidget {
   SearchScreen({Key? key}) : super(key: key);
 
-  TextEditingController searchController = TextEditingController();
+  final TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +19,7 @@ class SearchScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-                      const Divider(color: tealColor,),
-
+            SizedBox(height: size.height*0.01),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: TextField(

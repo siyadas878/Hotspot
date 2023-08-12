@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hotspot/core/constants/consts.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -20,6 +21,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 7),
       child: AppBar(
+        elevation: 20,
+
         title: Text(
           title,
           style: GoogleFonts.jollyLodger(fontSize: 30),

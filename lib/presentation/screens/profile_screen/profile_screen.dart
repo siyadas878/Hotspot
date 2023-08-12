@@ -9,11 +9,10 @@ import '../../../core/constants/consts.dart';
 import '../../../domain/user_model/user_model.dart';
 
 
-// ignore: must_be_immutable
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({Key? key}) : super(key: key);
 
-  String uid = FirebaseAuth.instance.currentUser!.uid.toString();
+  final String uid = FirebaseAuth.instance.currentUser!.uid.toString();
 
   @override
   Widget build(BuildContext context) {

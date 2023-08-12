@@ -19,7 +19,6 @@ class MessageScreen extends StatelessWidget {
       )),
       body: SafeArea(child: Column(
         children: [
-          const Divider(color: tealColor,),
           Expanded(
             child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),

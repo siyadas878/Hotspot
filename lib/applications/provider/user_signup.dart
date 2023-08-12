@@ -1,7 +1,7 @@
+import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import '../../domain/user_model/user_model.dart';
 
 class AddUser extends ChangeNotifier {
@@ -28,7 +28,7 @@ class AddUser extends ChangeNotifier {
 
       await usersCollection.doc(userr.toString()).set(userData);
     } catch (error) {
-      print("Error adding user: $error");
+      log("Error adding user: $error");
     }
   }
 

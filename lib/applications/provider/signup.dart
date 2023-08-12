@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hotspot/applications/provider/user_signup.dart';
 import 'package:hotspot/presentation/widgets/snackbar_warning.dart';
-
 import '../../domain/user_model/user_model.dart';
 
 class SignUpProvider extends ChangeNotifier {
-
-    bool _isLoading = false;
+  bool _isLoading = false;
 
   bool get isLoading => _isLoading;
-  
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   AddUser adduser = AddUser();
 
@@ -21,8 +19,7 @@ class SignUpProvider extends ChangeNotifier {
 
   Future<void> signUpUser(BuildContext context, String imagePath) async {
     try {
-       
-         _isLoading = true;
+      _isLoading = true;
       notifyListeners();
 
       final String name = nameController.text;
@@ -68,9 +65,8 @@ class SignUpProvider extends ChangeNotifier {
       passwordController.clear();
       notifyListeners();
 
-       _isLoading = false;
+      _isLoading = false;
       notifyListeners();
-
     } catch (error) {
       _isLoading = false;
       notifyListeners();

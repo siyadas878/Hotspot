@@ -4,8 +4,7 @@ import 'package:hotspot/presentation/screens/nav_bar.dart';
 import 'package:hotspot/presentation/widgets/snackbar_warning.dart';
 
 class LoginProvider extends ChangeNotifier {
-
-    bool _isLoading = false;
+  bool _isLoading = false;
 
   bool get isLoading => _isLoading;
 
@@ -16,8 +15,7 @@ class LoginProvider extends ChangeNotifier {
 
   Future<void> loginUser(BuildContext context) async {
     try {
-
-        _isLoading = true;
+      _isLoading = true;
       notifyListeners();
 
       final String email = emailController.text;
@@ -49,19 +47,19 @@ class LoginProvider extends ChangeNotifier {
       notifyListeners();
 
       if (userCredential.user != null) {
+        // ignore: use_build_context_synchronously
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
               builder: (context) => NavScreen(),
             ),
-            (route) => false); // Replace with your navigation route
+            (route) => false); 
       }
 
       _isLoading = false;
       notifyListeners();
-
     } catch (error) {
-        _isLoading = false;
+      _isLoading = false;
       notifyListeners();
       warning(context, 'Invalid email or password. Please try again.');
     }

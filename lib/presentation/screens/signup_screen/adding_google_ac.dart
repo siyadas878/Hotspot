@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hotspot/applications/provider/signup.dart';
 import 'package:hotspot/presentation/screens/nav_bar.dart';
 import 'package:provider/provider.dart';
 import '../../../applications/provider/googlein.dart';
@@ -12,12 +13,8 @@ import '../../widgets/space_with_height.dart';
 import '../../widgets/teal_login_button.dart';
 import '../../widgets/text_field.dart';
 
-// ignore: must_be_immutable
 class GoogleUser extends StatelessWidget {
-  GoogleUser({Key? key}) : super(key: key);
-
-  TextEditingController name = TextEditingController();
-  TextEditingController username = TextEditingController();
+  const GoogleUser({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -86,30 +83,29 @@ class GoogleUser extends StatelessWidget {
                     ),
                     SpaceWithHeight(size: size),
                     RoundedTealTextFormField(
-                        controller: name, labelText: 'name'),
+                        controller:
+                            Provider.of<SignUpProvider>(context).nameController,
+                        labelText: 'name'),
                     SpaceWithHeight(size: size),
                     RoundedTealTextFormField(
-                        controller: username, labelText: 'username'),
+                        controller: Provider.of<SignUpProvider>(context)
+                            .usernameController,
+                        labelText: 'username'),
                     SpaceWithHeight(size: size),
                     TealLoginButton(
-                      onPressed: () async {
-                        final add = Provider.of<GoogleInProvider>(context,
-                            listen: false);
+                        onPressed: () async {
+                          Provider.of<SignUpProvider>(context, listen: false).signUpUser(
+                              context, imagepic.imageUrl.toString());
 
-                        add.signUpUser(context, imagepic.imageUrl.toString());
-
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => NavScreen(),
-                            ),
-                            (route) => false);
-
-                      },
-                      text: 'Add',
-                       isLoading:
-                    Provider.of<GoogleInProvider>(context).isLoading,
-                    ),
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => NavScreen(),
+                              ),
+                              (route) => false);
+                        },
+                        text: 'Add',
+                        isLoading: Provider.of<GoogleInProvider>(context).isLoading),
                     SpaceWithHeight(size: size),
                   ],
                 ),

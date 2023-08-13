@@ -2,12 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hotspot/applications/provider/get_data_in_profile.dart';
+import 'package:hotspot/domain/post_model/post_model.dart';
 import 'package:hotspot/presentation/screens/drawer_screen/drawer.dart';
 import 'package:hotspot/presentation/widgets/app_bar.dart';
 import 'package:hotspot/presentation/widgets/space_with_height.dart';
 import '../../../core/constants/consts.dart';
 import '../../../domain/user_model/user_model.dart';
-
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({Key? key}) : super(key: key);
@@ -111,24 +111,41 @@ class ProfileScreen extends StatelessWidget {
                     child: Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 13),
-                  child: GridView.builder(
-                    gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3, 
-                      mainAxisSpacing: 10.0, 
-                      crossAxisSpacing: 10.0, 
-                    ),
-                    itemBuilder: (context, index) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          image:const DecorationImage(image: NetworkImage(
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTe5OCMSr-h-OeQkxRfSdURLG7WGzv0X4rHUw&usqp=CAU'),
-                            fit: BoxFit.cover),
-                          borderRadius: BorderRadius.circular(10),
-                          color: tealColor
-                        ),
-                      );
+                  child: FutureBuilder<List<PostModel>>(
+                    future: GetProfileData().getposts(uid),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());  
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        return const Center(child: Text('No data available.'));
+                      } else {
+                        return GridView.builder(
+                          gridDelegate:
+                            const  SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            mainAxisSpacing: 10.0,
+                            crossAxisSpacing: 10.0,
+                          ),
+                          itemBuilder: (context, index) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image:
+                                      NetworkImage(snapshot.data![index].imgUrl as String),
+                                  fit: BoxFit.cover,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors
+                                    .teal, // Make sure to import 'package:flutter/material.dart'
+                              ),
+                            );
+                          },
+                          itemCount: snapshot.data!.length,
+                        );
+                      }
                     },
-                    itemCount: 10,
                   ),
                 ))
               ],

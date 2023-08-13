@@ -15,11 +15,11 @@ class SearchScreen extends StatelessWidget {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar:const MyAppBar(title: '    Search'),
+      appBar: const MyAppBar(title: '    Search'),
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(height: size.height*0.01),
+            SizedBox(height: size.height * 0.01),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
@@ -49,7 +49,7 @@ class SearchScreen extends StatelessWidget {
                   itemCount: 5, // Update this with the actual number of items
                   itemBuilder: (context, index) {
                     return ListTile(
-                      leading:const CircleAvatar(radius: 30),
+                      leading: const CircleAvatar(radius: 30),
                       title: Text('Username'),
                       subtitle: Text('Name'),
                       trailing: FollowIcon(size: size),
@@ -67,5 +67,3 @@ class SearchScreen extends StatelessWidget {
     );
   }
 }
-
-

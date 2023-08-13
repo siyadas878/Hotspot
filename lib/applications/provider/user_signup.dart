@@ -5,11 +5,10 @@ import 'package:flutter/material.dart';
 import '../../domain/user_model/user_model.dart';
 
 class AddUser extends ChangeNotifier {
-  
   UserModel? data;
   AddUser({this.data});
 
- Future<void> addSignUpDetails(UserModel data) async {
+  Future<void> addSignUpDetails(UserModel data) async {
     try {
       UserModel user = UserModel(
         name: data.name,
@@ -22,7 +21,7 @@ class AddUser extends ChangeNotifier {
       CollectionReference usersCollection =
           FirebaseFirestore.instance.collection('users');
 
-      String userr=FirebaseAuth.instance.currentUser!.uid;
+      String userr = FirebaseAuth.instance.currentUser!.uid;
 
       Map<String, dynamic> userData = user.toJson();
 
@@ -31,5 +30,4 @@ class AddUser extends ChangeNotifier {
       log("Error adding user: $error");
     }
   }
-
 }

@@ -12,54 +12,54 @@ import '../../applications/provider/nav_state.dart';
 class NavScreen extends StatelessWidget {
   NavScreen({super.key});
 
-  final List<Widget> _screens =  [
+  final List<Widget> _screens = [
     const HomeScreen(),
-     SearchScreen(),
-    const AddScreen(),
+    SearchScreen(),
+    AddScreen(),
     const NotificationScreen(),
     ProfileScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-        body: Consumer<NavBAr>(
-          builder: (context, navcontroller, child) {
-            return _screens[navcontroller.currentIndex];
-          },
-        ),
-        bottomNavigationBar: Consumer<NavBAr>(
-          builder: (context, navcontroller, child) {
-            return BottomNavigationBar(
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(FontAwesomeIcons.house),
-                  label: 'Home',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(FontAwesomeIcons.magnifyingGlass),
-                  label: 'search',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(FontAwesomeIcons.squarePlus),
-                  label: 'add',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(FontAwesomeIcons.bell),
-                  label: 'notification',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(FontAwesomeIcons.user),
-                  label: 'profile',
-                ),
-              ],
-              unselectedItemColor: Colors.grey,
-              selectedItemColor: tealColor,
-              currentIndex: navcontroller.currentIndex,
-              onTap: (index) => navcontroller.onNavIndex(index),
-            );
-          },
-        ),
+    return Scaffold(
+      body: Consumer<NavBAr>(
+        builder: (context, navcontroller, child) {
+          return _screens[navcontroller.currentIndex];
+        },
+      ),
+      bottomNavigationBar: Consumer<NavBAr>(
+        builder: (context, navcontroller, child) {
+          return BottomNavigationBar(
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(FontAwesomeIcons.house),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(FontAwesomeIcons.magnifyingGlass),
+                label: 'search',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(FontAwesomeIcons.squarePlus),
+                label: 'add',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(FontAwesomeIcons.bell),
+                label: 'notification',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(FontAwesomeIcons.user),
+                label: 'profile',
+              ),
+            ],
+            unselectedItemColor: Colors.grey,
+            selectedItemColor: tealColor,
+            currentIndex: navcontroller.currentIndex,
+            onTap: (index) => navcontroller.onNavIndex(index),
+          );
+        },
+      ),
     );
   }
 }

@@ -53,7 +53,7 @@ class LoginProvider extends ChangeNotifier {
             MaterialPageRoute(
               builder: (context) => NavScreen(),
             ),
-            (route) => false); 
+            (route) => false);
       }
 
       _isLoading = false;

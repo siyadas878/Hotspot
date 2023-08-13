@@ -8,41 +8,47 @@ class MessageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-        var size = MediaQuery.of(context).size;
+    var size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: MyAppBar(title: 'Messages',leading: Padding(
-        padding: const EdgeInsets.all(6),
-        child: BackArrow(size: size, backFunction: () {
-          Navigator.pop(context);
-        },),
-      )),
-      body: SafeArea(child: Column(
-        children: [
-          Expanded(
-            child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: ListView.builder(
-                        padding: EdgeInsets.only(top: 5),
-                        itemCount: 5, // Update this with the actual number of items
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            leading: CircleAvatar(radius: 30),
-                            title: Text('Username'),
-                            subtitle: Text('Name'),
-                            trailing: IconButton(onPressed: () {
-                              
-                            }, icon: Icon(Icons.delete)),
-                            onTap: () {
-                              // Handle item tap
-                            },
-                          );
-                        },
-                      ),
-                    ),
-          ),
-        ],
-      ),),
+      appBar: MyAppBar(
+          title: 'Messages',
+          leading: Padding(
+            padding: const EdgeInsets.all(6),
+            child: BackArrow(
+              size: size,
+              backFunction: () {
+                Navigator.pop(context);
+              },
+            ),
+          )),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: ListView.builder(
+                  padding: EdgeInsets.only(top: 5),
+                  itemCount: 5, // Update this with the actual number of items
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      leading: CircleAvatar(radius: 30),
+                      title: Text('Username'),
+                      subtitle: Text('Name'),
+                      trailing: IconButton(
+                          onPressed: () {}, icon: Icon(Icons.delete)),
+                      onTap: () {
+                        // Handle item tap
+                      },
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

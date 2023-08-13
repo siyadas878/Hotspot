@@ -50,9 +50,9 @@ class SplashScreen extends StatelessWidget {
   }
 }
 
-wait(context) async{
+wait(context) async {
   FirebaseAuth auth = FirebaseAuth.instance;
-   var connectivityResult = await Connectivity().checkConnectivity();
+  var connectivityResult = await Connectivity().checkConnectivity();
   await Future.delayed(const Duration(milliseconds: 3700));
   if (connectivityResult == ConnectivityResult.none) {
     warning(context, 'No Interner Connection');
@@ -63,4 +63,3 @@ wait(context) async{
       : Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => LoginScreen()));
 }
-

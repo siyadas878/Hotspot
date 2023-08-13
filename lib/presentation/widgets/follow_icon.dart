@@ -16,9 +16,8 @@ class FollowIcon extends StatelessWidget {
       width: size.width * 0.12,
       height: size.height * 0.03,
       decoration: BoxDecoration(
-          color: tealColor,
-          borderRadius: BorderRadius.circular(30)),
-      child:const Center(
+          color: tealColor, borderRadius: BorderRadius.circular(30)),
+      child: const Center(
           child: Text(
         'Follow',
         style: TextStyle(color: Colors.white),

@@ -7,11 +7,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leading;
   final Widget? trailing;
 
-  const MyAppBar(
-      {super.key,
-      required this.title,
-      this.leading,
-       this.trailing});
+  const MyAppBar({super.key, required this.title, this.leading, this.trailing});
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -22,7 +18,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       padding: const EdgeInsets.only(right: 7),
       child: AppBar(
         elevation: 20,
-
         title: Text(
           title,
           style: GoogleFonts.jollyLodger(fontSize: 30),

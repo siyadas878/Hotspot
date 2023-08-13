@@ -20,8 +20,7 @@ class SignUp extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: ChangeNotifierProvider<ImageProviderClass>(
-          create: (context) =>
-              ImageProviderClass(), 
+          create: (context) => ImageProviderClass(),
           child: Consumer<ImageProviderClass>(
             builder: (context, imagepic, _) {
               return SingleChildScrollView(
@@ -102,15 +101,17 @@ class SignUp extends StatelessWidget {
                     SpaceWithHeight(size: size),
                     TealLoginButton(
                         onPressed: () async {
-                        try {
-                            Provider.of<SignUpProvider>(context, listen: false).signUpUser(
-                              context, imagepic.imageUrl.toString());
-                        } catch (e) {
-                          print(e);
-                        }
+                          try {
+                            Provider.of<SignUpProvider>(context, listen: false)
+                                .signUpUser(
+                                    context, imagepic.imageUrl.toString());
+                          } catch (e) {
+                            print(e);
+                          }
                         },
                         text: 'Sign Up',
-                        isLoading: Provider.of<SignUpProvider>(context).isLoading),
+                        isLoading:
+                            Provider.of<SignUpProvider>(context).isLoading),
                     SpaceWithHeight(size: size),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

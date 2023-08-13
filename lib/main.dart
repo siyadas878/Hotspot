@@ -1,8 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hotspot/applications/provider/add_post.dart';
 import 'package:hotspot/applications/provider/get_data_in_profile.dart';
+import 'package:hotspot/applications/provider/getall_post.dart';
 import 'package:hotspot/applications/provider/googlein.dart';
+import 'package:hotspot/applications/provider/image_for_post.dart';
 import 'package:hotspot/applications/provider/login.dart';
 import 'package:hotspot/applications/provider/nav_state.dart';
 import 'package:hotspot/applications/provider/signup.dart';
@@ -23,23 +26,32 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-         ChangeNotifierProvider(
+        ChangeNotifierProvider(
           create: (context) => NavBAr(),
-        ), 
+        ),
         ChangeNotifierProvider(
           create: (context) => GoogleInProvider(),
-        ), 
+        ),
         ChangeNotifierProvider(
           create: (context) => SignUpProvider(),
-        ), 
+        ),
         ChangeNotifierProvider(
           create: (context) => LoginProvider(),
-        ),        
+        ),
         ChangeNotifierProvider(
           create: (context) => GetProfileData(),
         ),
         ChangeNotifierProvider(
           create: (context) => AddUser(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AddPost(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => PostImageProviderClass(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GetallPostProvider(),
         )
       ],
       child: MaterialApp(

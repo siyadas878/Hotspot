@@ -19,14 +19,15 @@ class TealLoginButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: tealColor,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0), 
+          borderRadius: BorderRadius.circular(10.0),
         ),
       ),
-      child:  isLoading
-          ?const CircularProgressIndicator(color: Colors.white):Text(
-        text,
-        style: const TextStyle(color: Colors.white),
-      ),
+      child: isLoading
+          ? const CircularProgressIndicator(color: Colors.white)
+          : Text(
+              text,
+              style: const TextStyle(color: Colors.white),
+            ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hotspot/applications/provider/image_picker.dart';
 import 'package:hotspot/applications/provider/user_signup.dart';
 import 'package:hotspot/presentation/widgets/snackbar_warning.dart';
 import '../../domain/user_model/user_model.dart';
@@ -21,7 +22,7 @@ class SignUpProvider extends ChangeNotifier {
     try {
       _isLoading = true;
       notifyListeners();
-
+      ImageProviderClass imageclear = ImageProviderClass();
       final String name = nameController.text;
       final String username = usernameController.text;
       final String email = emailController.text;
@@ -63,6 +64,7 @@ class SignUpProvider extends ChangeNotifier {
       usernameController.clear();
       emailController.clear();
       passwordController.clear();
+      imageclear.clearImage();
       notifyListeners();
 
       _isLoading = false;

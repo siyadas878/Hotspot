@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import '../../widgets/space_with_height.dart';
 
 class LoginScreen extends StatelessWidget {
-const LoginScreen({super.key});
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +49,9 @@ const LoginScreen({super.key});
                     Provider.of<LoginProvider>(context, listen: false);
 
                 loginProvider.loginUser(context);
-
               },
               text: 'Login',
-              isLoading:
-                    Provider.of<LoginProvider>(context).isLoading,
+              isLoading: Provider.of<LoginProvider>(context).isLoading,
             ),
             SpaceWithHeight(size: size),
             const Padding(

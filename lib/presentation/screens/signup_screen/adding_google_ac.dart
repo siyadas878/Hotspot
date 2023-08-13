@@ -94,8 +94,9 @@ class GoogleUser extends StatelessWidget {
                     SpaceWithHeight(size: size),
                     TealLoginButton(
                         onPressed: () async {
-                          Provider.of<SignUpProvider>(context, listen: false).signUpUser(
-                              context, imagepic.imageUrl.toString());
+                          Provider.of<SignUpProvider>(context, listen: false)
+                              .signUpUser(
+                                  context, imagepic.imageUrl.toString());
 
                           Navigator.pushAndRemoveUntil(
                               context,
@@ -105,7 +106,8 @@ class GoogleUser extends StatelessWidget {
                               (route) => false);
                         },
                         text: 'Add',
-                        isLoading: Provider.of<GoogleInProvider>(context).isLoading),
+                        isLoading:
+                            Provider.of<GoogleInProvider>(context).isLoading),
                     SpaceWithHeight(size: size),
                   ],
                 ),

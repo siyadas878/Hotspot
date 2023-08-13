@@ -13,7 +13,6 @@ class NotificationScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -22,7 +21,7 @@ class NotificationScreen extends StatelessWidget {
                   itemCount: 5, // Update this with the actual number of items
                   itemBuilder: (context, index) {
                     return const Padding(
-                      padding:  EdgeInsets.symmetric(vertical: 5),
+                      padding: EdgeInsets.symmetric(vertical: 5),
                       child: ListTile(
                         leading: CircleAvatar(radius: 30),
                         title: Row(

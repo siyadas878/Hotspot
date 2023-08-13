@@ -5,7 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hotspot/presentation/screens/nav_bar.dart';
 import 'package:hotspot/presentation/screens/signup_screen/adding_google_ac.dart';
 import 'package:hotspot/presentation/widgets/snackbar_warning.dart';
-  
+
 Future<void> signinWithGoogle({required BuildContext context}) async {
   FirebaseAuth auth = FirebaseAuth.instance;
   GoogleSignIn googleSignIn = GoogleSignIn();
@@ -21,25 +21,22 @@ Future<void> signinWithGoogle({required BuildContext context}) async {
         idToken: googleSignInAuthentication.idToken);
 
     try {
-          await auth.signInWithCredential(credential);
+      await auth.signInWithCredential(credential);
 
-      
-        final DocumentSnapshot<Map<String, dynamic>> snapshot =
-            await FirebaseFirestore.instance
-                .collection('users')
-                .doc(FirebaseAuth.instance.currentUser!.uid)
-                .get();
-        if (snapshot.exists) {
-          // ignore: use_build_context_synchronously
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => NavScreen()));
-        } else {
-          // ignore: use_build_context_synchronously
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => GoogleUser()));
-        
+      final DocumentSnapshot<Map<String, dynamic>> snapshot =
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .get();
+      if (snapshot.exists) {
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => NavScreen()));
+      } else {
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => GoogleUser()));
       }
-
     } on FirebaseAuthException catch (e) {
       if (e.code == 'account-exists-with-different-credential') {
         // ignore: use_build_context_synchronously

@@ -22,6 +22,21 @@ class GetProfileData extends ChangeNotifier {
     }
   }
 
+  Future<int> postcount() async {
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('posts')
+        .doc(userId)
+        .collection('this_user')
+        .get();
+
+    List<PostModel> posts = querySnapshot.docs.map((doc) {
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      return PostModel.fromJson(data);
+    }).toList();
+    return posts.length;
+  }
+
   Future<List<PostModel>> getposts(String uid) async {
     try {
       String userId = FirebaseAuth.instance.currentUser!.uid;

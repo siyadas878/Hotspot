@@ -1,9 +1,11 @@
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hotspot/applications/provider/get_data_in_profile.dart';
 import 'package:hotspot/domain/post_model/post_model.dart';
 import 'package:hotspot/presentation/screens/drawer_screen/drawer.dart';
+import 'package:hotspot/presentation/screens/profile_screen/update_screen.dart';
 import 'package:hotspot/presentation/widgets/app_bar.dart';
 import 'package:hotspot/presentation/widgets/space_with_height.dart';
 import '../../../core/constants/consts.dart';
@@ -34,7 +36,16 @@ class ProfileScreen extends StatelessWidget {
           appBar: MyAppBar(
             title: user.username.toString(),
             trailing: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => UpdateScreen(
+                          existingImage: user.imgpath.toString(),
+                          name: user.name!,
+                          username: user.username!),
+                    ));
+              },
               icon: const Icon(FontAwesomeIcons.userPen, color: tealColor),
             ),
           ),
@@ -66,10 +77,18 @@ class ProfileScreen extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: CircleAvatar(
-                            radius: 60.0,
-                            backgroundImage:
-                                NetworkImage(user.imgpath.toString()),
+                          child: InkWell(
+                            onTap: () => showImageViewer(
+                                    context,
+                                    Image.network(user.imgpath.toString())
+                                        .image,
+                                    swipeDismissible: true,
+                                    doubleTapZoomable: true),
+                            child: CircleAvatar(
+                              radius: 60.0,
+                              backgroundImage:
+                                  NetworkImage(user.imgpath.toString()),
+                            ),
                           ),
                         ),
                       ),
@@ -92,7 +111,7 @@ class ProfileScreen extends StatelessWidget {
                           ),
                           SizedBox(width: size.width * 0.03),
                           buildNumberContainer(
-                            10,
+                            2,
                             'Posts',
                             context,
                           ),
@@ -115,7 +134,7 @@ class ProfileScreen extends StatelessWidget {
                     future: GetProfileData().getposts(uid),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());  
+                        return const Center(child: CircularProgressIndicator());
                       } else if (snapshot.hasError) {
                         return Text('Error: ${snapshot.error}');
                       } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -123,22 +142,33 @@ class ProfileScreen extends StatelessWidget {
                       } else {
                         return GridView.builder(
                           gridDelegate:
-                            const  SliverGridDelegateWithFixedCrossAxisCount(
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3,
                             mainAxisSpacing: 10.0,
                             crossAxisSpacing: 10.0,
                           ),
                           itemBuilder: (context, index) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image:
-                                      NetworkImage(snapshot.data![index].imgUrl as String),
-                                  fit: BoxFit.cover,
+                            return InkWell(
+                              onTap: () =>
+                                showImageViewer(
+                                    context,
+                                    Image.network(snapshot.data![index].imgUrl
+                                            as String)
+                                        .image,
+                                    swipeDismissible: true,
+                                    doubleTapZoomable: true),
+                              
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                        snapshot.data![index].imgUrl as String),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors
+                                      .teal, // Make sure to import 'package:flutter/material.dart'
                                 ),
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors
-                                    .teal, // Make sure to import 'package:flutter/material.dart'
                               ),
                             );
                           },

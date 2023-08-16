@@ -1,8 +1,7 @@
 import 'dart:developer';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hotspot/applications/provider/add_post.dart';
-import 'package:hotspot/applications/provider/getall_post.dart';
 import 'package:hotspot/applications/provider/image_for_post.dart';
 import 'package:hotspot/presentation/widgets/app_bar.dart';
 import 'package:hotspot/presentation/widgets/space_with_height.dart';
@@ -92,9 +91,12 @@ class AddScreen extends StatelessWidget {
                   SpaceWithHeight(size: size),
                   ElevatedButton(
                     onPressed: () {
+                      String uid = FirebaseAuth.instance.currentUser!.uid.toString();
                       try {
                         Provider.of<AddPost>(context, listen: false)
-                            .addPost(value.imageUrl!, captionController.text);
+                            .addPost(value.imageUrl!, 
+                            captionController.text,
+                            uid,DateTime.now().toString());
                       } catch (e) {
                         log('$e');
                       }

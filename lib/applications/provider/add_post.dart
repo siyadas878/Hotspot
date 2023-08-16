@@ -5,16 +5,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AddPost extends ChangeNotifier {
-  Future<void> addPost(String imgUrl, String caption) async {
+  Future<void> addPost(
+      String imgUrl, String caption, String uid, String time) async {
     try {
       CollectionReference postsCollection =
           FirebaseFirestore.instance.collection('posts');
 
       String userId = FirebaseAuth.instance.currentUser!.uid;
-
-      Map<String, dynamic> postData = {'imgUrl': imgUrl, 'caption': caption};
-
       String id = DateTime.now().millisecondsSinceEpoch.toString();
+      Map<String, dynamic> postData = {
+        'imgUrl': imgUrl,
+        'caption': caption,
+        'id': uid,
+        'time': time,
+        'postId':id,
+        'like': []
+      };
 
       await postsCollection
           .doc(userId)
@@ -22,11 +28,9 @@ class AddPost extends ChangeNotifier {
           .doc(id)
           .set(postData);
 
-      // Clear image URL and caption after successfully adding post
-      imgUrl = ''; // Assuming imgUrl is a parameter, make sure it's mutable
+      imgUrl = '';
       caption = '';
       notifyListeners();
-
     } catch (error) {
       log("Error adding post: $error");
     }

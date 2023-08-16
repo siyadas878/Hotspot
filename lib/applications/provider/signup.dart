@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hotspot/applications/provider/image_picker.dart';
@@ -9,7 +10,6 @@ class SignUpProvider extends ChangeNotifier {
   bool _isLoading = false;
 
   bool get isLoading => _isLoading;
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
   AddUser adduser = AddUser();
 
@@ -46,17 +46,25 @@ class SignUpProvider extends ChangeNotifier {
         return;
       }
 
-      await _auth.createUserWithEmailAndPassword(
+     await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
+      // Wait for the authentication process to complete
+      await _auth.authStateChanges().firstWhere((user) => user != null);
+
+      // Now you can safely access the uid
+      String uid = _auth.currentUser!.uid;
+
       adduser.addSignUpDetails(UserModel(
-          name: name,
-          email: email,
-          password: password,
-          username: username,
-          imgpath: imagePath));
+        name: name,
+        email: email,
+        password: password,
+        username: username,
+        imgpath: imagePath,
+        uid: uid,  // Use the obtained uid
+      ));
 
       // ignore: use_build_context_synchronously
       warning(context, 'Successfully signed up');
@@ -69,6 +77,13 @@ class SignUpProvider extends ChangeNotifier {
 
       _isLoading = false;
       notifyListeners();
+
+      FirebaseFirestore.instance.collection('uids').add({
+        'uid': FirebaseAuth.instance.currentUser!.uid.toString(),
+      });
+      notifyListeners();
+
+
     } catch (error) {
       _isLoading = false;
       notifyListeners();

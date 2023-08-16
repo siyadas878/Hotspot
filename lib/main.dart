@@ -6,9 +6,12 @@ import 'package:hotspot/applications/provider/get_data_in_profile.dart';
 import 'package:hotspot/applications/provider/getall_post.dart';
 import 'package:hotspot/applications/provider/googlein.dart';
 import 'package:hotspot/applications/provider/image_for_post.dart';
+import 'package:hotspot/applications/provider/like_coment.dart';
 import 'package:hotspot/applications/provider/login.dart';
 import 'package:hotspot/applications/provider/nav_state.dart';
 import 'package:hotspot/applications/provider/signup.dart';
+import 'package:hotspot/applications/provider/update.dart';
+import 'package:hotspot/applications/provider/update_user_details.dart';
 import 'package:hotspot/applications/provider/user_signup.dart';
 import 'package:hotspot/presentation/screens/splash_screen/splash_screen.dart';
 import 'package:provider/provider.dart';
@@ -52,7 +55,16 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => GetallPostProvider(),
-        )
+        ),
+         ChangeNotifierProvider(
+          create: (context) => UpdateUser(),
+        ),
+         ChangeNotifierProvider(
+          create: (context) => UpdateProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => LikeComentProvider(),
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

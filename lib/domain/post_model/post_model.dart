@@ -6,8 +6,12 @@ part 'post_model.g.dart';
 class PostModel {
   String? caption;
   String? imgUrl;
+  String? time;
+  String? userId;
+  String? postId;
+  List<String>? like;
 
-  PostModel({this.caption, this.imgUrl});
+  PostModel({this.caption, this.imgUrl,this.userId,this.time,this.like,this.postId});
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
     return _$PostModelFromJson(json);

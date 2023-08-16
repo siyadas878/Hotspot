@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hotspot/presentation/screens/nav_bar.dart';
@@ -58,6 +59,9 @@ class LoginProvider extends ChangeNotifier {
 
       _isLoading = false;
       notifyListeners();
+
+     
+
     } catch (error) {
       _isLoading = false;
       notifyListeners();

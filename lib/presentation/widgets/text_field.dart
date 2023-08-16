@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:hotspot/core/constants/consts.dart';
 
 class RoundedTealTextFormField extends StatelessWidget {
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final String labelText;
   final String? hintText;
-  final String? Function(String?)? validator; // Validator function
-  bool? obscureText;
+  final String? Function(String?)? validator;
+  final bool? obscureText;
   final IconButton? suffix;
 
-  RoundedTealTextFormField(
-      {required this.controller,
+  const RoundedTealTextFormField(
+      {super.key, this.controller,
       required this.labelText,
       this.hintText,
       this.validator,

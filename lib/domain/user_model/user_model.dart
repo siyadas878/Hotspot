@@ -9,6 +9,7 @@ class UserModel {
   String? email;
   String? password;
   String? imgpath;
+  String? uid;
 
   UserModel({
     this.name,
@@ -16,6 +17,7 @@ class UserModel {
     this.email,
     this.password,
     this.imgpath,
+    this.uid
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {

@@ -4,31 +4,29 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../domain/user_model/user_model.dart';
 
-class AddUser extends ChangeNotifier {
+class UpdateUser extends ChangeNotifier {
   UserModel? data;
-  AddUser({this.data});
+  UpdateUser({this.data});
 
-  Future<void> addSignUpDetails(UserModel data) async {
+  Future<void> updateUserDetails(UserModel data) async {
     try {
       UserModel user = UserModel(
         name: data.name,
         username: data.username,
-        email: data.email,
         imgpath: data.imgpath,
-        password: data.password,
-        uid: data.uid
       );
 
       CollectionReference usersCollection =
           FirebaseFirestore.instance.collection('users');
 
-      String userr = FirebaseAuth.instance.currentUser!.uid;
+      String userId = FirebaseAuth.instance.currentUser!.uid;
 
       Map<String, dynamic> userData = user.toJson();
 
-      await usersCollection.doc(userr.toString()).set(userData);
+        await usersCollection.doc(userId).update(userData);
+     
     } catch (error) {
-      log("Error adding user: $error");
+      log("Error adding/updating user: $error");
     }
   }
 }

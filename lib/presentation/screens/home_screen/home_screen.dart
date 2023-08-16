@@ -61,6 +61,7 @@ class HomeScreen extends StatelessWidget {
                     postId: posts[index].postId ?? '',
                     like: posts[index].like!,
                     userId: posts[index].userId!,
+                    uniqueIdOfPost: posts[index].postId!,
                   );
                 },
               );
@@ -80,13 +81,15 @@ class PostWidget extends StatelessWidget {
       required this.imageUrl,
       required this.postId,
       required this.like,
-      required this.userId})
+      required this.userId,
+      required this.uniqueIdOfPost})
       : super(key: key);
   final String postId;
   final Size size;
   final String imageUrl;
   final List like;
   final String userId;
+  final String uniqueIdOfPost;
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +101,7 @@ class PostWidget extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) =>
-                    InsidePost(imageUrl: imageUrl, userId: userId),
+                    InsidePost(imageUrl: imageUrl, userId: userId,uniqueIdOfPost: uniqueIdOfPost),
               ));
         },
         child: Container(

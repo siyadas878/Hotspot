@@ -1,12 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hotspot/applications/provider/signup.dart';
-import 'package:hotspot/presentation/screens/nav_bar.dart';
+import 'package:hotspot/applications/provider/signup_provider/signup.dart';
+import 'package:hotspot/presentation/screens/nav_screen/nav_bar.dart';
 import 'package:provider/provider.dart';
-import '../../../applications/provider/googlein.dart';
+import '../../../applications/provider/login_provider/googlein.dart';
 import '../../../core/constants/consts.dart';
-import '../../../applications/provider/image_picker.dart';
+import '../../../applications/provider/signup_provider/image_picker.dart';
 import '../../widgets/app_logo.dart';
 import '../../widgets/back_arrow.dart';
 import '../../widgets/space_with_height.dart';

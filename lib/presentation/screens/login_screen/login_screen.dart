@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hotspot/applications/provider/login.dart';
+import 'package:hotspot/applications/provider/login_provider/login.dart';
 import 'package:hotspot/core/constants/consts.dart';
 import 'package:hotspot/infrastructure/functions/google_login.dart';
 import 'package:hotspot/presentation/screens/signup_screen/sign_up_screen.dart';

@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hotspot/applications/provider/image_picker.dart';
-import 'package:hotspot/applications/provider/user_signup.dart';
+import 'package:hotspot/applications/provider/signup_provider/image_picker.dart';
+import 'package:hotspot/applications/provider/signup_provider/user_signup.dart';
 import 'package:hotspot/presentation/widgets/snackbar_warning.dart';
-import '../../domain/user_model/user_model.dart';
+import '../../../domain/user_model/user_model.dart';
 
 class SignUpProvider extends ChangeNotifier {
   bool _isLoading = false;
@@ -51,10 +51,10 @@ class SignUpProvider extends ChangeNotifier {
         password: password,
       );
 
-      // Wait for the authentication process to complete
+  
       await _auth.authStateChanges().firstWhere((user) => user != null);
 
-      // Now you can safely access the uid
+
       String uid = _auth.currentUser!.uid;
 
       adduser.addSignUpDetails(UserModel(
@@ -63,7 +63,7 @@ class SignUpProvider extends ChangeNotifier {
         password: password,
         username: username,
         imgpath: imagePath,
-        uid: uid,  // Use the obtained uid
+        uid: uid,  
       ));
 
       // ignore: use_build_context_synchronously

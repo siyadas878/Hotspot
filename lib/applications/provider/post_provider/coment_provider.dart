@@ -1,42 +1,14 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../../domain/coment_model/coment_model.dart';
+import '../../../domain/coment_model/coment_model.dart';
 
 class LikeComentProvider extends ChangeNotifier {
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final TextEditingController commentCntrl = TextEditingController();
   bool? isTrue;
-
-  Future<void> likePost(
-    String userId,
-    String postId,
-    List<String> likes,
-    String id,
-  ) async {
-    try {
-      final postRef = FirebaseFirestore.instance.collection('posts').doc(id);
-
-      if (likes.contains(userId)) {
-        await postRef.collection('this_user').doc(postId).update({
-          'like': FieldValue.arrayRemove([userId]),
-        });
-        isTrue = false;
-        notifyListeners();
-      } else {
-        await postRef.collection('this_user').doc(postId).update({
-          'like': FieldValue.arrayUnion([userId]),
-        });
-        isTrue = true;
-        notifyListeners();
-      }
-    } catch (e) {
-      log('error--------- $e');
-    }
-  }
 
   Future<void> postComment(
       String postId, String postUserId, String thisUserId) async {
@@ -58,7 +30,7 @@ class LikeComentProvider extends ChangeNotifier {
       commentCntrl.clear();
       notifyListeners();
     } catch (e) {
-      print('Error posting comment: $e');
+      log('Error posting comment: $e');
     }
   }
 
@@ -86,5 +58,4 @@ class LikeComentProvider extends ChangeNotifier {
 
     return comments;
   }
-
 }

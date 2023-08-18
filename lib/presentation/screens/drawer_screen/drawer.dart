@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:hotspot/applications/provider/get_data_in_profile.dart';
+import 'package:hotspot/applications/provider/profile_provider/get_data_in_profile.dart';
 import 'package:hotspot/core/constants/consts.dart';
 import 'package:hotspot/presentation/screens/login_screen/login_screen.dart';
 import 'package:hotspot/presentation/widgets/snackbar_warning.dart';

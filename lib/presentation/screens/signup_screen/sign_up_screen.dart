@@ -1,10 +1,11 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import '../../../applications/provider/signup.dart';
+import '../../../applications/provider/signup_provider/signup.dart';
 import '../../../core/constants/consts.dart';
-import '../../../applications/provider/image_picker.dart';
+import '../../../applications/provider/signup_provider/image_picker.dart';
 import '../../widgets/app_logo.dart';
 import '../../widgets/back_arrow.dart';
 import '../../widgets/space_with_height.dart';
@@ -105,8 +106,11 @@ class SignUp extends StatelessWidget {
                             Provider.of<SignUpProvider>(context, listen: false)
                                 .signUpUser(
                                     context, imagepic.imageUrl.toString());
+                                    await Future.delayed(const Duration(seconds: 2)); 
+                                    // ignore: use_build_context_synchronously
+                                    context.read<ImageProviderClass>().clearImage();
                           } catch (e) {
-                            print(e);
+                            log(e.toString());
                           }
                         },
                         text: 'Sign Up',

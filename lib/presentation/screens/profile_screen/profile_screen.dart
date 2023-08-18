@@ -2,12 +2,14 @@ import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hotspot/applications/provider/get_data_in_profile.dart';
+import 'package:hotspot/applications/provider/profile_provider/get_data_in_profile.dart';
+import 'package:hotspot/applications/provider/profile_provider/update.dart';
 import 'package:hotspot/domain/post_model/post_model.dart';
 import 'package:hotspot/presentation/screens/drawer_screen/drawer.dart';
 import 'package:hotspot/presentation/screens/profile_screen/update_screen.dart';
 import 'package:hotspot/presentation/widgets/app_bar.dart';
 import 'package:hotspot/presentation/widgets/space_with_height.dart';
+import 'package:provider/provider.dart';
 import '../../../core/constants/consts.dart';
 import '../../../domain/user_model/user_model.dart';
 
@@ -18,6 +20,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     var size = MediaQuery.of(context).size;
     return FutureBuilder<UserModel?>(
       future: GetProfileData().getUserData(uid),
@@ -37,13 +40,14 @@ class ProfileScreen extends StatelessWidget {
             title: user.username.toString(),
             trailing: IconButton(
               onPressed: () {
+                context.read<UpdateProvider>(). nameController.text=user.name!;
+                context.read<UpdateProvider>(). usernameController.text=user.username!;
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => UpdateScreen(
                           existingImage: user.imgpath.toString(),
-                          name: user.name!,
-                          username: user.username!),
+                       ),
                     ));
               },
               icon: const Icon(FontAwesomeIcons.userPen, color: tealColor),
@@ -101,27 +105,36 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                       SpaceWithHeight(size: size),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          buildNumberContainer(
-                            5,
-                            'Followers',
-                            context,
-                          ),
-                          SizedBox(width: size.width * 0.03),
-                          buildNumberContainer(
-                            2,
-                            'Posts',
-                            context,
-                          ),
-                          SizedBox(width: size.width * 0.03),
-                          buildNumberContainer(
-                            3,
-                            'Following',
-                            context,
-                          ),
-                        ],
+                      FutureBuilder(
+                        future: GetProfileData().getposts(uid),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                          return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            buildNumberContainer(
+                              5,
+                              'Followers',
+                              context,
+                            ),
+                            SizedBox(width: size.width * 0.03),
+                            buildNumberContainer(
+                              snapshot.data!.length,
+                              'Posts',
+                              context,
+                            ),
+                            SizedBox(width: size.width * 0.03),
+                            buildNumberContainer(
+                              3,
+                              'Following',
+                              context,
+                            ),
+                          ],
+                        );
+                        },
+                      
                       ),
                     ],
                   ),

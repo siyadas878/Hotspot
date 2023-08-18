@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hotspot/applications/provider/user_signup.dart';
+import 'package:hotspot/applications/provider/signup_provider/user_signup.dart';
 import 'package:hotspot/presentation/widgets/snackbar_warning.dart';
-import '../../domain/user_model/user_model.dart';
+import '../../../domain/user_model/user_model.dart';
 
 class GoogleInProvider extends ChangeNotifier {
   bool _isLoading = false;

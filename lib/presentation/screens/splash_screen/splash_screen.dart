@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hotspot/presentation/screens/login_screen/login_screen.dart';
-import 'package:hotspot/presentation/screens/nav_bar.dart';
+import 'package:hotspot/presentation/screens/nav_screen/nav_bar.dart';
 import 'package:hotspot/presentation/widgets/snackbar_warning.dart';
 import '../../widgets/app_logo.dart';
 

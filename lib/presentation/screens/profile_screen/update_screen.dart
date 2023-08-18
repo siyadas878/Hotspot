@@ -1,10 +1,10 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:hotspot/applications/provider/update.dart';
-import 'package:hotspot/presentation/screens/nav_bar.dart';
-import 'package:hotspot/presentation/screens/profile_screen/profile_screen.dart';
+import 'package:hotspot/applications/provider/profile_provider/update.dart';
+import 'package:hotspot/presentation/screens/nav_screen/nav_bar.dart';
 import 'package:provider/provider.dart';
-import '../../../applications/provider/image_picker.dart';
+import '../../../applications/provider/signup_provider/image_picker.dart';
 import '../../../core/constants/consts.dart';
 import '../../widgets/app_logo.dart';
 import '../../widgets/back_arrow.dart';
@@ -13,26 +13,27 @@ import '../../widgets/teal_login_button.dart';
 import '../../widgets/text_field.dart';
 
 class UpdateScreen extends StatelessWidget {
-  UpdateScreen(
-      {Key? key,
-      required this.existingImage,
-      required this.username,
-      required this.name,})
-      : super(key: key);
+ const UpdateScreen({
+    Key? key,
+    required this.existingImage,
+   
+  }) : super(key: key);
 
   final String existingImage;
-  final String username;
-  final String name;
+  
+  
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: SafeArea(
         child: ChangeNotifierProvider<ImageProviderClass>(
           create: (context) => ImageProviderClass(),
           child: Consumer<ImageProviderClass>(
             builder: (context, imagepic, _) {
+              print('gggggggggggggggggggggggggggggggggggg${imagepic.imageUrl}');
               return SingleChildScrollView(
                 child: Column(
                   children: [
@@ -78,35 +79,36 @@ class UpdateScreen extends StatelessWidget {
                                 decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
                                 ),
-                                child: imagepic.imgPath != null
+                                child: imagepic.imgPath != null 
                                     ? Image.file(
                                         File(imagepic.imgPath!),
                                         fit: BoxFit.cover,
                                       )
-                                    : Image.network(existingImage)),
+                                    : Image.network(existingImage,fit: BoxFit.cover,),),
                           ),
                         ),
                       ),
                     ),
                     SpaceWithHeight(size: size),
                     RoundedTealTextFormField(
-                        controller:
-                            Provider.of<UpdateProvider>(context).nameController,
-                        labelText: 'name'),
+                        controller:context.read<UpdateProvider>(). nameController, labelText: "name"),
                     SpaceWithHeight(size: size),
                     RoundedTealTextFormField(
-                        controller: Provider.of<UpdateProvider>(context)
-                            .usernameController,
-                        labelText: 'username'),
+                        controller:context.read<UpdateProvider>().usernameController, labelText: "username"),
                     SpaceWithHeight(size: size),
                     TealLoginButton(
                         onPressed: () async {
+                          print(existingImage);
+                          print(imagepic.imageUrl.toString());
                           try {
-                            Provider.of<UpdateProvider>(context, listen: false)
+                            context.read<UpdateProvider>()
                                 .updatedetails(
-                                    context, imagepic.imageUrl.toString());
+                                    context,
+                                    imagepic.imageUrl.toString(),
+                                    context.read<UpdateProvider>(). nameController.text,
+                                    context.read<UpdateProvider>(). usernameController.text);
                           } catch (e) {
-                            print(e);
+                            log(e.toString());
                           }
                         },
                         text: 'Update',

@@ -1,8 +1,8 @@
 import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hotspot/applications/provider/add_post.dart';
-import 'package:hotspot/applications/provider/image_for_post.dart';
+import 'package:hotspot/applications/provider/post_provider/add_post.dart';
+import 'package:hotspot/applications/provider/post_provider/image_for_post.dart';
 import 'package:hotspot/presentation/widgets/app_bar.dart';
 import 'package:hotspot/presentation/widgets/space_with_height.dart';
 import 'package:provider/provider.dart';

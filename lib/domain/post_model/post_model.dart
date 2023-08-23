@@ -10,8 +10,18 @@ class PostModel {
   String? userId;
   String? postId;
   List<String>? like;
+  List<String>? followers;
+  List<String>? following;
 
-  PostModel({this.caption, this.imgUrl,this.userId,this.time,this.like,this.postId});
+  PostModel(
+      {this.caption,
+      this.imgUrl,
+      this.userId,
+      this.time,
+      this.like,
+      this.postId,
+      this.followers,
+      this.following});
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
     return _$PostModelFromJson(json);

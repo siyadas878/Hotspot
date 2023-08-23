@@ -6,6 +6,7 @@ import 'package:hotspot/applications/provider/profile_provider/get_data_in_profi
 import 'package:hotspot/applications/provider/profile_provider/update.dart';
 import 'package:hotspot/domain/post_model/post_model.dart';
 import 'package:hotspot/presentation/screens/drawer_screen/drawer.dart';
+import 'package:hotspot/presentation/screens/inside_post/inside_post.dart';
 import 'package:hotspot/presentation/screens/profile_screen/update_screen.dart';
 import 'package:hotspot/presentation/widgets/app_bar.dart';
 import 'package:hotspot/presentation/widgets/space_with_height.dart';
@@ -163,13 +164,21 @@ class ProfileScreen extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return InkWell(
                               onTap: () =>
-                                showImageViewer(
-                                    context,
-                                    Image.network(snapshot.data![index].imgUrl
-                                            as String)
-                                        .image,
-                                    swipeDismissible: true,
-                                    doubleTapZoomable: true),
+
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => 
+                              InsidePost(
+                                imageUrl: snapshot.data![index].imgUrl as String, 
+                                userId: uid, 
+                                uniqueIdOfPost: snapshot.data![index].postId!, 
+                                time: snapshot.data![index].time!, 
+                                caption: snapshot.data![index].caption!),)),
+                                // showImageViewer(
+                                //     context,
+                                //     Image.network(snapshot.data![index].imgUrl
+                                //             as String)
+                                //         .image,
+                                //     swipeDismissible: true,
+                                //     doubleTapZoomable: true),
                               
                               child: Container(
                                 decoration: BoxDecoration(
@@ -180,7 +189,7 @@ class ProfileScreen extends StatelessWidget {
                                   ),
                                   borderRadius: BorderRadius.circular(10),
                                   color: Colors
-                                      .teal, // Make sure to import 'package:flutter/material.dart'
+                                      .teal, 
                                 ),
                               ),
                             );

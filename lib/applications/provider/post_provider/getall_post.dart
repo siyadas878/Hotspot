@@ -25,12 +25,14 @@ class GetallPostProvider extends ChangeNotifier {
           return PostModel.fromJson(data);
         }).toList();
 
-        posts.sort((a, b) => DateTime.parse(b.time!).compareTo(DateTime.parse(a.time!)));
-        
+        posts.sort((a, b) => b.postId!.compareTo(a.postId!));                 
         allposts.addAll(posts);
         notifyListeners();
       }
+      
+      allposts.sort((a, b) => b.postId!.compareTo(a.postId!));
       notifyListeners();
+      
       return allposts;
     } catch (e) {
       log('error-----$e');
@@ -39,4 +41,3 @@ class GetallPostProvider extends ChangeNotifier {
     return [];
   }
 }
-

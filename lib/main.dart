@@ -9,10 +9,12 @@ import 'package:hotspot/applications/provider/post_provider/image_for_post.dart'
 import 'package:hotspot/applications/provider/post_provider/coment_provider.dart';
 import 'package:hotspot/applications/provider/login_provider/login.dart';
 import 'package:hotspot/applications/provider/navbar_provider/nav_state.dart';
+import 'package:hotspot/applications/provider/search_provider/search_provider.dart';
 import 'package:hotspot/applications/provider/signup_provider/signup.dart';
 import 'package:hotspot/applications/provider/profile_provider/update.dart';
 import 'package:hotspot/applications/provider/profile_provider/update_user_details.dart';
 import 'package:hotspot/applications/provider/signup_provider/user_signup.dart';
+import 'package:hotspot/applications/provider/theme_provider/theme_provider.dart';
 import 'package:hotspot/presentation/screens/splash_screen/splash_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -64,6 +66,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => LikeComentProvider(),
+        ),
+         ChangeNotifierProvider(
+          create: (context) => GetallUsersProvider(),
         ),
       ],
       child: MaterialApp(

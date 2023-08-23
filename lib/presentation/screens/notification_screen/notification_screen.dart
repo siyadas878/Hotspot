@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import '../../../core/constants/consts.dart';
 import '../../widgets/app_bar.dart';
 
 class NotificationScreen extends StatelessWidget {
@@ -9,7 +7,7 @@ class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(title: '   Notification'),
+      appBar:const MyAppBar(title: '   Notification'),
       body: SafeArea(
         child: Column(
           children: [
@@ -17,8 +15,8 @@ class NotificationScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: ListView.builder(
-                  padding: EdgeInsets.only(top: 5),
-                  itemCount: 5, // Update this with the actual number of items
+                  padding:const EdgeInsets.only(top: 5),
+                  itemCount: 5, 
                   itemBuilder: (context, index) {
                     return const Padding(
                       padding: EdgeInsets.symmetric(vertical: 5),

@@ -125,53 +125,54 @@ class InsidePost extends StatelessWidget {
                                     child: Text('No one commented'));
                               } else {
                                 List<Coment> comments = snapshot.data!;
-                                return ListView.separated(
-                                  separatorBuilder: (context, index) =>
-                                      const Divider(),
+                                return ListView.builder(
                                   itemCount: comments.length,
                                   itemBuilder: (context, index) {
                                     Coment comment = comments[index];
                                     DateTime comentTime = DateTime.parse(
                                         snapshot.data![index].time!);
-                                    return SizedBox(
-                                      height: size.height * 0.1,
-                                      child: Center(
-                                        child: ListTile(
-                                          title: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(comment.comment.toString()),
-                                              Text(
-                                                timeago
-                                                    .format(comentTime,
-                                                        allowFromNow: true)
-                                                    .toString(),
-                                                style: const TextStyle(
-                                                    fontSize: 12),
-                                              )
-                                            ],
-                                          ),
-                                          leading: FutureBuilder<UserModel?>(
-                                            future: GetProfileData()
-                                                .getUserData(
-                                                    comment.commentedUserId!),
-                                            builder: (context, userimage) {
-                                              if (userimage.hasData &&
-                                                  userimage.data != null) {
-                                                final userImage =
-                                                    userimage.data!;
-                                                final imgPath = userImage
-                                                    .imgpath; // Access imgpath safely
-                                                return CircleAvatar(
-                                                  backgroundImage:
-                                                      NetworkImage(imgPath!),
-                                                );
-                                              } else {
-                                                return const Text(
-                                                    'No user data available');
-                                              }
-                                            },
+                                    return Card(
+                                      color: Colors.white,
+                                      child: SizedBox(
+                                        height: size.height * 0.08,
+                                        child: Center(
+                                          child: ListTile(
+                                            title: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(comment.comment.toString()),
+                                                Text(
+                                                  timeago
+                                                      .format(comentTime,
+                                                          allowFromNow: true)
+                                                      .toString(),
+                                                  style: const TextStyle(
+                                                      fontSize: 12),
+                                                )
+                                              ],
+                                            ),
+                                            leading: FutureBuilder<UserModel?>(
+                                              future: GetProfileData()
+                                                  .getUserData(
+                                                      comment.commentedUserId!),
+                                              builder: (context, userimage) {
+                                                if (userimage.hasData &&
+                                                    userimage.data != null) {
+                                                  final userImage =
+                                                      userimage.data!;
+                                                  final imgPath = userImage
+                                                      .imgpath; // Access imgpath safely
+                                                  return CircleAvatar(
+                                                    backgroundImage:
+                                                        NetworkImage(imgPath!),
+                                                  );
+                                                } else {
+                                                  return const Text(
+                                                      'No user data available');
+                                                }
+                                              },
+                                            ),
                                           ),
                                         ),
                                       ),

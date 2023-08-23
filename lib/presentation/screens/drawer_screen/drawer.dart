@@ -7,14 +7,13 @@ import 'package:hotspot/core/constants/consts.dart';
 import 'package:hotspot/presentation/screens/login_screen/login_screen.dart';
 import 'package:hotspot/presentation/widgets/snackbar_warning.dart';
 import 'package:hotspot/presentation/widgets/space_with_height.dart';
-
 import '../../../domain/user_model/user_model.dart';
 
-// ignore: must_be_immutable
+
 class DrawerScreen extends StatelessWidget {
   DrawerScreen({super.key});
 
-  String uid = FirebaseAuth.instance.currentUser!.uid.toString();
+ final String uid = FirebaseAuth.instance.currentUser!.uid.toString();
 
   @override
   Widget build(BuildContext context) {
@@ -114,18 +113,39 @@ class DrawerScreen extends StatelessWidget {
             leading: const Icon(FontAwesomeIcons.rightFromBracket),
             title: const Text('LogOut'),
             onTap: () async {
-              try {
-                await FirebaseAuth.instance.signOut();
-                await GoogleSignIn().signOut();
-                // ignore: use_build_context_synchronously
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()),
-                  (route) => false,
-                );
-              } catch (e) {
-                warning(context, e.toString());
-              }
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title:const Text('Delete'),
+                  content:const Text('Do yo want to LogOut'),
+                  actions: <Widget>[
+                    TextButton(
+                      child:const Text('CANCEL'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    TextButton(
+                      child:const Text('LOGOUT'),
+                      onPressed: () async {
+                        try {
+                          await FirebaseAuth.instance.signOut();
+                          await GoogleSignIn().signOut();
+                          // ignore: use_build_context_synchronously
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginScreen()),
+                            (route) => false,
+                          );
+                        } catch (e) {
+                          warning(context, e.toString());
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              );
             },
           ),
         ],

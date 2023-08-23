@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hotspot/core/constants/consts.dart';
 import 'package:hotspot/presentation/widgets/app_bar.dart';
 import 'package:hotspot/presentation/widgets/back_arrow.dart';
 

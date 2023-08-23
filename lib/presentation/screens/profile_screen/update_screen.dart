@@ -33,7 +33,6 @@ class UpdateScreen extends StatelessWidget {
           create: (context) => ImageProviderClass(),
           child: Consumer<ImageProviderClass>(
             builder: (context, imagepic, _) {
-              print('gggggggggggggggggggggggggggggggggggg${imagepic.imageUrl}');
               return SingleChildScrollView(
                 child: Column(
                   children: [

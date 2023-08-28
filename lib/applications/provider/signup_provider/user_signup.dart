@@ -16,7 +16,9 @@ class AddUser extends ChangeNotifier {
         email: data.email,
         imgpath: data.imgpath,
         password: data.password,
-        uid: data.uid
+        uid: data.uid,
+        followers: [],
+        following: []
       );
 
       CollectionReference usersCollection =

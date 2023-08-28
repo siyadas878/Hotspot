@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hotspot/applications/provider/profile_provider/get_data_in_profile.dart';
 import 'package:hotspot/applications/provider/post_provider/coment_provider.dart';
+import 'package:hotspot/core/constants/consts.dart';
 import 'package:hotspot/domain/coment_model/coment_model.dart';
 import 'package:hotspot/domain/user_model/user_model.dart';
 import 'package:hotspot/presentation/widgets/app_bar.dart';
@@ -75,7 +76,13 @@ class InsidePost extends StatelessWidget {
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Icon(FontAwesomeIcons.heart),
+                              InkWell(
+                              onTap: () {
+                                
+                              },
+                              child:const Icon(FontAwesomeIcons.heart,
+                              color: tealColor,
+                              )),
                               SizedBox(width: size.width * 0.05),
                               InkWell(
                                   onTap: () {},
@@ -162,7 +169,7 @@ class InsidePost extends StatelessWidget {
                                                   final userImage =
                                                       userimage.data!;
                                                   final imgPath = userImage
-                                                      .imgpath; // Access imgpath safely
+                                                      .imgpath; 
                                                   return CircleAvatar(
                                                     backgroundImage:
                                                         NetworkImage(imgPath!),

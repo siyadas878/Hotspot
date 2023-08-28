@@ -64,6 +64,8 @@ class SignUpProvider extends ChangeNotifier {
         username: username,
         imgpath: imagePath,
         uid: uid,  
+        followers: [],
+        following: []
       ));
 
       // ignore: use_build_context_synchronously

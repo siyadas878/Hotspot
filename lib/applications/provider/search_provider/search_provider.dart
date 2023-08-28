@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hotspot/domain/user_model/user_model.dart';
@@ -28,10 +29,14 @@ class GetallUsersProvider extends ChangeNotifier {
             .get();
 
         if (userSnapshot.exists) {
-          Map<String, dynamic> userData = userSnapshot.data()
+         if (uid!=FirebaseAuth.instance.currentUser!.uid) {
+            Map<String, dynamic> userData = userSnapshot.data()
               as Map<String, dynamic>;
           UserModel user = UserModel.fromJson(userData);
           allusers.add(user);
+         }else{
+          continue;
+         }
         }
       }
 

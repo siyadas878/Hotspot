@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hotspot/applications/provider/post_provider/add_post.dart';
+import 'package:hotspot/applications/provider/post_provider/follow_provider.dart';
 import 'package:hotspot/applications/provider/profile_provider/get_data_in_profile.dart';
 import 'package:hotspot/applications/provider/post_provider/getall_post.dart';
 import 'package:hotspot/applications/provider/login_provider/googlein.dart';
@@ -14,7 +15,6 @@ import 'package:hotspot/applications/provider/signup_provider/signup.dart';
 import 'package:hotspot/applications/provider/profile_provider/update.dart';
 import 'package:hotspot/applications/provider/profile_provider/update_user_details.dart';
 import 'package:hotspot/applications/provider/signup_provider/user_signup.dart';
-import 'package:hotspot/applications/provider/theme_provider/theme_provider.dart';
 import 'package:hotspot/presentation/screens/splash_screen/splash_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -69,6 +69,9 @@ class MyApp extends StatelessWidget {
         ),
          ChangeNotifierProvider(
           create: (context) => GetallUsersProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => FollowProvider(),
         ),
       ],
       child: MaterialApp(

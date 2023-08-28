@@ -1,4 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hotspot/applications/provider/post_provider/follow_provider.dart';
+import 'package:hotspot/core/constants/consts.dart';
+import 'package:hotspot/presentation/screens/user_screen/user_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:hotspot/applications/provider/search_provider/search_provider.dart';
 import 'package:hotspot/presentation/widgets/app_bar.dart';
@@ -11,9 +15,6 @@ class SearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var controller = Provider.of<GetallUsersProvider>(context).searchController;
-    var provider = Provider.of<GetallUsersProvider>(context, listen: false);
-
-    provider.getAllUsers();
 
     return Scaffold(
       appBar: const MyAppBar(title: 'Search'),
@@ -23,12 +24,13 @@ class SearchScreen extends StatelessWidget {
             SizedBox(height: size.height * 0.01),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: ChangeNotifierProvider.value(
-                value: provider,
+              child: ChangeNotifierProvider<GetallUsersProvider>.value(
+                value: Provider.of<GetallUsersProvider>(context, listen: false),
                 child: TextField(
                   controller: controller,
                   onChanged: (value) {
-                    provider.searchlist(value);
+                    Provider.of<GetallUsersProvider>(context, listen: false)
+                        .searchlist(value);
                   },
                   decoration: InputDecoration(
                     filled: true,
@@ -44,7 +46,8 @@ class SearchScreen extends StatelessWidget {
                       icon: const Icon(Icons.clear),
                       onPressed: () {
                         controller.clear();
-                        provider.searchlist('');
+                        Provider.of<GetallUsersProvider>(context, listen: false)
+                            .searchlist('');
                       },
                     ),
                   ),
@@ -55,30 +58,65 @@ class SearchScreen extends StatelessWidget {
             Expanded(
               child: Consumer<GetallUsersProvider>(
                 builder: (context, value, child) {
-                  final userList = controller.text.isEmpty
-                      ? value.allusers
-                      : value.searchedlist;
+                  return FutureBuilder<void>(
+                    future: value.getAllUsers(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return const Center(child: Text('Error fetching data'));
+                      } else {
+                        final userList = controller.text.isEmpty
+                            ? value.allusers
+                            : value.searchedlist;
 
-                  if (userList.isEmpty) {
-                    return const Center(child: Text('No data available'));
-                  }
+                        if (userList.isEmpty) {
+                          return const Center(child: Text('No data available'));
+                        }
 
-                  return ListView.builder(
-                    itemCount: userList.length,
-                    itemBuilder: (context, index) {
-                      final user = userList[index];
-                      return ListTile(
-                        leading: CircleAvatar(
-                          radius: 30,
-                          backgroundImage: NetworkImage(user.imgpath.toString()),
-                        ),
-                        title: Text(user.username!),
-                        subtitle: Text(user.name!),
-                        trailing: FollowIcon(size: size),
-                        onTap: () {
-                          // Handle item tap
-                        },
-                      );
+                        return ListView.builder(
+                          itemCount: userList.length,
+                          itemBuilder: (context, index) {
+                            final user = userList[index];
+                            return ListTile(
+                              leading: CircleAvatar(
+                                radius: 30,
+                                backgroundImage: NetworkImage(user.imgpath.toString()),
+                              ),
+                              title: Text(user.username!),
+                              subtitle: Text(user.name!),
+                              trailing: Consumer<FollowProvider>(
+                                builder: (context, value, child) {
+                                  String userId = FirebaseAuth.instance.currentUser!.uid.toString();
+                                  String otherUserId = userList[index].uid.toString();
+                                  // final followCheck = Provider.of<FollowProvider>(context).followings(userId, otherUserId);
+                                  return InkWell(
+                                    onTap: () {
+                                      print(userId);
+                                      print(otherUserId);
+                                      value.followfollowing(userId, otherUserId);
+                                    },
+                                    child: FollowIcon(
+                                      size: size,
+                                      name: value.isfollow==true ? 'Following' : 'Follow',
+                                      color: Colors.white,
+                                      backgroundcolor: tealColor,
+                                    ),
+                                  );
+                                },
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => UserScreen(uid: user.uid.toString()),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        );
+                      }
                     },
                   );
                 },

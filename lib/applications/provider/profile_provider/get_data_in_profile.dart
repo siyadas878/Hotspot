@@ -39,11 +39,10 @@ class GetProfileData extends ChangeNotifier {
 
   Future<List<PostModel>> getposts(String uid) async {
     try {
-      String userId = FirebaseAuth.instance.currentUser!.uid;
 
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('posts')
-          .doc(userId)
+          .doc(uid)
           .collection('this_user')
           .get();
 

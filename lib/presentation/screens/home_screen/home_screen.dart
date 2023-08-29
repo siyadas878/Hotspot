@@ -56,9 +56,8 @@ class HomeScreen extends StatelessWidget {
                     child: PostWidget(
                       size: size,
                       imageUrl: imageUrl,
-                      postId: posts[index].postId ?? '',
                       like: posts[index].like!,
-                      userId: posts[index].userId!,
+                      userId: posts[index].userId.toString(),
                       uniqueIdOfPost: posts[index].postId!,
                       time: posts[index].time!,
                       caption: posts[index].caption!,

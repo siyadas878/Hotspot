@@ -15,14 +15,12 @@ class PostWidget extends StatelessWidget {
       {Key? key,
       required this.size,
       required this.imageUrl,
-      required this.postId,
       required this.like,
       required this.userId,
       required this.uniqueIdOfPost,
       required this.time,
       required this.caption})
       : super(key: key);
-  final String postId;
   final Size size;
   final String imageUrl;
   final List like;
@@ -36,7 +34,7 @@ class PostWidget extends StatelessWidget {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await context.read<LikeProvider>().initial(
             userId: userId,
-            postId: postId,
+            postId: uniqueIdOfPost,
           );
     });
     return Padding(
@@ -125,7 +123,7 @@ class PostWidget extends StatelessWidget {
                                 onTap: () async {
                                   await value.likePost(
                                     FirebaseAuth.instance.currentUser!.uid,
-                                    postId,
+                                    uniqueIdOfPost,
                                     updatedLikeList,
                                     userId,
                                   );

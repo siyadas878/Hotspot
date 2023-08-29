@@ -3,8 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AppLogo extends StatelessWidget {
   final double size;
+  final String? head;
   const AppLogo({
     Key? key,
+    this.head,
     required this.size,
   }) : super(key: key);
 

@@ -17,6 +17,7 @@ import 'package:hotspot/applications/provider/profile_provider/update_user_detai
 import 'package:hotspot/applications/provider/signup_provider/user_signup.dart';
 import 'package:hotspot/presentation/screens/splash_screen/splash_screen.dart';
 import 'package:provider/provider.dart';
+import 'applications/provider/message_provider/message_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -72,6 +73,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => FollowProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => MessageCreationProvider(),
         ),
       ],
       child: MaterialApp(

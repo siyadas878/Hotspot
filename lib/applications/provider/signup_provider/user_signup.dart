@@ -11,15 +11,14 @@ class AddUser extends ChangeNotifier {
   Future<void> addSignUpDetails(UserModel data) async {
     try {
       UserModel user = UserModel(
-        name: data.name,
-        username: data.username,
-        email: data.email,
-        imgpath: data.imgpath,
-        password: data.password,
-        uid: data.uid,
-        followers: [],
-        following: []
-      );
+          name: data.name,
+          username: data.username,
+          email: data.email,
+          imgpath: data.imgpath,
+          password: data.password,
+          uid: data.uid,
+          followers: [],
+          following: []);
 
       CollectionReference usersCollection =
           FirebaseFirestore.instance.collection('users');

@@ -91,12 +91,14 @@ class AddScreen extends StatelessWidget {
                   SpaceWithHeight(size: size),
                   ElevatedButton(
                     onPressed: () {
-                      String uid = FirebaseAuth.instance.currentUser!.uid.toString();
+                      String uid =
+                          FirebaseAuth.instance.currentUser!.uid.toString();
                       try {
-                        Provider.of<AddPost>(context, listen: false)
-                            .addPost(value.imageUrl!, 
+                        Provider.of<AddPost>(context, listen: false).addPost(
+                            value.imageUrl!,
                             captionController.text,
-                            uid,DateTime.now().toString());
+                            uid,
+                            DateTime.now().toString());
                       } catch (e) {
                         log('$e');
                       }

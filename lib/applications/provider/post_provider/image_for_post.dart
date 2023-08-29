@@ -9,11 +9,11 @@ class PostImageProviderClass extends ChangeNotifier {
   String? get imgPath => _imgPath;
   String? imageUrl;
 
- void clearImage() {
-  _imgPath = null;
-  imageUrl = null; 
-  notifyListeners();
-}
+  void clearImage() {
+    _imgPath = null;
+    imageUrl = null;
+    notifyListeners();
+  }
 
   Future<void> getImageFromGallery(BuildContext context) async {
     final ImagePicker picker = ImagePicker();
@@ -38,6 +38,7 @@ class PostImageProviderClass extends ChangeNotifier {
       log("Error uploading image: $e");
     }
   }
+
   Future<void> getImageCamera(BuildContext context) async {
     final ImagePicker picker = ImagePicker();
     try {

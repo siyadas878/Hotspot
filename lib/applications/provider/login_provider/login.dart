@@ -58,9 +58,6 @@ class LoginProvider extends ChangeNotifier {
 
       _isLoading = false;
       notifyListeners();
-
-     
-
     } catch (error) {
       _isLoading = false;
       notifyListeners();

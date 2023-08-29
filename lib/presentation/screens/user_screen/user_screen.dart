@@ -90,7 +90,7 @@ class UserScreen extends StatelessWidget {
                           Consumer<FollowProvider>(
                             builder: (context, value, child) {
                               return InkWell(
-                                onTap: () async{
+                                onTap: () async {
                                   await context
                                       .read<FollowProvider>()
                                       .followfollowing(
@@ -100,7 +100,8 @@ class UserScreen extends StatelessWidget {
                                 },
                                 child: FollowIcon(
                                   size: size,
-                                  name: user.followers!.contains(FirebaseAuth.instance.currentUser!.uid)
+                                  name: user.followers!.contains(FirebaseAuth
+                                          .instance.currentUser!.uid)
                                       ? "Unfollow"
                                       : 'Follow',
                                   color: tealColor,
@@ -175,14 +176,14 @@ class UserScreen extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => InsidePost(
-                                        imageUrl: snapshot.data![index].imgUrl
-                                            as String,
-                                        userId: uid,
-                                        uniqueIdOfPost:
-                                            snapshot.data![index].postId!,
-                                        time: snapshot.data![index].time!,
-                                        caption:
-                                            snapshot.data![index].caption!,),
+                                      imageUrl: snapshot.data![index].imgUrl
+                                          as String,
+                                      userId: uid,
+                                      uniqueIdOfPost:
+                                          snapshot.data![index].postId!,
+                                      time: snapshot.data![index].time!,
+                                      caption: snapshot.data![index].caption!,
+                                    ),
                                   )),
                               child: Container(
                                 decoration: BoxDecoration(

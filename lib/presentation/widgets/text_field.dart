@@ -10,7 +10,8 @@ class RoundedTealTextFormField extends StatelessWidget {
   final IconButton? suffix;
 
   const RoundedTealTextFormField(
-      {super.key, this.controller,
+      {super.key,
+      this.controller,
       required this.labelText,
       this.hintText,
       this.validator,

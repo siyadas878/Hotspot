@@ -46,27 +46,24 @@ class SignUpProvider extends ChangeNotifier {
         return;
       }
 
-     await _auth.createUserWithEmailAndPassword(
+      await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-  
       await _auth.authStateChanges().firstWhere((user) => user != null);
-
 
       String uid = _auth.currentUser!.uid;
 
       adduser.addSignUpDetails(UserModel(
-        name: name,
-        email: email,
-        password: password,
-        username: username,
-        imgpath: imagePath,
-        uid: uid,  
-        followers: [],
-        following: []
-      ));
+          name: name,
+          email: email,
+          password: password,
+          username: username,
+          imgpath: imagePath,
+          uid: uid,
+          followers: [],
+          following: []));
 
       // ignore: use_build_context_synchronously
       warning(context, 'Successfully signed up');
@@ -84,8 +81,6 @@ class SignUpProvider extends ChangeNotifier {
         'uid': FirebaseAuth.instance.currentUser!.uid.toString(),
       });
       notifyListeners();
-
-
     } catch (error) {
       _isLoading = false;
       notifyListeners();

@@ -32,7 +32,6 @@ class ImageProviderClass extends ChangeNotifier {
 
         imageUrl = await uploadImage.getDownloadURL();
         notifyListeners();
-        
       }
     } catch (e) {
       log("Error uploading image: $e");

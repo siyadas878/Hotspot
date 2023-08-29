@@ -81,24 +81,31 @@ class SearchScreen extends StatelessWidget {
                             return ListTile(
                               leading: CircleAvatar(
                                 radius: 30,
-                                backgroundImage: NetworkImage(user.imgpath.toString()),
+                                backgroundImage:
+                                    NetworkImage(user.imgpath.toString()),
                               ),
                               title: Text(user.username!),
                               subtitle: Text(user.name!),
                               trailing: Consumer<FollowProvider>(
                                 builder: (context, value, child) {
-                                  String userId = FirebaseAuth.instance.currentUser!.uid.toString();
-                                  String otherUserId = userList[index].uid.toString();
+                                  String userId = FirebaseAuth
+                                      .instance.currentUser!.uid
+                                      .toString();
+                                  String otherUserId =
+                                      userList[index].uid.toString();
                                   // final followCheck = Provider.of<FollowProvider>(context).followings(userId, otherUserId);
                                   return InkWell(
                                     onTap: () {
                                       print(userId);
                                       print(otherUserId);
-                                      value.followfollowing(userId, otherUserId);
+                                      value.followfollowing(
+                                          userId, otherUserId);
                                     },
                                     child: FollowIcon(
                                       size: size,
-                                      name: value.isfollow==true ? 'Following' : 'Follow',
+                                      name: value.isfollow == true
+                                          ? 'Following'
+                                          : 'Follow',
                                       color: Colors.white,
                                       backgroundcolor: tealColor,
                                     ),
@@ -109,7 +116,8 @@ class SearchScreen extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => UserScreen(uid: user.uid.toString()),
+                                    builder: (context) =>
+                                        UserScreen(uid: user.uid.toString()),
                                   ),
                                 );
                               },

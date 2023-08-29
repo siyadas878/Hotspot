@@ -7,7 +7,7 @@ class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:const MyAppBar(title: '   Notification'),
+      appBar: const MyAppBar(title: '   Notification'),
       body: SafeArea(
         child: Column(
           children: [
@@ -15,8 +15,8 @@ class NotificationScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: ListView.builder(
-                  padding:const EdgeInsets.only(top: 5),
-                  itemCount: 5, 
+                  padding: const EdgeInsets.only(top: 5),
+                  itemCount: 5,
                   itemBuilder: (context, index) {
                     return const Padding(
                       padding: EdgeInsets.symmetric(vertical: 5),

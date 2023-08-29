@@ -106,9 +106,9 @@ class SignUp extends StatelessWidget {
                             Provider.of<SignUpProvider>(context, listen: false)
                                 .signUpUser(
                                     context, imagepic.imageUrl.toString());
-                                    await Future.delayed(const Duration(seconds: 2)); 
-                                    // ignore: use_build_context_synchronously
-                                    context.read<ImageProviderClass>().clearImage();
+                            await Future.delayed(const Duration(seconds: 2));
+                            // ignore: use_build_context_synchronously
+                            context.read<ImageProviderClass>().clearImage();
                           } catch (e) {
                             log(e.toString());
                           }

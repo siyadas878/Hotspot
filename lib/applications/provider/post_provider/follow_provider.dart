@@ -4,12 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FollowProvider extends ChangeNotifier {
   bool isfollow = false;
 
-  Future<void> followfollowing(
-      String userId, String otherUserId) async {
+  Future<void> followfollowing(String userId, String otherUserId) async {
     final postRef = FirebaseFirestore.instance.collection('users');
 
-    final followinglist =await
-        FirebaseFirestore.instance.collection('users').doc(userId).get();
+    final followinglist =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
     final List<dynamic> following = followinglist['following'];
 
     try {
@@ -36,9 +35,10 @@ class FollowProvider extends ChangeNotifier {
       print('Error: ${e.toString()}');
     }
   }
-  Future<bool> followings(String userId,String otherUserId) async{
-    final followinglist =await
-        FirebaseFirestore.instance.collection('users').doc(userId).get();
+
+  Future<bool> followings(String userId, String otherUserId) async {
+    final followinglist =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
     final List<dynamic> following = followinglist['following'];
     if (!following.contains(otherUserId)) {
       return false;

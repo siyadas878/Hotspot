@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hotspot/presentation/widgets/app_bar.dart';
 import 'package:hotspot/presentation/widgets/back_arrow.dart';
 
@@ -11,6 +12,8 @@ class MessageScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: MyAppBar(
+          trailing: IconButton(
+              onPressed: () {}, icon: const Icon(FontAwesomeIcons.searchengin)),
           title: 'Messages',
           leading: Padding(
             padding: const EdgeInsets.all(6),

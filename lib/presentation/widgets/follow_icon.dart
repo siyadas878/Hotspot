@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
 class FollowIcon extends StatelessWidget {
-  const FollowIcon({
-    super.key,
-    required this.size,
-    required this.name,
-    required this.color,
-    required this.backgroundcolor
-  });
+  const FollowIcon(
+      {super.key,
+      required this.size,
+      required this.name,
+      required this.color,
+      required this.backgroundcolor});
 
   final Size size;
   final String name;
@@ -21,7 +20,7 @@ class FollowIcon extends StatelessWidget {
       height: size.height * 0.03,
       decoration: BoxDecoration(
           color: backgroundcolor, borderRadius: BorderRadius.circular(30)),
-      child:  Center(
+      child: Center(
           child: Text(
         name,
         style: TextStyle(color: color),

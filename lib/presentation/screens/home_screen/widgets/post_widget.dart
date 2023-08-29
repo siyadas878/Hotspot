@@ -96,10 +96,14 @@ class PostWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       InkWell(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => UserScreen(uid: userId),));
-                        },
-                        child: Text(snapshot.data!.username!)),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => UserScreen(uid: userId),
+                                ));
+                          },
+                          child: Text(snapshot.data!.username!)),
                       Text(
                         timeago
                             .format(postDateTime, allowFromNow: true)
@@ -118,23 +122,22 @@ class PostWidget extends StatelessWidget {
                           Consumer<LikeProvider>(
                             builder: (context, value, child) {
                               return InkWell(
-                              onTap: () async {
-                                await value.likePost(
-                                      FirebaseAuth.instance.currentUser!.uid,
-                                      postId,
-                                      updatedLikeList,
-                                      userId,
-                                    );
-                              },
-                              child: Icon(FontAwesomeIcons.solidHeart,                                    
-                                color: value.isLiked ? tealColor : null,
-                              ),
-                            );
+                                onTap: () async {
+                                  await value.likePost(
+                                    FirebaseAuth.instance.currentUser!.uid,
+                                    postId,
+                                    updatedLikeList,
+                                    userId,
+                                  );
+                                },
+                                child: Icon(
+                                  FontAwesomeIcons.solidHeart,
+                                  color: value.isLiked ? tealColor : null,
+                                ),
+                              );
                             },
                           ),
-
                           SizedBox(width: size.width * 0.05),
-
                           InkWell(
                               onTap: () {
                                 Navigator.push(

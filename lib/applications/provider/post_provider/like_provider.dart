@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class LikeProvider extends ChangeNotifier {
   bool isLiked = false;
-  String lengthOfLike ='';
+  String lengthOfLike = '';
 
   Future<void> likePost(
     String userId,
@@ -48,7 +48,7 @@ class LikeProvider extends ChangeNotifier {
           .get();
 
       final List<dynamic> list = postRef['like'];
-      lengthOfLike=list.length.toString();
+      lengthOfLike = list.length.toString();
       notifyListeners();
       if (list.contains(user)) {
         isLiked = true;

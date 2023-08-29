@@ -9,11 +9,10 @@ import 'package:hotspot/presentation/widgets/snackbar_warning.dart';
 import 'package:hotspot/presentation/widgets/space_with_height.dart';
 import '../../../domain/user_model/user_model.dart';
 
-
 class DrawerScreen extends StatelessWidget {
   DrawerScreen({super.key});
 
- final String uid = FirebaseAuth.instance.currentUser!.uid.toString();
+  final String uid = FirebaseAuth.instance.currentUser!.uid.toString();
 
   @override
   Widget build(BuildContext context) {
@@ -116,17 +115,17 @@ class DrawerScreen extends StatelessWidget {
               showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title:const Text('Delete'),
-                  content:const Text('Do yo want to LogOut'),
+                  title: const Text('Delete'),
+                  content: const Text('Do yo want to LogOut'),
                   actions: <Widget>[
                     TextButton(
-                      child:const Text('CANCEL'),
+                      child: const Text('CANCEL'),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
                     ),
                     TextButton(
-                      child:const Text('LOGOUT'),
+                      child: const Text('LOGOUT'),
                       onPressed: () async {
                         try {
                           await FirebaseAuth.instance.signOut();

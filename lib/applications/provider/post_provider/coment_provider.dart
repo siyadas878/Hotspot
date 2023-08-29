@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import '../../../domain/coment_model/coment_model.dart';
 
 class LikeComentProvider extends ChangeNotifier {
-
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final TextEditingController commentCntrl = TextEditingController();
   bool? isTrue;
@@ -34,7 +33,8 @@ class LikeComentProvider extends ChangeNotifier {
     }
   }
 
-  Future<List<Coment>> fetchCommentsForPost(String uniqueIdOfPost, String postId) async {
+  Future<List<Coment>> fetchCommentsForPost(
+      String uniqueIdOfPost, String postId) async {
     List<Coment> comments = [];
 
     // Replace this with your Firestore query to fetch comments

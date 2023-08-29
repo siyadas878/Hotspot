@@ -18,7 +18,7 @@ class AddPost extends ChangeNotifier {
         'caption': caption,
         'id': uid,
         'time': time,
-        'postId':id,
+        'postId': id,
         'like': []
       };
 

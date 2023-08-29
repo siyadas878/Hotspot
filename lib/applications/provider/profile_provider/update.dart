@@ -5,16 +5,15 @@ import 'package:hotspot/presentation/widgets/snackbar_warning.dart';
 import '../../../domain/user_model/user_model.dart';
 
 class UpdateProvider extends ChangeNotifier {
-   final TextEditingController nameController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
   bool _isLoading = false;
 
   bool get isLoading => _isLoading;
   UpdateUser update = UpdateUser();
 
-
-
-  Future<void> updatedetails(BuildContext context, String imagePath,String nameController,String usernameController) async {
+  Future<void> updatedetails(BuildContext context, String imagePath,
+      String nameController, String usernameController) async {
     try {
       _isLoading = true;
       notifyListeners();
@@ -22,16 +21,13 @@ class UpdateProvider extends ChangeNotifier {
       final String name = nameController;
       final String username = usernameController;
 
-      if (name.isEmpty ||
-          username.isEmpty ) {
+      if (name.isEmpty || username.isEmpty) {
         warning(context, 'Please fill in all the fields.');
         return;
       }
 
-      update.updateUserDetails(UserModel(
-          name: name,
-          username: username,
-          imgpath: imagePath));
+      update.updateUserDetails(
+          UserModel(name: name, username: username, imgpath: imagePath));
 
       // ignore: use_build_context_synchronously
       warning(context, 'Successfully updated');

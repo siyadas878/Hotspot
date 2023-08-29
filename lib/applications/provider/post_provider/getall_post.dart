@@ -19,20 +19,20 @@ class GetallPostProvider extends ChangeNotifier {
             .doc(uid)
             .collection('this_user')
             .get();
-        
+
         List<PostModel> posts = userCollectionSnapshot.docs.map((doc) {
           Map<String, dynamic> data = doc.data();
           return PostModel.fromJson(data);
         }).toList();
 
-        posts.sort((a, b) => b.postId!.compareTo(a.postId!));                 
+        posts.sort((a, b) => b.postId!.compareTo(a.postId!));
         allposts.addAll(posts);
         notifyListeners();
       }
-      
+
       allposts.sort((a, b) => b.postId!.compareTo(a.postId!));
       notifyListeners();
-      
+
       return allposts;
     } catch (e) {
       log('error-----$e');

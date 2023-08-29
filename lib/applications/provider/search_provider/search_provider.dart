@@ -23,20 +23,18 @@ class GetallUsersProvider extends ChangeNotifier {
       for (var i = 0; i < uidDocuments.length; i++) {
         var uid = uidDocuments[i]['uid'];
 
-        DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
-            .collection('users')
-            .doc(uid)
-            .get();
+        DocumentSnapshot userSnapshot =
+            await FirebaseFirestore.instance.collection('users').doc(uid).get();
 
         if (userSnapshot.exists) {
-         if (uid!=FirebaseAuth.instance.currentUser!.uid) {
-            Map<String, dynamic> userData = userSnapshot.data()
-              as Map<String, dynamic>;
-          UserModel user = UserModel.fromJson(userData);
-          allusers.add(user);
-         }else{
-          continue;
-         }
+          if (uid != FirebaseAuth.instance.currentUser!.uid) {
+            Map<String, dynamic> userData =
+                userSnapshot.data() as Map<String, dynamic>;
+            UserModel user = UserModel.fromJson(userData);
+            allusers.add(user);
+          } else {
+            continue;
+          }
         }
       }
 
@@ -48,8 +46,9 @@ class GetallUsersProvider extends ChangeNotifier {
 
   List<UserModel> searchlist(String query) {
     searchedlist = allusers
-        .where((element) =>
-            element.username!.toLowerCase().contains(query.toLowerCase().trim()))
+        .where((element) => element.username!
+            .toLowerCase()
+            .contains(query.toLowerCase().trim()))
         .toList();
     notifyListeners();
     return searchedlist;

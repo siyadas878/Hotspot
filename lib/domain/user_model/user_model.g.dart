@@ -29,5 +29,5 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'imgpath': instance.imgpath,
       'uid': instance.uid,
       'followers': instance.followers,
-      'following': instance.following
+      'following': instance.following,
     };

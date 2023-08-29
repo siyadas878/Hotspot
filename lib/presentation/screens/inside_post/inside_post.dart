@@ -55,7 +55,7 @@ class InsidePost extends StatelessWidget {
                   FutureBuilder<UserModel?>(
                     future: GetProfileData().getUserData(userId),
                     builder: (context, snapshot) {
-                      if (snapshot.connectionState==ConnectionState.waiting) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(child: CircularProgressIndicator());
                       }
                       return Container(
@@ -77,12 +77,11 @@ class InsidePost extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               InkWell(
-                              onTap: () {
-                                
-                              },
-                              child:const Icon(FontAwesomeIcons.heart,
-                              color: tealColor,
-                              )),
+                                  onTap: () {},
+                                  child: const Icon(
+                                    FontAwesomeIcons.heart,
+                                    color: tealColor,
+                                  )),
                               SizedBox(width: size.width * 0.05),
                               InkWell(
                                   onTap: () {},
@@ -96,7 +95,8 @@ class InsidePost extends StatelessWidget {
                   SizedBox(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text('Comments'),
                           Text(
@@ -146,9 +146,11 @@ class InsidePost extends StatelessWidget {
                                           child: ListTile(
                                             title: Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
-                                                Text(comment.comment.toString()),
+                                                Text(
+                                                    comment.comment.toString()),
                                                 Text(
                                                   timeago
                                                       .format(comentTime,
@@ -168,8 +170,8 @@ class InsidePost extends StatelessWidget {
                                                     userimage.data != null) {
                                                   final userImage =
                                                       userimage.data!;
-                                                  final imgPath = userImage
-                                                      .imgpath; 
+                                                  final imgPath =
+                                                      userImage.imgpath;
                                                   return CircleAvatar(
                                                     backgroundImage:
                                                         NetworkImage(imgPath!),

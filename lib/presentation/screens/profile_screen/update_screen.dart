@@ -13,15 +13,12 @@ import '../../widgets/teal_login_button.dart';
 import '../../widgets/text_field.dart';
 
 class UpdateScreen extends StatelessWidget {
- const UpdateScreen({
+  const UpdateScreen({
     Key? key,
     required this.existingImage,
-   
   }) : super(key: key);
 
   final String existingImage;
-  
-  
 
   @override
   Widget build(BuildContext context) {
@@ -73,39 +70,52 @@ class UpdateScreen extends StatelessWidget {
                           onTap: () => imagepic.getImageFromGallery(context),
                           child: ClipOval(
                             child: Container(
-                                width: size.width * 0.3,
-                                height: size.height * 0.15,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                ),
-                                child: imagepic.imgPath != null 
-                                    ? Image.file(
-                                        File(imagepic.imgPath!),
-                                        fit: BoxFit.cover,
-                                      )
-                                    : Image.network(existingImage,fit: BoxFit.cover,),),
+                              width: size.width * 0.3,
+                              height: size.height * 0.15,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: imagepic.imgPath != null
+                                  ? Image.file(
+                                      File(imagepic.imgPath!),
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Image.network(
+                                      existingImage,
+                                      fit: BoxFit.cover,
+                                    ),
+                            ),
                           ),
                         ),
                       ),
                     ),
                     SpaceWithHeight(size: size),
                     RoundedTealTextFormField(
-                        controller:context.read<UpdateProvider>(). nameController, labelText: "name"),
+                        controller:
+                            context.read<UpdateProvider>().nameController,
+                        labelText: "name"),
                     SpaceWithHeight(size: size),
                     RoundedTealTextFormField(
-                        controller:context.read<UpdateProvider>().usernameController, labelText: "username"),
+                        controller:
+                            context.read<UpdateProvider>().usernameController,
+                        labelText: "username"),
                     SpaceWithHeight(size: size),
                     TealLoginButton(
                         onPressed: () async {
                           print(existingImage);
                           print(imagepic.imageUrl.toString());
                           try {
-                            context.read<UpdateProvider>()
-                                .updatedetails(
-                                    context,
-                                    imagepic.imageUrl.toString(),
-                                    context.read<UpdateProvider>(). nameController.text,
-                                    context.read<UpdateProvider>(). usernameController.text);
+                            context.read<UpdateProvider>().updatedetails(
+                                context,
+                                imagepic.imageUrl.toString(),
+                                context
+                                    .read<UpdateProvider>()
+                                    .nameController
+                                    .text,
+                                context
+                                    .read<UpdateProvider>()
+                                    .usernameController
+                                    .text);
                           } catch (e) {
                             log(e.toString());
                           }

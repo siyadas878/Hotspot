@@ -21,7 +21,6 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     var size = MediaQuery.of(context).size;
     return FutureBuilder<UserModel?>(
       future: GetProfileData().getUserData(uid),
@@ -41,14 +40,15 @@ class ProfileScreen extends StatelessWidget {
             title: user.username.toString(),
             trailing: IconButton(
               onPressed: () {
-                context.read<UpdateProvider>(). nameController.text=user.name!;
-                context.read<UpdateProvider>(). usernameController.text=user.username!;
+                context.read<UpdateProvider>().nameController.text = user.name!;
+                context.read<UpdateProvider>().usernameController.text =
+                    user.username!;
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => UpdateScreen(
-                          existingImage: user.imgpath.toString(),
-                       ),
+                        existingImage: user.imgpath.toString(),
+                      ),
                     ));
               },
               icon: const Icon(FontAwesomeIcons.userPen, color: tealColor),
@@ -83,12 +83,10 @@ class ProfileScreen extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: InkWell(
-                            onTap: () => showImageViewer(
-                                    context,
-                                    Image.network(user.imgpath.toString())
-                                        .image,
-                                    swipeDismissible: true,
-                                    doubleTapZoomable: true),
+                            onTap: () => showImageViewer(context,
+                                Image.network(user.imgpath.toString()).image,
+                                swipeDismissible: true,
+                                doubleTapZoomable: true),
                             child: CircleAvatar(
                               radius: 60.0,
                               backgroundImage:
@@ -109,33 +107,34 @@ class ProfileScreen extends StatelessWidget {
                       FutureBuilder(
                         future: GetProfileData().getposts(uid),
                         builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      }
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          }
                           return Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            buildNumberContainer(
-                              5,
-                              'Followers',
-                              context,
-                            ),
-                            SizedBox(width: size.width * 0.03),
-                            buildNumberContainer(
-                              snapshot.data!.length,
-                              'Posts',
-                              context,
-                            ),
-                            SizedBox(width: size.width * 0.03),
-                            buildNumberContainer(
-                              3,
-                              'Following',
-                              context,
-                            ),
-                          ],
-                        );
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              buildNumberContainer(
+                                5,
+                                'Followers',
+                                context,
+                              ),
+                              SizedBox(width: size.width * 0.03),
+                              buildNumberContainer(
+                                snapshot.data!.length,
+                                'Posts',
+                                context,
+                              ),
+                              SizedBox(width: size.width * 0.03),
+                              buildNumberContainer(
+                                3,
+                                'Following',
+                                context,
+                              ),
+                            ],
+                          );
                         },
-                      
                       ),
                     ],
                   ),
@@ -163,23 +162,27 @@ class ProfileScreen extends StatelessWidget {
                           ),
                           itemBuilder: (context, index) {
                             return InkWell(
-                              onTap: () =>
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => InsidePost(
+                                        imageUrl: snapshot.data![index].imgUrl
+                                            as String,
+                                        userId: uid,
+                                        uniqueIdOfPost:
+                                            snapshot.data![index].postId!,
+                                        time: snapshot.data![index].time!,
+                                        caption:
+                                            snapshot.data![index].caption!),
+                                  )),
+                              // showImageViewer(
+                              //     context,
+                              //     Image.network(snapshot.data![index].imgUrl
+                              //             as String)
+                              //         .image,
+                              //     swipeDismissible: true,
+                              //     doubleTapZoomable: true),
 
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => 
-                              InsidePost(
-                                imageUrl: snapshot.data![index].imgUrl as String, 
-                                userId: uid, 
-                                uniqueIdOfPost: snapshot.data![index].postId!, 
-                                time: snapshot.data![index].time!, 
-                                caption: snapshot.data![index].caption!),)),
-                                // showImageViewer(
-                                //     context,
-                                //     Image.network(snapshot.data![index].imgUrl
-                                //             as String)
-                                //         .image,
-                                //     swipeDismissible: true,
-                                //     doubleTapZoomable: true),
-                              
                               child: Container(
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
@@ -188,8 +191,7 @@ class ProfileScreen extends StatelessWidget {
                                     fit: BoxFit.cover,
                                   ),
                                   borderRadius: BorderRadius.circular(10),
-                                  color: Colors
-                                      .teal, 
+                                  color: Colors.teal,
                                 ),
                               ),
                             );

@@ -23,8 +23,7 @@ class UpdateUser extends ChangeNotifier {
 
       Map<String, dynamic> userData = user.toJson();
 
-        await usersCollection.doc(userId).update(userData);
-     
+      await usersCollection.doc(userId).update(userData);
     } catch (error) {
       log("Error adding/updating user: $error");
     }

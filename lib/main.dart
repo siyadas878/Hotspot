@@ -58,16 +58,16 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => GetallPostProvider(),
         ),
-         ChangeNotifierProvider(
+        ChangeNotifierProvider(
           create: (context) => UpdateUser(),
         ),
-         ChangeNotifierProvider(
+        ChangeNotifierProvider(
           create: (context) => UpdateProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => LikeComentProvider(),
         ),
-         ChangeNotifierProvider(
+        ChangeNotifierProvider(
           create: (context) => GetallUsersProvider(),
         ),
         ChangeNotifierProvider(

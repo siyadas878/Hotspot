@@ -16,7 +16,7 @@ class MessageScreen extends StatelessWidget {
           trailing: IconButton(
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) =>const MessageSearchScreen(),));
-              }, icon: const Icon(FontAwesomeIcons.searchengin)),
+              }, icon: const Icon(FontAwesomeIcons.magnifyingGlass)),
           title: 'Messages',
           leading: Padding(
             padding: const EdgeInsets.all(6),

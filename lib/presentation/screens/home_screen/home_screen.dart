@@ -50,7 +50,6 @@ class HomeScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final post = posts[index];
                   final imageUrl = post.imgUrl!;
-
                   return ChangeNotifierProvider(
                     create: (context) => LikeProvider(),
                     child: PostWidget(

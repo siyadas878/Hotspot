@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
 import '../../../domain/coment_model/coment_model.dart';
 
 class LikeComentProvider extends ChangeNotifier {
@@ -37,7 +36,6 @@ class LikeComentProvider extends ChangeNotifier {
       String uniqueIdOfPost, String postId) async {
     List<Coment> comments = [];
 
-    // Replace this with your Firestore query to fetch comments
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await firestore
         .collection('posts')
         .doc(postId)

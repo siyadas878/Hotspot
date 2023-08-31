@@ -14,7 +14,7 @@ class NavScreen extends StatelessWidget {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    SearchScreen(),
+    const SearchScreen(),
     AddScreen(),
     const NotificationScreen(),
     ProfileScreen(),

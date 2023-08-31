@@ -6,33 +6,42 @@ import 'package:flutter/material.dart';
 class LikeProvider extends ChangeNotifier {
   bool isLiked = false;
   String lengthOfLike = '';
+  List<String> postlikes = [];
+
 
   Future<void> likePost(
-    String userId,
-    String postId,
-    List<String> likes,
-    String id,
-  ) async {
-    try {
-      final postRef = FirebaseFirestore.instance.collection('posts').doc(id);
+  String userId,
+  String postId,
+  List<String> likes,
+  String id,
+) async {
+  try {
+    final postRef = FirebaseFirestore.instance.collection('posts').doc(id);
 
-      if (likes.contains(userId)) {
-        await postRef.collection('this_user').doc(postId).update({
-          'like': FieldValue.arrayRemove([userId]),
-        });
-        isLiked = false;
-        notifyListeners();
-      } else {
-        await postRef.collection('this_user').doc(postId).update({
-          'like': FieldValue.arrayUnion([userId]),
-        });
-        isLiked = true;
-        notifyListeners();
-      }
-    } catch (e) {
-      log('error--------- $e');
+    if (likes.contains(userId)) {
+      await postRef.collection('this_user').doc(postId).update({
+        'like': FieldValue.arrayRemove([userId]),
+      });
+      isLiked = false;
+      notifyListeners();
+    } else {
+      await postRef.collection('this_user').doc(postId).update({
+        'like': FieldValue.arrayUnion([userId]),
+      });
+      isLiked = true;
+      notifyListeners();
     }
+
+    // Add all the data from 'likes' list to 'postlikes' list
+    postlikes.clear();
+    postlikes.addAll(likes);
+
+    notifyListeners(); 
+  } catch (e) {
+    log('error--------- $e');
   }
+}
+
 
   Future<void> initial({
     required String userId,
@@ -49,11 +58,14 @@ class LikeProvider extends ChangeNotifier {
 
       final List<dynamic> list = postRef['like'];
       lengthOfLike = list.length.toString();
-      notifyListeners();
+
       if (list.contains(user)) {
         isLiked = true;
-        notifyListeners();
+      } else {
+        isLiked = false;
       }
+
+      notifyListeners();
     } catch (e) {
       log(e.toString());
     }

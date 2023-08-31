@@ -6,6 +6,7 @@ import 'package:hotspot/applications/provider/post_provider/coment_provider.dart
 import 'package:hotspot/core/constants/consts.dart';
 import 'package:hotspot/domain/coment_model/coment_model.dart';
 import 'package:hotspot/domain/user_model/user_model.dart';
+import 'package:hotspot/presentation/screens/user_screen/user_screen.dart';
 import 'package:hotspot/presentation/widgets/app_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -68,7 +69,11 @@ class InsidePost extends StatelessWidget {
                           title: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(snapshot.data!.username!),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => UserScreen(uid: userId),));
+                                },
+                                child: Text(snapshot.data!.username!)),
                               Text(caption,
                                   style: const TextStyle(fontSize: 12)),
                             ],

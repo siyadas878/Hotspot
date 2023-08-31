@@ -6,6 +6,8 @@ import 'package:hotspot/presentation/screens/user_screen/user_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:hotspot/applications/provider/search_provider/search_provider.dart';
 import 'package:hotspot/presentation/widgets/app_bar.dart';
+import '../../../applications/provider/profile_provider/get_data_in_profile.dart';
+import '../../../domain/user_model/user_model.dart';
 import '../../widgets/follow_icon.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -93,21 +95,26 @@ class SearchScreen extends StatelessWidget {
                                       .toString();
                                   String otherUserId =
                                       userList[index].uid.toString();
-                                  // final followCheck = Provider.of<FollowProvider>(context).followings(userId, otherUserId);
                                   return InkWell(
                                     onTap: () {
-                                      print(userId);
-                                      print(otherUserId);
-                                      value.followfollowing(
-                                          userId, otherUserId);
+                                      Provider.of<FollowProvider>(context,listen: false).followfollowing(userId, otherUserId);
                                     },
-                                    child: FollowIcon(
-                                      size: size,
-                                      name: value.isfollow == true
-                                          ? 'Following'
-                                          : 'Follow',
-                                      color: Colors.white,
-                                      backgroundcolor: tealColor,
+                                    child: FutureBuilder<UserModel?>(
+                                      future: GetProfileData().getUserData(FirebaseAuth.instance.currentUser!.uid),
+                                      builder: (context, iconsnapshot) {
+                                        if (iconsnapshot.connectionState==ConnectionState.waiting) {
+                                          return const CircularProgressIndicator();
+                                        }
+                                        return FollowIcon(
+                                        size: size,
+                                        name: iconsnapshot.data!.following!.contains(user.uid)
+                                            ? 'Following'
+                                            : 'Follow',
+                                        color: Colors.white,
+                                        backgroundcolor: tealColor,
+                                      );
+                                      },
+                                      // child: 
                                     ),
                                   );
                                 },

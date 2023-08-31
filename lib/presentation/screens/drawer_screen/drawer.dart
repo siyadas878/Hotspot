@@ -4,7 +4,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hotspot/applications/provider/profile_provider/get_data_in_profile.dart';
 import 'package:hotspot/core/constants/consts.dart';
+import 'package:hotspot/main.dart';
 import 'package:hotspot/presentation/screens/login_screen/login_screen.dart';
+import 'package:hotspot/presentation/screens/splash_screen/splash_screen.dart';
 import 'package:hotspot/presentation/widgets/snackbar_warning.dart';
 import 'package:hotspot/presentation/widgets/space_with_height.dart';
 import '../../../domain/user_model/user_model.dart';
@@ -134,7 +136,7 @@ class DrawerScreen extends StatelessWidget {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => LoginScreen()),
+                                builder: (context) =>const MyApp()),
                             (route) => false,
                           );
                         } catch (e) {

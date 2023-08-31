@@ -8,6 +8,7 @@ import 'package:hotspot/domain/post_model/post_model.dart';
 import 'package:hotspot/presentation/screens/drawer_screen/drawer.dart';
 import 'package:hotspot/presentation/screens/inside_post/inside_post.dart';
 import 'package:hotspot/presentation/screens/profile_screen/update_screen.dart';
+import 'package:hotspot/presentation/screens/profile_screen/widgets/follow_bottomsheet.dart';
 import 'package:hotspot/presentation/widgets/app_bar.dart';
 import 'package:hotspot/presentation/widgets/space_with_height.dart';
 import 'package:provider/provider.dart';
@@ -112,27 +113,46 @@ class ProfileScreen extends StatelessWidget {
                             return const Center(
                                 child: CircularProgressIndicator());
                           }
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              buildNumberContainer(
-                                5,
-                                'Followers',
-                                context,
-                              ),
-                              SizedBox(width: size.width * 0.03),
-                              buildNumberContainer(
-                                snapshot.data!.length,
-                                'Posts',
-                                context,
-                              ),
-                              SizedBox(width: size.width * 0.03),
-                              buildNumberContainer(
-                                3,
-                                'Following',
-                                context,
-                              ),
-                            ],
+                          return FutureBuilder<UserModel?>(
+                            future: GetProfileData().getUserData(uid),
+                            builder: (context, usersnapshot) {
+                              if (usersnapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          }
+                              return Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                buildNumberContainer(
+                                  usersnapshot.data!.followers!.length,
+                                  'Followers',
+                                  context,
+                                  (){
+                                    followersbottomSheet(context,usersnapshot.data!.followers!);
+                                  }
+                                ),
+                                SizedBox(width: size.width * 0.03),
+                                buildNumberContainer(
+                                  snapshot.data!.length,
+                                  'Posts',
+                                  context,
+                                  (){
+                                    Null;
+                                  }
+                                ),
+                                SizedBox(width: size.width * 0.03),
+                                buildNumberContainer(
+                                  usersnapshot.data!.following!.length,
+                                  'Following',
+                                  context,
+                                  (){
+                                    followersbottomSheet(context,usersnapshot.data!.following!);
+                                  }
+                                ),
+                              ],
+                            );
+                            },
                           );
                         },
                       ),
@@ -175,14 +195,6 @@ class ProfileScreen extends StatelessWidget {
                                         caption:
                                             snapshot.data![index].caption!),
                                   )),
-                              // showImageViewer(
-                              //     context,
-                              //     Image.network(snapshot.data![index].imgUrl
-                              //             as String)
-                              //         .image,
-                              //     swipeDismissible: true,
-                              //     doubleTapZoomable: true),
-
                               child: Container(
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
@@ -211,35 +223,40 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-buildNumberContainer(int number, String title, BuildContext context) {
+buildNumberContainer(int number, String title, BuildContext context,Function function) {
   var size = MediaQuery.of(context).size;
 
-  return Container(
-    width: size.width * 0.18,
-    height: size.height * 0.09,
-    decoration: BoxDecoration(
-      border: Border.all(
-        color: Colors.white,
-        width: 2.0, //
+  return InkWell(
+    onTap: () => function(),
+    child: Container(
+      width: size.width * 0.18,
+      height: size.height * 0.09,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.white,
+          width: 2.0, //
+        ),
+        borderRadius: BorderRadius.circular(5),
       ),
-      borderRadius: BorderRadius.circular(5),
-    ),
-    child: Center(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Text(
-              title,
-              style: const TextStyle(fontSize: 12, color: Colors.white),
-            ),
-            Text(
-              number.toString(),
-              style: const TextStyle(fontSize: 20, color: Colors.white),
-            ),
-          ],
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Text(
+                title,
+                style: const TextStyle(fontSize: 12, color: Colors.white),
+              ),
+              Text(
+                number.toString(),
+                style: const TextStyle(fontSize: 20, color: Colors.white),
+              ),
+            ],
+          ),
         ),
       ),
     ),
   );
 }
+
+

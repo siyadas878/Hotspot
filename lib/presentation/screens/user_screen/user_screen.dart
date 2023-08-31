@@ -13,7 +13,11 @@ import '../../../domain/user_model/user_model.dart';
 
 class UserScreen extends StatelessWidget {
   final String uid;
-  const UserScreen({Key? key, required this.uid}) : super(key: key);
+  final String? followersLength;
+  final String? followingLength;
+  const UserScreen(
+      {Key? key, required this.uid, this.followersLength, this.followingLength})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -98,18 +102,29 @@ class UserScreen extends StatelessWidget {
                                               .instance.currentUser!.uid,
                                           uid);
                                 },
-                                child: FollowIcon(
-                                  size: size,
-                                  name: user.followers!.contains(FirebaseAuth
-                                          .instance.currentUser!.uid)
-                                      ? "Unfollow"
-                                      : 'Follow',
-                                  color: tealColor,
-                                  backgroundcolor: Colors.white,
+                                child: FutureBuilder<UserModel?>(
+                                  future: GetProfileData().getUserData(
+                                      FirebaseAuth.instance.currentUser!.uid),
+                                  builder: (context, followingsnapshot) {
+                                    if (followingsnapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return const Center(
+                                          child: CircularProgressIndicator());
+                                    }
+                                    return FollowIcon(
+                                      size: size,
+                                      name: followingsnapshot.data!.following!
+                                              .contains(uid)
+                                          ? "Unfollow"
+                                          : 'Follow',
+                                      color: tealColor,
+                                      backgroundcolor: Colors.white,
+                                    );
+                                  },
+                                  // child:
                                 ),
                               );
                             },
-                            // child:
                           )
                         ],
                       ),
@@ -122,27 +137,39 @@ class UserScreen extends StatelessWidget {
                             return const Center(
                                 child: CircularProgressIndicator());
                           }
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              buildNumberContainer(
-                                5,
-                                'Followers',
-                                context,
-                              ),
-                              SizedBox(width: size.width * 0.03),
-                              buildNumberContainer(
-                                snapshot.data!.length,
-                                'Posts',
-                                context,
-                              ),
-                              SizedBox(width: size.width * 0.03),
-                              buildNumberContainer(
-                                3,
-                                'Following',
-                                context,
-                              ),
-                            ],
+                          return FutureBuilder<UserModel?>(
+                            future: GetProfileData().getUserData(uid),
+                            builder: (context, usersnapshot) {
+                              if (usersnapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Center(
+                                    child: CircularProgressIndicator());
+                              }
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  buildNumberContainer(
+                                    usersnapshot.data!.followers!.length
+                                        .toString(),
+                                    'Followers',
+                                    context,
+                                  ),
+                                  SizedBox(width: size.width * 0.03),
+                                  buildNumberContainer(
+                                    snapshot.data!.length.toString(),
+                                    'Posts',
+                                    context,
+                                  ),
+                                  SizedBox(width: size.width * 0.03),
+                                  buildNumberContainer(
+                                    usersnapshot.data!.following!.length
+                                        .toString(),
+                                    'Following',
+                                    context,
+                                  ),
+                                ],
+                              );
+                            },
                           );
                         },
                       ),
@@ -213,7 +240,7 @@ class UserScreen extends StatelessWidget {
   }
 }
 
-buildNumberContainer(int number, String title, BuildContext context) {
+buildNumberContainer(String number, String title, BuildContext context) {
   var size = MediaQuery.of(context).size;
 
   return Container(

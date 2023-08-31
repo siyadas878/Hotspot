@@ -5,6 +5,7 @@ import '../../../domain/post_model/post_model.dart';
 
 class GetallPostProvider extends ChangeNotifier {
   List<PostModel> allposts = [];
+  
   Future<List<PostModel>> getAllPosts() async {
     try {
       QuerySnapshot getusers =
@@ -37,7 +38,34 @@ class GetallPostProvider extends ChangeNotifier {
     } catch (e) {
       log('error-----$e');
     }
+    
 
     return [];
   }
+
+Future<PostModel?> getPost(String postid, String postuid) async {
+  try {
+    DocumentSnapshot<Map<String, dynamic>> postSnapshot = await FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postuid)
+        .collection('this_user')
+        .doc(postid)
+        .get();
+
+    if (postSnapshot.exists) {
+      Map<String, dynamic> data = postSnapshot.data()!;
+      PostModel post = PostModel.fromJson(data);
+
+      return post;
+    } else {
+      log("Post not found");
+      return null;
+    }
+  } catch (e) {
+    log("Error fetching post: $e");
+    return null;
+  }
+}
+
+
 }

@@ -13,7 +13,7 @@ class AppLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      'Hotspot',
+      head.toString(),
       style: GoogleFonts.jollyLodger(
         fontSize: size,
       ),

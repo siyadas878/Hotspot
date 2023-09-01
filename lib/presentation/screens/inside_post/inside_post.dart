@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hotspot/applications/provider/post_provider/like_provider.dart';
 import 'package:hotspot/applications/provider/profile_provider/get_data_in_profile.dart';
 import 'package:hotspot/applications/provider/post_provider/coment_provider.dart';
 import 'package:hotspot/core/constants/consts.dart';
@@ -10,6 +11,7 @@ import 'package:hotspot/presentation/screens/user_screen/user_screen.dart';
 import 'package:hotspot/presentation/widgets/app_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import '../../../applications/provider/post_provider/getall_post.dart';
 
 class InsidePost extends StatelessWidget {
   final String imageUrl;
@@ -70,28 +72,55 @@ class InsidePost extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               InkWell(
-                                onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => UserScreen(uid: userId),));
-                                },
-                                child: Text(snapshot.data!.username!)),
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              UserScreen(uid: userId),
+                                        ));
+                                  },
+                                  child: Text(snapshot.data!.username!)),
                               Text(caption,
                                   style: const TextStyle(fontSize: 12)),
                             ],
                           ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              InkWell(
-                                  onTap: () {},
-                                  child: const Icon(
-                                    FontAwesomeIcons.heart,
-                                    color: tealColor,
-                                  )),
-                              SizedBox(width: size.width * 0.05),
-                              InkWell(
-                                  onTap: () {},
-                                  child: const Icon(FontAwesomeIcons.comment)),
-                            ],
+                          trailing: FutureBuilder(
+                            future: GetallPostProvider()
+                                .getPost(uniqueIdOfPost, userId),
+                            builder: (context, postsnapshot) {
+                              if (postsnapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const CircularProgressIndicator();
+                              }
+                              return Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  InkWell(
+                                      onTap: () async{
+                                       await context.read<LikeProvider>().likePost(
+                                    FirebaseAuth.instance.currentUser!.uid,
+                                    uniqueIdOfPost,
+                                    postsnapshot.data!.like!,
+                                    userId,
+                                  );
+                                      },
+                                      child: Icon(
+                                        FontAwesomeIcons.solidHeart,
+                                        color: postsnapshot.data!.like!
+                                                .contains(FirebaseAuth
+                                                    .instance.currentUser!.uid)
+                                            ? tealColor
+                                            : Colors.grey,
+                                      )),
+                                  SizedBox(width: size.width * 0.05),
+                                  InkWell(
+                                      onTap: () {},
+                                      child:
+                                          const Icon(FontAwesomeIcons.comment)),
+                                ],
+                              );
+                            },
                           ),
                         ),
                       );

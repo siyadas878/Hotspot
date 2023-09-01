@@ -32,7 +32,6 @@ class LikeProvider extends ChangeNotifier {
       notifyListeners();
     }
 
-    // Add all the data from 'likes' list to 'postlikes' list
     postlikes.clear();
     postlikes.addAll(likes);
 

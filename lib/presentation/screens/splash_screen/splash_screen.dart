@@ -24,7 +24,7 @@ class SplashScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  AppLogo(size: 50),
+                  AppLogo(size: 50,head: 'hotspot'),
                 ],
               ),
             ),

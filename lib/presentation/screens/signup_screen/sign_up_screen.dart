@@ -13,7 +13,7 @@ import '../../widgets/teal_login_button.dart';
 import '../../widgets/text_field.dart';
 
 class SignUp extends StatelessWidget {
-  SignUp({Key? key}) : super(key: key);
+ const SignUp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class SignUp extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const AppLogo(size: 50),
+                    const AppLogo(size: 50,head: 'hotspot'),
                     const Text(
                       'Create your account',
                       style: TextStyle(color: tealColor, fontSize: 13),

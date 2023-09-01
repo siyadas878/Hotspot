@@ -130,7 +130,6 @@ class PostWidget extends StatelessWidget {
 
                       Consumer<LikeProvider>(
                       builder: (context, likeProvider, _) {
-                        List<String> updatedLikeList = List.from(like);
                         return Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -146,7 +145,7 @@ class PostWidget extends StatelessWidget {
                                   await likeProvider.likePost(
                                     FirebaseAuth.instance.currentUser!.uid,
                                     uniqueIdOfPost,
-                                    updatedLikeList,
+                                    postsnapshot.data!.like!,
                                     userId,
                                   );
                                 },
@@ -159,37 +158,7 @@ class PostWidget extends StatelessWidget {
                                 ),
                               );
                               },
-                              // child: 
                             ),
-                    
-                    // Consumer<LikeProvider>(
-                    //   builder: (context, likeProvider, _) {
-                    //     List<String> updatedLikeList = List.from(like);
-                    //     return Row(
-                    //       mainAxisSize: MainAxisSize.min,
-                    //       children: [
-                    //         SizedBox(width: size.width * 0.02),
-                    //         Consumer<LikeProvider>(
-                    //           builder: (context, value, child) {
-                    //             return InkWell(
-                    //               onTap: () async {
-                    //                 await value.likePost(
-                    //                   FirebaseAuth.instance.currentUser!.uid,
-                    //                   uniqueIdOfPost,
-                    //                   updatedLikeList,
-                    //                   userId,
-                    //                 );
-                    //               },
-                    //               child: Icon(
-                    //                 FontAwesomeIcons.solidHeart,
-                    //                 color: like.contains(FirebaseAuth
-                    //                         .instance.currentUser!.uid)
-                    //                     ? tealColor
-                    //                     : Colors.grey,
-                    //               ),
-                    //             );
-                    //           },
-                    //         ),
                             SizedBox(width: size.width * 0.05),
                             InkWell(
                                 onTap: () {

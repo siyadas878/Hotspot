@@ -22,7 +22,6 @@ class ChatScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        
         toolbarHeight: size.height*0.08,
         title: Row(
           children: [

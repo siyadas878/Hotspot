@@ -5,8 +5,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hotspot/applications/provider/profile_provider/get_data_in_profile.dart';
 import 'package:hotspot/core/constants/consts.dart';
 import 'package:hotspot/main.dart';
-import 'package:hotspot/presentation/screens/login_screen/login_screen.dart';
-import 'package:hotspot/presentation/screens/splash_screen/splash_screen.dart';
 import 'package:hotspot/presentation/widgets/snackbar_warning.dart';
 import 'package:hotspot/presentation/widgets/space_with_height.dart';
 import '../../../domain/user_model/user_model.dart';
@@ -58,7 +56,7 @@ class DrawerScreen extends StatelessWidget {
                         child: CircleAvatar(
                           radius: 60.0,
                           backgroundImage: NetworkImage(
-                              user.imgpath.toString()), // Use user's image path
+                              user.imgpath.toString()), 
                         ),
                       ),
                     ),

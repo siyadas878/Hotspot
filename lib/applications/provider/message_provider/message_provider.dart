@@ -3,11 +3,13 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hotspot/applications/provider/message_provider/messageuid_collection.dart';
 import '../../../domain/message_model/message_model.dart';
 
 class MessageCreationProvider extends ChangeNotifier {
   final TextEditingController messageController = TextEditingController();
   String userId = FirebaseAuth.instance.currentUser!.uid;
+  UidOfMessages adduid=UidOfMessages();
 
   Future<void> addMessage(String fromId) async {
     String addinguid = fromId + userId;
@@ -68,6 +70,7 @@ class MessageCreationProvider extends ChangeNotifier {
       }).toList();
 
       allmessages = message;
+      adduid.addUidOfMessage(userId, fromId);
       notifyListeners();
       return allmessages;
     } catch (e) {

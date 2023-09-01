@@ -21,7 +21,7 @@ class LoginScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(children: [
             SizedBox(height: size.height * 0.14),
-            const AppLogo(size: 50),
+            const AppLogo(size: 50,head: 'hotspot'),
             const Text('Log In your account',
                 style: TextStyle(color: tealColor, fontSize: 13)),
             SpaceWithHeight(size: size),

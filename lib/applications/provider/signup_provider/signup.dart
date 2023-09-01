@@ -80,6 +80,12 @@ class SignUpProvider extends ChangeNotifier {
       FirebaseFirestore.instance.collection('uids').add({
         'uid': FirebaseAuth.instance.currentUser!.uid.toString(),
       });
+      FirebaseFirestore.instance
+          .collection('chat_users')
+          .doc(FirebaseAuth.instance.currentUser!.uid.toString())
+          .set({
+        'uid': [],
+      });
       notifyListeners();
     } catch (error) {
       _isLoading = false;

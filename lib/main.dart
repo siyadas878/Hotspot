@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hotspot/applications/provider/message_provider/list_messages_users.dart';
 import 'package:hotspot/applications/provider/post_provider/add_post.dart';
 import 'package:hotspot/applications/provider/post_provider/follow_provider.dart';
 import 'package:hotspot/applications/provider/profile_provider/get_data_in_profile.dart';
@@ -76,6 +77,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => MessageCreationProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ListMessagedUsers(),
         ),
       ],
       child: MaterialApp(

@@ -81,6 +81,37 @@ class MessageCreationProvider extends ChangeNotifier {
     return [];
   }
 
+  Future<MessageModel?> getLastMessage(String fromId) async {
+  String addinguid = fromId + userId;
+  List<String> charList = addinguid.split('');
+  charList.sort();
+  String uniqueId = charList.join();
+
+  try {
+    var userCollectionSnapshot = await FirebaseFirestore.instance
+        .collection('chat')
+        .doc(uniqueId)
+        .collection('messages')
+        .orderBy('time', descending: true) // Sort in descending order
+        .limit(1) // Limit to 1 document (the most recent one)
+        .get();
+
+    if (userCollectionSnapshot.docs.isNotEmpty) {
+      // Check if there are any documents
+      Map<String, dynamic> data = userCollectionSnapshot.docs.first.data();
+      return MessageModel.fromJson(data);
+    } else {
+      // No messages found
+      return null;
+    }
+  } catch (e) {
+    log('Error getting last message: $e');
+  }
+
+  return null; // Return null in case of an error
+}
+
+
   @override
   void dispose() {
     messageController.dispose();

@@ -107,15 +107,16 @@ class UpdateScreen extends StatelessWidget {
                           try {
                             context.read<UpdateProvider>().updatedetails(
                                 context,
-                                imagepic.imageUrl.toString(),
-                                context
+                                imagepath:imagepic.imageUrl.toString(),
+                                nameController:context
                                     .read<UpdateProvider>()
                                     .nameController
                                     .text,
-                                context
+                                usernameController:context
                                     .read<UpdateProvider>()
                                     .usernameController
-                                    .text);
+                                    .text
+                                    );
                           } catch (e) {
                             log(e.toString());
                           }

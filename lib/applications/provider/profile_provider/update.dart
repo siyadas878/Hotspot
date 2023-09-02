@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:hotspot/applications/provider/profile_provider/update_user_details.dart';
 import 'package:hotspot/presentation/widgets/snackbar_warning.dart';
-import '../../../domain/user_model/user_model.dart';
 
 class UpdateProvider extends ChangeNotifier {
   final TextEditingController nameController = TextEditingController();
@@ -12,8 +11,8 @@ class UpdateProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   UpdateUser update = UpdateUser();
 
-  Future<void> updatedetails(BuildContext context, String imagePath,
-      String nameController, String usernameController) async {
+  Future<void> updatedetails(BuildContext context, {required String imagepath,
+     required String nameController,required String usernameController}) async {
     try {
       _isLoading = true;
       notifyListeners();
@@ -27,7 +26,10 @@ class UpdateProvider extends ChangeNotifier {
       }
 
       update.updateUserDetails(
-          UserModel(name: name, username: username, imgpath: imagePath));
+          name,
+          username,
+          imagepath
+          );
 
       // ignore: use_build_context_synchronously
       warning(context, 'Successfully updated');

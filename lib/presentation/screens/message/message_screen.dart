@@ -80,6 +80,7 @@ class MessageScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
+            subtitle: const Text('data'),
           );
         },
       );

@@ -8,22 +8,24 @@ class UpdateUser extends ChangeNotifier {
   UserModel? data;
   UpdateUser({this.data});
 
-  Future<void> updateUserDetails(UserModel data) async {
+  Future<void> updateUserDetails(String name,String username,String imgpath) async {
     try {
-      UserModel user = UserModel(
-        name: data.name,
-        username: data.username,
-        imgpath: data.imgpath,
-      );
+     
 
       CollectionReference usersCollection =
           FirebaseFirestore.instance.collection('users');
 
       String userId = FirebaseAuth.instance.currentUser!.uid;
 
-      Map<String, dynamic> userData = user.toJson();
+      // Map<String, dynamic> userData = user.toJson();
 
-      await usersCollection.doc(userId).update(userData);
+      await usersCollection.doc(userId).update(
+        {
+          'name':name,
+          'username':username,
+          'imgpath':imgpath
+        }
+      );
     } catch (error) {
       log("Error adding/updating user: $error");
     }

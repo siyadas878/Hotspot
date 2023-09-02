@@ -11,7 +11,7 @@ class ImageProviderClass extends ChangeNotifier {
 
   void clearImage() {
     _imgPath = null;
-    notifyListeners(); // Notify listeners to update the UI
+    notifyListeners();
   }
 
   Future<void> getImageFromGallery(BuildContext context) async {

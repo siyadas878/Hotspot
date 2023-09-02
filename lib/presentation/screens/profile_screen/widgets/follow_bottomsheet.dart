@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hotspot/presentation/screens/user_screen/user_screen.dart';
-
 import '../../../../applications/provider/profile_provider/get_data_in_profile.dart';
 import '../../../../domain/user_model/user_model.dart';
 
@@ -29,7 +28,7 @@ void followersbottomSheet(BuildContext context, List<String> followers) {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: Card(
-                      color: Colors.teal[100],
+                      color: Colors.teal,
                       child: SizedBox(
                         height: size.height * 0.1,
                         child: Center(

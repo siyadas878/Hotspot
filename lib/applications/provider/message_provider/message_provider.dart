@@ -44,6 +44,7 @@ class MessageCreationProvider extends ChangeNotifier {
         messageController.clear();
         notifyListeners();
       });
+      adduid.addUidOfMessage(userId, fromId);
     } catch (error) {
       log("Error adding message: $error");
     }
@@ -70,7 +71,7 @@ class MessageCreationProvider extends ChangeNotifier {
       }).toList();
 
       allmessages = message;
-      adduid.addUidOfMessage(userId, fromId);
+      
       notifyListeners();
       return allmessages;
     } catch (e) {

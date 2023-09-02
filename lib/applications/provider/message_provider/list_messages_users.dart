@@ -41,7 +41,7 @@ class ListMessagedUsers extends ChangeNotifier {
     return allusers;
   } catch (e) {
     log('Error fetching messaged users: $e');
-    return []; // Return an empty list in case of an error.
+    return [];
   }
 }
 

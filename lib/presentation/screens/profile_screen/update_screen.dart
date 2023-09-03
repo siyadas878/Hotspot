@@ -51,9 +51,9 @@ class UpdateScreen extends StatelessWidget {
                     SizedBox(
                       height: size.height * 0.04,
                     ),
-                    const AppLogo(size: 50),
+                    const AppLogo(size: 50,head: 'hotspot',color: Colors.black),
                     const Text(
-                      'Create your account',
+                      'Update your account',
                       style: TextStyle(color: tealColor, fontSize: 13),
                     ),
                     SpaceWithHeight(size: size),

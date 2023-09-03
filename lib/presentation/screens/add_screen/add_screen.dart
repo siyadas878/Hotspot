@@ -32,8 +32,8 @@ class AddScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       image: DecorationImage(
                           image: NetworkImage(value.imageUrl ??
-                              'https://img.freepik.com/premium-vector/photo-camera-vector-icon-neumorphism-style-vector-eps-10_532800-803.jpg?w=360'),
-                          fit: BoxFit.cover),
+                              'https://static.thenounproject.com/png/396915-200.png'),
+                          fit: BoxFit.contain),
                       borderRadius: const BorderRadius.all(Radius.circular(15)),
                       border: Border.all(
                           color: tealColor, width: 2), // Adding border

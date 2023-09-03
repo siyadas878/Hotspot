@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hotspot/applications/provider/login_provider/login.dart';
+import 'package:hotspot/applications/provider/theme_provider/theme_provider.dart';
 import 'package:hotspot/core/constants/consts.dart';
 import 'package:hotspot/infrastructure/functions/google_login.dart';
 import 'package:hotspot/presentation/screens/signup_screen/sign_up_screen.dart';
@@ -21,7 +22,7 @@ class LoginScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(children: [
             SizedBox(height: size.height * 0.14),
-            const AppLogo(size: 50,head: 'hotspot'),
+            const AppLogo(size: 50,head: 'hotspot',color: Colors.black),
             const Text('Log In your account',
                 style: TextStyle(color: tealColor, fontSize: 13)),
             SpaceWithHeight(size: size),
@@ -84,6 +85,7 @@ class LoginScreen extends StatelessWidget {
                 width: size.width * 0.7,
                 height: size.height * 0.06,
                 decoration: BoxDecoration(
+                  color: tealColor,
                   borderRadius: const BorderRadius.all(Radius.circular(6)),
                   border: Border.all(
                     color: tealColor,
@@ -109,13 +111,14 @@ class LoginScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('Don’t have account? Let’s '),
+                 Text('Don’t have account? Let’s ',
+                style: TextStyle(color: context.read<ThemeProvider>().isDarkMode?Colors.white:Colors.black),),
                 InkWell(
                     onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SignUp(),
+                            builder: (context) =>const SignUp(),
                           ));
                     },
                     child: const Text(

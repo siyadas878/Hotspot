@@ -41,7 +41,7 @@ class GoogleUser extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: size.height * 0.1),
-                    const AppLogo(size: 50),
+                    const AppLogo(size: 50,color: Colors.white),
                     const Text(
                       'Add your Details',
                       style: TextStyle(color: tealColor, fontSize: 13),

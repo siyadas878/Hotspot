@@ -23,7 +23,7 @@ class FollowIcon extends StatelessWidget {
       child: Center(
           child: Text(
         name,
-        style: TextStyle(color: color),
+        style: TextStyle(color: color,fontSize: 10),
       )),
     );
   }

@@ -28,7 +28,7 @@ class HomeScreen extends StatelessWidget {
           },
           icon: const Icon(
             FontAwesomeIcons.facebookMessenger,
-            color: Colors.teal,
+            color: Colors.white,
           ),
         ),
       ),

@@ -52,7 +52,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ));
               },
-              icon: const Icon(FontAwesomeIcons.userPen, color: tealColor),
+              icon: const Icon(FontAwesomeIcons.userPen, color: Colors.white),
             ),
           ),
           drawer: DrawerScreen(),
@@ -245,8 +245,9 @@ buildNumberContainer(int number, String title, BuildContext context,Function fun
             children: [
               Text(
                 title,
-                style: const TextStyle(fontSize: 12, color: Colors.white),
+                style: const TextStyle(fontSize: 11, color: Colors.white),
               ),
+              SizedBox(height: size.height*0.01,),
               Text(
                 number.toString(),
                 style: const TextStyle(fontSize: 20, color: Colors.white),

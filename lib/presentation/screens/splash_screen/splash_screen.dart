@@ -24,7 +24,7 @@ class SplashScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  AppLogo(size: 50,head: 'hotspot'),
+                  AppLogo(size: 50, head: 'hotspot', color: Colors.black),
                 ],
               ),
             ),
@@ -60,6 +60,6 @@ wait(context) async {
   auth.currentUser?.uid != null
       ? Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => NavScreen()))
-      : Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => LoginScreen()));
+      : Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()));
 }

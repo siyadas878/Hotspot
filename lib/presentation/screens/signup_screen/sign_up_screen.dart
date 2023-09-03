@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import '../../../applications/provider/signup_provider/signup.dart';
+import '../../../applications/provider/theme_provider/theme_provider.dart';
 import '../../../core/constants/consts.dart';
 import '../../../applications/provider/signup_provider/image_picker.dart';
 import '../../widgets/app_logo.dart';
@@ -38,7 +39,7 @@ class SignUp extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const AppLogo(size: 50,head: 'hotspot'),
+                    const AppLogo(size: 50,head: 'hotspot',color: Colors.black),
                     const Text(
                       'Create your account',
                       style: TextStyle(color: tealColor, fontSize: 13),
@@ -120,7 +121,8 @@ class SignUp extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text('Le’s go to, '),
+                         Text('Le’s go to, ',
+                        style: TextStyle(color: context.read<ThemeProvider>().isDarkMode?Colors.white:Colors.black)),
                         InkWell(
                           onTap: () {
                             Navigator.pop(context);

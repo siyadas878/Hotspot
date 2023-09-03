@@ -7,6 +7,8 @@ import 'package:hotspot/core/constants/consts.dart';
 import 'package:hotspot/main.dart';
 import 'package:hotspot/presentation/widgets/snackbar_warning.dart';
 import 'package:hotspot/presentation/widgets/space_with_height.dart';
+import 'package:provider/provider.dart';
+import '../../../applications/provider/theme_provider/theme_provider.dart';
 import '../../../domain/user_model/user_model.dart';
 
 class DrawerScreen extends StatelessWidget {
@@ -16,6 +18,7 @@ class DrawerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     var size = MediaQuery.of(context).size;
     return Drawer(
       child: ListView(
@@ -55,8 +58,8 @@ class DrawerScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: CircleAvatar(
                           radius: 60.0,
-                          backgroundImage: NetworkImage(
-                              user.imgpath.toString()), 
+                          backgroundImage:
+                              NetworkImage(user.imgpath.toString()),
                         ),
                       ),
                     ),
@@ -76,41 +79,45 @@ class DrawerScreen extends StatelessWidget {
           SpaceWithHeight(size: size),
           ListTile(
             leading: const Icon(FontAwesomeIcons.themeco),
-            title: const Text('Theme'),
-            trailing: Switch(
-              activeColor: Colors.teal,
-              focusColor: tealColor,
-              value: true,
-              onChanged: (value) {},
+            title:  Text('Theme',
+            style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black)
             ),
-            onTap: () {
-              Navigator.pop(context);
-            },
+            trailing: Switch(
+              value: themeProvider.isDarkMode,
+              thumbColor:const MaterialStatePropertyAll(tealColor),
+              onChanged: (newValue) {
+                themeProvider.toggleTheme();
+              },
+            ),
           ),
           ListTile(
             leading: const Icon(FontAwesomeIcons.book),
-            title: const Text('Privacy Policy'),
+            title:  Text('Privacy Policy',
+            style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),),
             onTap: () {
               Navigator.pop(context);
             },
           ),
           ListTile(
             leading: const Icon(FontAwesomeIcons.share),
-            title: const Text('Share App'),
+            title:  Text('Share App',
+            style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black)),
             onTap: () {
               Navigator.pop(context);
             },
           ),
           ListTile(
             leading: const Icon(FontAwesomeIcons.newspaper),
-            title: const Text('About Us'),
+            title:  Text('About Us',
+            style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black)),
             onTap: () {
               Navigator.pop(context);
             },
           ),
           ListTile(
             leading: const Icon(FontAwesomeIcons.rightFromBracket),
-            title: const Text('LogOut'),
+            title:  Text('LogOut',
+            style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black)),
             onTap: () async {
               showDialog(
                 context: context,
@@ -134,7 +141,7 @@ class DrawerScreen extends StatelessWidget {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>const MyApp()),
+                                builder: (context) => const MyApp()),
                             (route) => false,
                           );
                         } catch (e) {

@@ -41,7 +41,8 @@ class InsidePost extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                decoration: const BoxDecoration(
+                decoration:const  BoxDecoration(
+                  color: Colors.white,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(15),
                     topRight: Radius.circular(15),
@@ -166,12 +167,13 @@ class InsidePost extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Comments'),
+                          const Text('Comments',
+                          style:  TextStyle(fontSize: 12,color: Colors.black)),
                           Text(
                             timeago
                                 .format(postDateTime, allowFromNow: true)
                                 .toString(),
-                            style: const TextStyle(fontSize: 12),
+                            style: const TextStyle(fontSize: 12,color: Colors.black),
                           ),
                         ],
                       ),
@@ -215,7 +217,7 @@ class InsidePost extends StatelessWidget {
                                         subtitle: Text(
                                           timeago.format(comentTime,
                                               allowFromNow: true),
-                                          style: const TextStyle(fontSize: 12),
+                                          style: const TextStyle(fontSize: 12,color: Colors.black),
                                         ),
                                         leading: FutureBuilder<UserModel?>(
                                           future: GetProfileData().getUserData(
@@ -248,7 +250,10 @@ class InsidePost extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
-                        color: Colors.white,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: Colors.white
+                        ),
                         child: TextField(
                           controller: Provider.of<LikeComentProvider>(context)
                               .commentCntrl,

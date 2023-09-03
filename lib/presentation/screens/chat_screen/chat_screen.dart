@@ -27,7 +27,7 @@ class ChatScreen extends StatelessWidget {
           children: [
             CircleAvatar(backgroundImage: NetworkImage(imageUrl),),
             SizedBox(width: size.width*0.02,),
-            AppLogo(size: 30, head: title),
+            AppLogo(size: 30, head: title,color: Colors.white),
           ],
         ),
         backgroundColor: Colors.teal,
@@ -95,7 +95,7 @@ class ChatScreen extends StatelessWidget {
                                 child: Text(
                                   timeago
                                       .format(postDateTime, allowFromNow: true)
-                                      .toString(),
+                                      .toString(),style:const TextStyle(fontSize: 10),
                                 ),
                               ),
                             ],
@@ -109,9 +109,8 @@ class ChatScreen extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Container(
+              child: SizedBox(
                 height: size.height * 0.07,
-                color: Colors.white,
                 child: Row(
                   children: [
                    const Expanded(

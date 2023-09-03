@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hotspot/core/constants/consts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeProvider extends ChangeNotifier {
@@ -7,6 +8,7 @@ class ThemeProvider extends ChangeNotifier {
       color: Colors.teal,
     ),
     primaryColor: Colors.teal,
+    primaryColorLight: tealColor,
     textTheme: const TextTheme(
       titleLarge: TextStyle(fontFamily: 'archivoNarrow', color: Colors.black),
       titleMedium: TextStyle(fontFamily: 'archivoNarrow', color: Colors.black),

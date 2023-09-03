@@ -49,7 +49,7 @@ class UpdateScreen extends StatelessWidget {
                       ],
                     ),
                     SizedBox(
-                      height: size.height * 0.04,
+                      height: size.height * 0.1,
                     ),
                     const AppLogo(size: 50,head: 'hotspot',color: Colors.black),
                     const Text(

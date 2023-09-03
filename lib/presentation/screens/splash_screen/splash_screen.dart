@@ -30,7 +30,7 @@ class SplashScreen extends StatelessWidget {
             ),
             Positioned(
               top: size.height * 0.51,
-              right: size.width * 0.367,
+              right: size.width * 0.34,
               child: const Text(
                 'make connections',
                 style: TextStyle(color: Colors.white),

@@ -8,11 +8,13 @@ import 'package:hotspot/applications/provider/post_provider/coment_provider.dart
 import 'package:hotspot/core/constants/consts.dart';
 import 'package:hotspot/domain/coment_model/coment_model.dart';
 import 'package:hotspot/domain/user_model/user_model.dart';
+import 'package:hotspot/presentation/screens/inside_post/widgets/coment_textfield.dart';
 import 'package:hotspot/presentation/screens/user_screen/user_screen.dart';
 import 'package:hotspot/presentation/widgets/app_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../../../applications/provider/post_provider/getall_post.dart';
+import '../../../applications/provider/theme_provider/theme_provider.dart';
 
 class InsidePost extends StatelessWidget {
   final String imageUrl;
@@ -41,8 +43,7 @@ class InsidePost extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                decoration:const  BoxDecoration(
-                  color: Colors.white,
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(15),
                     topRight: Radius.circular(15),
@@ -50,137 +51,145 @@ class InsidePost extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    InkWell(
-                      onTap: () => showImageViewer(context,
-                                Image.network(imageUrl.toString()).image,
-                                swipeDismissible: true,
-                                doubleTapZoomable: true),
-                      child: Container(
-                        height: size.height * 0.25,
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                          image: DecorationImage(
-                            image: NetworkImage(imageUrl),
-                            fit: BoxFit.cover,
+                    Column(
+                      children: [
+                        InkWell(
+                          onTap: () => showImageViewer(
+                              context, Image.network(imageUrl.toString()).image,
+                              swipeDismissible: true, doubleTapZoomable: true),
+                          child: Container(
+                            height: size.height * 0.25,
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              image: DecorationImage(
+                                image: NetworkImage(imageUrl),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    FutureBuilder<UserModel?>(
-                      future: GetProfileData().getUserData(userId),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        }
-                        return Container(
-                          color: Colors.white,
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                  snapshot.data!.imgpath.toString()),
-                            ),
-                            title: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            UserScreen(uid: userId),
-                                      ),
-                                    );
-                                  },
-                                  child: Text(snapshot.data!.username!),
-                                ),
-                                Text(
-                                  caption,
-                                  style: const TextStyle(fontSize: 12),
-                                ),
-                              ],
-                            ),
-                            trailing: FutureBuilder(
-                              future: GetallPostProvider()
-                                  .getPost(uniqueIdOfPost, userId),
-                              builder: (context, postsnapshot) {
-                                if (postsnapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const CircularProgressIndicator();
-                                }
-                                return Consumer<LikeProvider>(
-                                  builder: (context, likeProvider, _) {
-                                    return Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        SizedBox(width: size.width * 0.02),
-                                        FutureBuilder(
-                                          future: GetallPostProvider()
-                                              .getPost(uniqueIdOfPost, userId),
-                                          builder: (context, likesnapshot) {
-                                            if (likesnapshot.connectionState ==
-                                                ConnectionState.waiting) {
-                                              return const CircularProgressIndicator();
-                                            }
-                                            return InkWell(
-                                              onTap: () async {
-                                                await likeProvider.likePost(
-                                                  FirebaseAuth.instance
-                                                      .currentUser!.uid,
-                                                  uniqueIdOfPost,
-                                                  likesnapshot.data!.like!,
-                                                  userId,
-                                                );
-                                              },
-                                              child: Icon(
-                                                FontAwesomeIcons.solidHeart,
-                                                color: likesnapshot.data!.like!
-                                                        .contains(FirebaseAuth
-                                                            .instance
-                                                            .currentUser!
-                                                            .uid)
-                                                    ? tealColor
-                                                    : Colors.grey,
-                                              ),
-                                            );
-                                          },
+                        FutureBuilder<UserModel?>(
+                          future: GetProfileData().getUserData(userId),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            }
+                            return ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                    snapshot.data!.imgpath.toString()),
+                              ),
+                              title: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              UserScreen(uid: userId),
                                         ),
-                                        SizedBox(width: size.width * 0.05),
-                                        InkWell(
-                                            onTap: () {},
-                                            child: const Icon(
-                                                FontAwesomeIcons.comment)),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
-                            ),
+                                      );
+                                    },
+                                    child: Text(snapshot.data!.username!),
+                                  ),
+                                  Text(
+                                    caption,
+                                    style: const TextStyle(fontSize: 12),
+                                  ),
+                                ],
+                              ),
+                              trailing: FutureBuilder(
+                                future: GetallPostProvider()
+                                    .getPost(uniqueIdOfPost, userId),
+                                builder: (context, postsnapshot) {
+                                  if (postsnapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const CircularProgressIndicator();
+                                  }
+                                  return Consumer<LikeProvider>(
+                                    builder: (context, likeProvider, _) {
+                                      return Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          SizedBox(width: size.width * 0.02),
+                                          FutureBuilder(
+                                            future: GetallPostProvider()
+                                                .getPost(
+                                                    uniqueIdOfPost, userId),
+                                            builder: (context, likesnapshot) {
+                                              if (likesnapshot
+                                                      .connectionState ==
+                                                  ConnectionState.waiting) {
+                                                return const CircularProgressIndicator();
+                                              }
+                                              return InkWell(
+                                                onTap: () async {
+                                                  await likeProvider.likePost(
+                                                    FirebaseAuth.instance
+                                                        .currentUser!.uid,
+                                                    uniqueIdOfPost,
+                                                    likesnapshot.data!.like!,
+                                                    userId,
+                                                  );
+                                                },
+                                                child: Icon(
+                                                  FontAwesomeIcons.solidHeart,
+                                                  color: likesnapshot
+                                                          .data!.like!
+                                                          .contains(FirebaseAuth
+                                                              .instance
+                                                              .currentUser!
+                                                              .uid)
+                                                      ? tealColor
+                                                      : Colors.grey,
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                          SizedBox(width: size.width * 0.05),
+                                          InkWell(
+                                              onTap: () {},
+                                              child: const Icon(
+                                                  FontAwesomeIcons.comment)),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                        const Divider(),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                               Text('Comments',
+                                  style: TextStyle(fontSize: 12,
+                                  color: context.read<ThemeProvider>().isDarkMode?Colors.white:Colors.black)),
+                              Text(
+                                timeago
+                                    .format(postDateTime, allowFromNow: true)
+                                    .toString(),
+                                style:  TextStyle(fontSize: 12,
+                                color: context.read<ThemeProvider>().isDarkMode?Colors.white:Colors.black),
+                              ),
+                            ],
                           ),
-                        );
-                      },
+                        ),
+                        SizedBox(
+                          height: size.height * 0.01,
+                        )
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('Comments',
-                          style:  TextStyle(fontSize: 12,color: Colors.black)),
-                          Text(
-                            timeago
-                                .format(postDateTime, allowFromNow: true)
-                                .toString(),
-                            style: const TextStyle(fontSize: 12,color: Colors.black),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
+                    SizedBox(
                       height: size.height * 0.45,
-                      color: Colors.white,
                       child: Consumer<LikeComentProvider>(
                         builder: (context, value, child) {
                           return FutureBuilder<List<Coment>>(
@@ -211,13 +220,14 @@ class InsidePost extends StatelessWidget {
                                     DateTime comentTime =
                                         DateTime.parse(comment.time!);
                                     return Card(
-                                      color: Colors.white,
                                       child: ListTile(
                                         title: Text(comment.comment.toString()),
                                         subtitle: Text(
                                           timeago.format(comentTime,
                                               allowFromNow: true),
-                                          style: const TextStyle(fontSize: 12,color: Colors.black),
+                                          style:  TextStyle(
+                                              fontSize: 12,
+                                              color: context.read<ThemeProvider>().isDarkMode?Colors.white:Colors.black),
                                         ),
                                         leading: FutureBuilder<UserModel?>(
                                           future: GetProfileData().getUserData(
@@ -249,44 +259,7 @@ class InsidePost extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: Colors.white
-                        ),
-                        child: TextField(
-                          controller: Provider.of<LikeComentProvider>(context)
-                              .commentCntrl,
-                          maxLines: 1,
-                          decoration: InputDecoration(
-                            fillColor: Colors.white,
-                            prefixIcon:
-                                const Icon(FontAwesomeIcons.penToSquare),
-                            suffixIcon: InkWell(
-                              onTap: () {
-                                String thisUserId =
-                                    FirebaseAuth.instance.currentUser!.uid;
-                                Provider.of<LikeComentProvider>(context,
-                                        listen: false)
-                                    .postComment(
-                                  uniqueIdOfPost,
-                                  userId,
-                                  thisUserId,
-                                );
-                              },
-                              child: const Icon(FontAwesomeIcons.paperPlane),
-                            ),
-                            hintText: 'Write your comment...',
-                            hintStyle: TextStyle(
-                              color: Colors.black.withOpacity(0.3),
-                            ),
-                            border: const OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30)),
-                            ),
-                          ),
-                        ),
-                      ),
+                      child: ComentTextField(uniqueIdOfPost: uniqueIdOfPost, userId: userId),
                     ),
                   ],
                 ),
@@ -298,3 +271,4 @@ class InsidePost extends StatelessWidget {
     );
   }
 }
+

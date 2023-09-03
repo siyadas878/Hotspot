@@ -16,7 +16,6 @@ class UpdateProvider extends ChangeNotifier {
     try {
       _isLoading = true;
       notifyListeners();
-      // ImageProviderClass imageclear = ImageProviderClass();
       final String name = nameController;
       final String username = usernameController;
 

@@ -102,10 +102,8 @@ class UpdateScreen extends StatelessWidget {
                     SpaceWithHeight(size: size),
                     TealLoginButton(
                         onPressed: () async {
-                          print(existingImage);
-                          print(imagepic.imageUrl.toString());
                           try {
-                            context.read<UpdateProvider>().updatedetails(
+                           await context.read<UpdateProvider>().updatedetails(
                                 context,
                                 imagepath:imagepic.imageUrl.toString(),
                                 nameController:context

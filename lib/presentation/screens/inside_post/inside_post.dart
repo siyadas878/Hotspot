@@ -1,3 +1,4 @@
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -48,13 +49,19 @@ class InsidePost extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    Container(
-                      height: size.height * 0.25,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        image: DecorationImage(
-                          image: NetworkImage(imageUrl),
-                          fit: BoxFit.cover,
+                    InkWell(
+                      onTap: () => showImageViewer(context,
+                                Image.network(imageUrl.toString()).image,
+                                swipeDismissible: true,
+                                doubleTapZoomable: true),
+                      child: Container(
+                        height: size.height * 0.25,
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          image: DecorationImage(
+                            image: NetworkImage(imageUrl),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
@@ -63,14 +70,15 @@ class InsidePost extends StatelessWidget {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return const Center(child: CircularProgressIndicator());
+                          return const Center(
+                              child: CircularProgressIndicator());
                         }
                         return Container(
                           color: Colors.white,
                           child: ListTile(
                             leading: CircleAvatar(
-                              backgroundImage:
-                                  NetworkImage(snapshot.data!.imgpath.toString()),
+                              backgroundImage: NetworkImage(
+                                  snapshot.data!.imgpath.toString()),
                             ),
                             title: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,35 +109,51 @@ class InsidePost extends StatelessWidget {
                                     ConnectionState.waiting) {
                                   return const CircularProgressIndicator();
                                 }
-                                return Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    InkWell(
-                                      onTap: () async {
-                                        await context
-                                            .read<LikeProvider>()
-                                            .likePost(
-                                              FirebaseAuth.instance.currentUser!.uid,
-                                              uniqueIdOfPost,
-                                              postsnapshot.data!.like!,
-                                              userId,
+                                return Consumer<LikeProvider>(
+                                  builder: (context, likeProvider, _) {
+                                    return Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        SizedBox(width: size.width * 0.02),
+                                        FutureBuilder(
+                                          future: GetallPostProvider()
+                                              .getPost(uniqueIdOfPost, userId),
+                                          builder: (context, likesnapshot) {
+                                            if (likesnapshot.connectionState ==
+                                                ConnectionState.waiting) {
+                                              return const CircularProgressIndicator();
+                                            }
+                                            return InkWell(
+                                              onTap: () async {
+                                                await likeProvider.likePost(
+                                                  FirebaseAuth.instance
+                                                      .currentUser!.uid,
+                                                  uniqueIdOfPost,
+                                                  likesnapshot.data!.like!,
+                                                  userId,
+                                                );
+                                              },
+                                              child: Icon(
+                                                FontAwesomeIcons.solidHeart,
+                                                color: likesnapshot.data!.like!
+                                                        .contains(FirebaseAuth
+                                                            .instance
+                                                            .currentUser!
+                                                            .uid)
+                                                    ? tealColor
+                                                    : Colors.grey,
+                                              ),
                                             );
-                                      },
-                                      child: Icon(
-                                        FontAwesomeIcons.solidHeart,
-                                        color: postsnapshot.data!.like!
-                                                .contains(FirebaseAuth
-                                                    .instance.currentUser!.uid)
-                                            ? tealColor
-                                            : Colors.grey,
-                                      ),
-                                    ),
-                                    SizedBox(width: size.width * 0.05),
-                                    InkWell(
-                                      onTap: () {},
-                                      child: const Icon(FontAwesomeIcons.comment),
-                                    ),
-                                  ],
+                                          },
+                                        ),
+                                        SizedBox(width: size.width * 0.05),
+                                        InkWell(
+                                            onTap: () {},
+                                            child: const Icon(
+                                                FontAwesomeIcons.comment)),
+                                      ],
+                                    );
+                                  },
                                 );
                               },
                             ),
@@ -194,8 +218,8 @@ class InsidePost extends StatelessWidget {
                                           style: const TextStyle(fontSize: 12),
                                         ),
                                         leading: FutureBuilder<UserModel?>(
-                                          future: GetProfileData()
-                                              .getUserData(comment.commentedUserId!),
+                                          future: GetProfileData().getUserData(
+                                              comment.commentedUserId!),
                                           builder: (context, userimage) {
                                             if (userimage.hasData &&
                                                 userimage.data != null) {
@@ -226,12 +250,13 @@ class InsidePost extends StatelessWidget {
                       child: Container(
                         color: Colors.white,
                         child: TextField(
-                          controller:
-                              Provider.of<LikeComentProvider>(context).commentCntrl,
+                          controller: Provider.of<LikeComentProvider>(context)
+                              .commentCntrl,
                           maxLines: 1,
                           decoration: InputDecoration(
                             fillColor: Colors.white,
-                            prefixIcon: const Icon(FontAwesomeIcons.penToSquare),
+                            prefixIcon:
+                                const Icon(FontAwesomeIcons.penToSquare),
                             suffixIcon: InkWell(
                               onTap: () {
                                 String thisUserId =

@@ -45,7 +45,10 @@ void followersbottomSheet(BuildContext context, List<String> followers) {
                               backgroundImage:
                                   NetworkImage(snapshot.data!.imgpath!),
                             ),
-                            title: Text(snapshot.data!.name!),
+                            title: Text(snapshot.data!.name!,
+                            style:const TextStyle(fontWeight: FontWeight.bold),),
+                            subtitle: Text(snapshot.data!.username!,
+                            style:const TextStyle(fontWeight: FontWeight.bold)),
                           ),
                         ),
                       ),

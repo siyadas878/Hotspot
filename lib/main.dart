@@ -5,6 +5,7 @@ import 'package:hotspot/applications/provider/message_provider/list_messages_use
 import 'package:hotspot/applications/provider/message_provider/messageuid_collection.dart';
 import 'package:hotspot/applications/provider/post_provider/add_post.dart';
 import 'package:hotspot/applications/provider/post_provider/follow_provider.dart';
+import 'package:hotspot/applications/provider/post_provider/like_provider.dart';
 import 'package:hotspot/applications/provider/profile_provider/get_data_in_profile.dart';
 import 'package:hotspot/applications/provider/post_provider/getall_post.dart';
 import 'package:hotspot/applications/provider/login_provider/googlein.dart';
@@ -84,6 +85,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => UidOfMessages(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => LikeProvider(),
         ),
       ],
       child: MaterialApp(

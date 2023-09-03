@@ -5,19 +5,20 @@ import 'package:flutter/material.dart';
 import '../../../domain/user_model/user_model.dart';
 
 class UpdateUser extends ChangeNotifier {
+    bool isLoading = false;
+
   UserModel? data;
   UpdateUser({this.data});
 
   Future<void> updateUserDetails(String name,String username,String imgpath) async {
     try {
-     
+     isLoading = true;
+      notifyListeners();
 
       CollectionReference usersCollection =
           FirebaseFirestore.instance.collection('users');
 
       String userId = FirebaseAuth.instance.currentUser!.uid;
-
-      // Map<String, dynamic> userData = user.toJson();
 
       await usersCollection.doc(userId).update(
         {
@@ -26,6 +27,8 @@ class UpdateUser extends ChangeNotifier {
           'imgpath':imgpath
         }
       );
+      isLoading=false;
+      notifyListeners();
     } catch (error) {
       log("Error adding/updating user: $error");
     }

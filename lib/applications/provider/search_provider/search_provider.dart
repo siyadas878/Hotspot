@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -40,7 +41,7 @@ class GetallUsersProvider extends ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      print('Error: $e');
+      log('Error: $e');
     }
   }
 
@@ -48,7 +49,9 @@ class GetallUsersProvider extends ChangeNotifier {
     searchedlist = allusers
         .where((element) => element.username!
             .toLowerCase()
-            .contains(query.toLowerCase().trim()))
+            .contains(query.toLowerCase().trim())||
+            element.name!.toLowerCase().contains(query.toLowerCase().trim())||
+            element.email!.toLowerCase().contains(query.toLowerCase().trim()))
         .toList();
     notifyListeners();
     return searchedlist;

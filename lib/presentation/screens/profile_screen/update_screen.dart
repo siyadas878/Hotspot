@@ -67,7 +67,7 @@ class UpdateScreen extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(5),
                         child: GestureDetector(
-                          onTap: () => imagepic.getImageFromGallery(context),
+                          onTap: () => imagepic.getImageFromGallery(context,excistingimg: existingImage),
                           child: ClipOval(
                             child: Container(
                               width: size.width * 0.3,

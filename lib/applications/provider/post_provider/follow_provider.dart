@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../notification_provider/notification_provider.dart';
+
 class FollowProvider extends ChangeNotifier {
   bool isfollow = false;
 
@@ -28,6 +30,8 @@ class FollowProvider extends ChangeNotifier {
         await postRef.doc(userId).update({
           'following': FieldValue.arrayUnion([otherUserId]),
         });
+        final notificationProvider = NotificationProvider();
+        await notificationProvider.addNotification(otherUserId, 'strarted following you');
         isfollow = true;
         notifyListeners();
       }

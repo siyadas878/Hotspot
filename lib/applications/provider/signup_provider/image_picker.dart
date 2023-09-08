@@ -35,8 +35,8 @@ class ImageProviderClass extends ChangeNotifier {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: const Text('File Size Exceeded'),
-              content: const Text('The selected image exceeds 1MB in size.'),
+              title: const Text('warning'),
+              content: const Text('The selected image exceeds 1MB.'),
               actions: [
                 TextButton(
                   onPressed: () {

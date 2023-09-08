@@ -5,7 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hotspot/applications/provider/post_provider/like_provider.dart';
 import 'package:hotspot/applications/provider/profile_provider/get_data_in_profile.dart';
 import 'package:hotspot/applications/provider/post_provider/coment_provider.dart';
-import 'package:hotspot/applications/provider/signup_provider/image_picker.dart';
 import 'package:hotspot/core/constants/consts.dart';
 import 'package:hotspot/domain/coment_model/coment_model.dart';
 import 'package:hotspot/domain/user_model/user_model.dart';
@@ -154,7 +153,6 @@ class InsidePost extends StatelessWidget {
                                           SizedBox(width: size.width * 0.05),
                                           InkWell(
                                               onTap: () {
-                                                print('------------${Provider.of<ImageProviderClass>(context,listen: false).fileBytes}');
 
                                               },
                                               child: const Icon(

@@ -260,7 +260,7 @@ buildNumberContainer(String number, String title, BuildContext context) {
           children: [
             Text(
               title,
-              style: const TextStyle(fontSize: 11, color: Colors.white),
+              style:  TextStyle(fontSize: size.width*0.025, color: Colors.white),
             ),
                           SizedBox(height: size.height*0.01,),
 

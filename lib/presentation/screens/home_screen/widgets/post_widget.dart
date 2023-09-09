@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:shimmer/shimmer.dart'; // Import the shimmer package
 import '../../../../applications/provider/post_provider/getall_post.dart';
 import '../../../../applications/provider/post_provider/like_provider.dart';
 import '../../../../applications/provider/profile_provider/get_data_in_profile.dart';
@@ -12,16 +13,17 @@ import '../../inside_post/inside_post.dart';
 import '../../user_screen/user_screen.dart';
 
 class PostWidget extends StatelessWidget {
-  const PostWidget(
-      {Key? key,
-      required this.size,
-      required this.imageUrl,
-      required this.like,
-      required this.userId,
-      required this.uniqueIdOfPost,
-      required this.time,
-      required this.caption})
-      : super(key: key);
+  const PostWidget({
+    Key? key,
+    required this.size,
+    required this.imageUrl,
+    required this.like,
+    required this.userId,
+    required this.uniqueIdOfPost,
+    required this.time,
+    required this.caption,
+  }) : super(key: key);
+
   final Size size;
   final String imageUrl;
   final List like;
@@ -32,12 +34,6 @@ class PostWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await context.read<LikeProvider>().initial(
-            userId: userId,
-            postId: uniqueIdOfPost,
-          );
-    });
     return ChangeNotifierProvider(
       create: (context) => LikeProvider(),
       child: Padding(
@@ -52,15 +48,17 @@ class PostWidget extends StatelessWidget {
               InkWell(
                 onTap: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => InsidePost(
-                            imageUrl: imageUrl,
-                            userId: userId,
-                            uniqueIdOfPost: uniqueIdOfPost,
-                            time: time,
-                            caption: caption),
-                      ));
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => InsidePost(
+                        imageUrl: imageUrl,
+                        userId: userId,
+                        uniqueIdOfPost: uniqueIdOfPost,
+                        time: time,
+                        caption: caption,
+                      ),
+                    ),
+                  );
                 },
                 child: Container(
                   height: size.height * 0.25,
@@ -83,7 +81,13 @@ class PostWidget extends StatelessWidget {
                   UserModel? userData = snapshot.data;
                   DateTime postDateTime = DateTime.parse(time);
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                    return Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      child: Container(
+                        height: 48.0, // Adjust the height as needed
+                      ),
+                    );
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else if (!snapshot.hasData) {
@@ -106,17 +110,20 @@ class PostWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => UserScreen(
-                                        uid: userId,
-                                        followersLength: followersLength,
-                                        followingLength: followingLength),
-                                  ));
-                            },
-                            child: Text(snapshot.data!.username!)),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => UserScreen(
+                                  uid: userId,
+                                  followersLength: followersLength,
+                                  followingLength: followingLength,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Text(snapshot.data!.username!),
+                        ),
                         Text(
                           timeago
                               .format(postDateTime, allowFromNow: true)
@@ -125,56 +132,64 @@ class PostWidget extends StatelessWidget {
                         )
                       ],
                     ),
-                    trailing: 
-
-
-                      Consumer<LikeProvider>(
+                    trailing: Consumer<LikeProvider>(
                       builder: (context, likeProvider, _) {
                         return Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             SizedBox(width: size.width * 0.02),
                             FutureBuilder(
-                              future: GetallPostProvider().getPost(uniqueIdOfPost, userId),
+                              future: GetallPostProvider()
+                                  .getPost(uniqueIdOfPost, userId),
                               builder: (context, postsnapshot) {
-                                if (postsnapshot.connectionState==ConnectionState.waiting) {
-                                  return const CircularProgressIndicator();
+                                if (postsnapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Shimmer.fromColors(
+                                    baseColor: Colors.grey[300]!,
+                                    highlightColor: Colors.grey[100]!,
+                                    child: Container(
+                                      width: 24.0, // Adjust the width as needed
+                                    ),
+                                  );
                                 }
                                 return InkWell(
-                                onTap: () async {
-                                  await likeProvider.likePost(
-                                    FirebaseAuth.instance.currentUser!.uid,
-                                    uniqueIdOfPost,
-                                    postsnapshot.data!.like!,
-                                    userId,
-                                  );
-                                },
-                                child: Icon(
-                                  FontAwesomeIcons.solidHeart,
-                                  color: postsnapshot.data!.like!.contains(FirebaseAuth
-                                          .instance.currentUser!.uid)
-                                      ? tealColor
-                                      : Colors.grey,
-                                ),
-                              );
+                                  onTap: () async {
+                                    await likeProvider.likePost(
+                                      FirebaseAuth.instance.currentUser!.uid,
+                                      uniqueIdOfPost,
+                                      postsnapshot.data!.like!,
+                                      userId,
+                                    );
+                                  },
+                                  child: Icon(
+                                    FontAwesomeIcons.solidHeart,
+                                    color: postsnapshot.data!.like!
+                                            .contains(FirebaseAuth
+                                                .instance.currentUser!.uid)
+                                        ? tealColor
+                                        : Colors.grey,
+                                  ),
+                                );
                               },
                             ),
                             SizedBox(width: size.width * 0.05),
                             InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => InsidePost(
-                                          imageUrl: imageUrl,
-                                          userId: userId,
-                                          uniqueIdOfPost: uniqueIdOfPost,
-                                          time: time,
-                                          caption: caption,
-                                        ),
-                                      ));
-                                },
-                                child: const Icon(FontAwesomeIcons.comment)),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => InsidePost(
+                                      imageUrl: imageUrl,
+                                      userId: userId,
+                                      uniqueIdOfPost: uniqueIdOfPost,
+                                      time: time,
+                                      caption: caption,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: const Icon(FontAwesomeIcons.comment),
+                            ),
                           ],
                         );
                       },

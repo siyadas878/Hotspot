@@ -13,17 +13,14 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 7),
-      child: AppBar(
-        elevation: 20,
-        title: Text(
-          title,
-          style: GoogleFonts.jollyLodger(fontSize: 30),
-        ),
-        leading: leading,
-        actions: [if (trailing != null) trailing!],
+    return AppBar(
+      elevation: 20,
+      title: Text(
+        title,
+        style: GoogleFonts.jollyLodger(fontSize: 30),
       ),
+      leading: leading,
+      actions: [if (trailing != null) trailing!],
     );
   }
 }

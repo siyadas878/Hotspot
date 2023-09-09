@@ -6,7 +6,7 @@ class TealLoginButton extends StatelessWidget {
   final String text;
   final bool isLoading;
 
-  TealLoginButton({
+  const TealLoginButton({super.key, 
     required this.onPressed,
     required this.text,
     required this.isLoading,

@@ -36,25 +36,36 @@ dependencies:
   easy_image_viewer: ^1.2.1
   firebase_auth: ^4.7.2
   firebase_core: ^2.15.0
+  firebase_messaging: ^14.6.7
   firebase_storage: ^11.2.5
   flutter:
     sdk: flutter
   flutter_image_compress: ^2.0.4
+  flutter_local_notifications: ^15.1.1
   font_awesome_flutter: ^10.5.0
   google_fonts: ^5.1.0
   google_sign_in: ^6.1.4
+  http: ^1.1.0
   image_picker: ^1.0.2
   json_annotation: ^4.8.1
   provider: ^6.0.5
   shared_preferences: ^2.2.1
+  shimmer: ^3.0.0
   timeago: ^3.5.0
 
 dev_dependencies:
   build_runner: ^2.4.6
+  flutter_launcher_icons: ^0.13.1
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
   json_serializable: ^6.7.1
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logo.jpg"
+  min_sdk_android: 21
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -65,8 +76,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/logo.jpg
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

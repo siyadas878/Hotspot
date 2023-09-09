@@ -92,23 +92,21 @@ class MessageCreationProvider extends ChangeNotifier {
         .collection('chat')
         .doc(uniqueId)
         .collection('messages')
-        .orderBy('time', descending: true) // Sort in descending order
-        .limit(1) // Limit to 1 document (the most recent one)
+        .orderBy('time', descending: true) 
+        .limit(1)
         .get();
 
     if (userCollectionSnapshot.docs.isNotEmpty) {
-      // Check if there are any documents
       Map<String, dynamic> data = userCollectionSnapshot.docs.first.data();
       return MessageModel.fromJson(data);
     } else {
-      // No messages found
       return null;
     }
   } catch (e) {
     log('Error getting last message: $e');
   }
 
-  return null; // Return null in case of an error
+  return null; 
 }
 
 

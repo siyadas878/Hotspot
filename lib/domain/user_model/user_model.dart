@@ -11,6 +11,7 @@ class UserModel {
   String? uid;
   List<String>? followers;
   List<String>? following;
+  String? fcmTocken;
 
   UserModel(
       {this.name,
@@ -20,7 +21,8 @@ class UserModel {
       this.imgpath,
       this.uid,
       this.followers,
-      this.following});
+      this.following,
+      this.fcmTocken});
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return _$UserModelFromJson(json);

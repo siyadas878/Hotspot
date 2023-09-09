@@ -11,6 +11,7 @@ class NotificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: const MyAppBar(title: 'Notification'),
       body: SafeArea(
@@ -60,8 +61,11 @@ class NotificationScreen extends StatelessWidget {
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    Text(snapshot.data![index].status!,
-                                    style: const TextStyle(fontSize: 15)),
+                                    Text(
+                                      snapshot.data![index].status!,
+                                      style: const TextStyle(fontSize: 15),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ],
                                 ),
                                 subtitle: Text(

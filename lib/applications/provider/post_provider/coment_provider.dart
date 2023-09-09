@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../../domain/coment_model/coment_model.dart';
+import '../notification_provider/notification_provider.dart';
 
 class LikeComentProvider extends ChangeNotifier {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -25,6 +26,8 @@ class LikeComentProvider extends ChangeNotifier {
         'comment': commentCntrl.text,
         'time': DateTime.now(),
       });
+      final notificationProvider = NotificationProvider();
+        await notificationProvider.addNotification(postUserId, 'comment on your post');
       commentCntrl.clear();
       notifyListeners();
     } catch (e) {

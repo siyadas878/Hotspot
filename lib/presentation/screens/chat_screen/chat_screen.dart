@@ -5,14 +5,20 @@ import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../../../applications/provider/message_provider/message_provider.dart';
 import '../../../domain/message_model/message_model.dart';
+import '../../../infrastructure/push_notification.dart';
 import '../../widgets/app_logo.dart';
 
 class ChatScreen extends StatelessWidget {
   final String fromId;
   final String title;
   final String imageUrl;
-
-  const ChatScreen({Key? key, required this.fromId, required this.title,required this.imageUrl})
+  final String? fcmTocken;
+  const ChatScreen(
+      {Key? key,
+      required this.fromId,
+      required this.title,
+      required this.imageUrl,
+      this.fcmTocken})
       : super(key: key);
 
   @override
@@ -22,12 +28,16 @@ class ChatScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: size.height*0.08,
+        toolbarHeight: size.height * 0.08,
         title: Row(
           children: [
-            CircleAvatar(backgroundImage: NetworkImage(imageUrl),),
-            SizedBox(width: size.width*0.02,),
-            AppLogo(size: 30, head: title,color: Colors.white),
+            CircleAvatar(
+              backgroundImage: NetworkImage(imageUrl),
+            ),
+            SizedBox(
+              width: size.width * 0.02,
+            ),
+            AppLogo(size: 30, head: title, color: Colors.white),
           ],
         ),
         backgroundColor: Colors.teal,
@@ -87,7 +97,9 @@ class ChatScreen extends StatelessWidget {
                                 ),
                                 child: Text(
                                   messages[index].message!,
-                                  style: const TextStyle(color: Colors.white,),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                               Padding(
@@ -95,7 +107,9 @@ class ChatScreen extends StatelessWidget {
                                 child: Text(
                                   timeago
                                       .format(postDateTime, allowFromNow: true)
-                                      .toString(),style:const TextStyle(fontSize: 10),
+                                      .toString(),
+                                  style: const TextStyle(
+                                      fontSize: 10, color: Colors.grey),
                                 ),
                               ),
                             ],
@@ -113,7 +127,7 @@ class ChatScreen extends StatelessWidget {
                 height: size.height * 0.07,
                 child: Row(
                   children: [
-                   const Expanded(
+                    const Expanded(
                       child: MessageField(),
                     ),
                     const SizedBox(width: 10),
@@ -122,6 +136,14 @@ class ChatScreen extends StatelessWidget {
                         context
                             .read<MessageCreationProvider>()
                             .addMessage(fromId);
+
+                        LocalNotificationService.sendNotification(
+                            title: "New message",
+                            message: context
+                                .read<MessageCreationProvider>()
+                                .messageController
+                                .text,
+                            token: fcmTocken);
                       },
                       child: Container(
                         padding: const EdgeInsets.all(12),

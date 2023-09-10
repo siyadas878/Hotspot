@@ -112,7 +112,7 @@ class LoginScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                  Text('Don’t have account? Let’s ',
-                style: TextStyle(color: context.read<ThemeProvider>().isDarkMode?Colors.white:Colors.black),),
+                style: TextStyle(color: context.read<ThemeProvider>().isDarkMode?Colors.grey:Colors.black),),
                 InkWell(
                     onTap: () {
                       Navigator.push(

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+import '../../applications/provider/theme_provider/theme_provider.dart';
 
 class AppLogo extends StatelessWidget {
   final double size;
@@ -17,7 +20,7 @@ class AppLogo extends StatelessWidget {
     return Text(
       head.toString(),
       style: GoogleFonts.jollyLodger(
-        fontSize: size,color: color
+        fontSize: size,color: context.read<ThemeProvider>().isDarkMode?Colors.grey:Colors.black
       ),
     );
   }

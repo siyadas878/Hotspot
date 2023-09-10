@@ -15,9 +15,8 @@ class NavScreen extends StatelessWidget {
   final List<Widget> _screens = [
     const HomeScreen(),
     const SearchScreen(),
-    AddScreen(),
     const NotificationScreen(),
-    ProfileScreen(),
+     ProfileScreen(),
   ];
 
   @override
@@ -28,37 +27,49 @@ class NavScreen extends StatelessWidget {
           return _screens[navcontroller.currentIndex];
         },
       ),
-      
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => AddScreen(),
+            ),
+          );
+        },
+        backgroundColor: tealColor,
+        child:const Icon(FontAwesomeIcons.squarePlus),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: Consumer<NavBAr>(
         builder: (context, navcontroller, child) {
-          return BottomNavigationBar(
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(FontAwesomeIcons.house),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(FontAwesomeIcons.magnifyingGlass),
-                label: 'search',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(FontAwesomeIcons.squarePlus),
-                label: 'add',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(FontAwesomeIcons.bell),
-                label: 'notification',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(FontAwesomeIcons.user),
-                label: 'profile',
-              ),
-            ],
-            type: BottomNavigationBarType.shifting,
-            unselectedItemColor: Colors.grey,
-            selectedItemColor: tealColor,
-            currentIndex: navcontroller.currentIndex,
-            onTap: (index) => navcontroller.onNavIndex(index),
+          return BottomAppBar(
+            shape:const CircularNotchedRectangle(),
+            height: 55,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                IconButton(
+                  icon:const Icon(FontAwesomeIcons.house),
+                  color: navcontroller.currentIndex==0?tealColor:Colors.grey,
+                  onPressed: () => navcontroller.onNavIndex(0),
+                ),
+                IconButton(
+                  icon:const Icon(FontAwesomeIcons.magnifyingGlass),
+                  color: navcontroller.currentIndex==1?tealColor:Colors.grey,
+                  onPressed: () => navcontroller.onNavIndex(1),
+                ),
+                const SizedBox(), 
+                IconButton(
+                  icon:const Icon(FontAwesomeIcons.bell),
+                  color: navcontroller.currentIndex==2?tealColor:Colors.grey,
+                  onPressed: () => navcontroller.onNavIndex(2),
+                ),
+                IconButton(
+                  icon:const Icon(FontAwesomeIcons.user),
+                  color: navcontroller.currentIndex==3?tealColor:Colors.grey,
+                  onPressed: () => navcontroller.onNavIndex(3),
+                ),
+              ],
+            ),
           );
         },
       ),

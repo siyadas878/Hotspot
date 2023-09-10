@@ -122,7 +122,7 @@ class SignUp extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                          Text('Le’s go to, ',
-                        style: TextStyle(color: context.read<ThemeProvider>().isDarkMode?Colors.white:Colors.black)),
+                        style: TextStyle(color: context.read<ThemeProvider>().isDarkMode?Colors.grey:Colors.black)),
                         InkWell(
                           onTap: () {
                             Navigator.pop(context);

@@ -6,6 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hotspot/presentation/screens/login_screen/login_screen.dart';
 import 'package:hotspot/presentation/screens/nav_screen/nav_bar.dart';
 import 'package:hotspot/presentation/widgets/snackbar_warning.dart';
+import 'package:provider/provider.dart';
+import '../../../applications/provider/theme_provider/theme_provider.dart';
 import '../../widgets/app_logo.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -14,6 +16,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     wait(context);
+    context.read<ThemeProvider>().initializeTheme();
     var size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.teal[500],
@@ -29,11 +32,11 @@ class SplashScreen extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: size.height * 0.51,
-              right: size.width * 0.34,
+              top: size.height * 0.52,
+              right: size.width * 0.365,
               child: const Text(
                 'make connections',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.white,fontSize: 12),
               ),
             ),
             Positioned(

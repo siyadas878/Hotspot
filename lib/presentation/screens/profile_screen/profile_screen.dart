@@ -230,7 +230,7 @@ buildNumberContainer(int number, String title, BuildContext context,Function fun
     onTap: () => function(),
     child: Container(
       width: size.width * 0.18,
-      height: size.height * 0.09,
+      height: size.height * 0.085,
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.white,
@@ -241,7 +241,7 @@ buildNumberContainer(int number, String title, BuildContext context,Function fun
       child: Center(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
+          child: Column(mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 title,

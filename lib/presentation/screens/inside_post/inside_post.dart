@@ -126,35 +126,51 @@ class InsidePost extends StatelessWidget {
                                                   ConnectionState.waiting) {
                                                 return const CircularProgressIndicator();
                                               }
-                                              return InkWell(
-                                                onTap: () async {
-                                                  await likeProvider.likePost(
-                                                    FirebaseAuth.instance
-                                                        .currentUser!.uid,
-                                                    uniqueIdOfPost,
-                                                    likesnapshot.data!.like!,
-                                                    userId,
-                                                  );
-                                                },
-                                                child: Icon(
-                                                  FontAwesomeIcons.solidHeart,
-                                                  color: likesnapshot
-                                                          .data!.like!
-                                                          .contains(FirebaseAuth
-                                                              .instance
-                                                              .currentUser!
-                                                              .uid)
-                                                      ? tealColor
-                                                      : Colors.grey,
-                                                ),
+                                              return Row(
+                                                children: [
+                                                  Text(
+                                                    postsnapshot
+                                                        .data!.like!.length
+                                                        .toString(),
+                                                    style: const TextStyle(
+                                                        color: Colors.grey),
+                                                  ),
+                                                  SizedBox(
+                                                    width: size.width * 0.01,
+                                                  ),
+                                                  InkWell(
+                                                    onTap: () async {
+                                                      await likeProvider
+                                                          .likePost(
+                                                        FirebaseAuth.instance
+                                                            .currentUser!.uid,
+                                                        uniqueIdOfPost,
+                                                        likesnapshot
+                                                            .data!.like!,
+                                                        userId,
+                                                      );
+                                                    },
+                                                    child: Icon(
+                                                      FontAwesomeIcons
+                                                          .solidHeart,
+                                                      color: likesnapshot
+                                                              .data!.like!
+                                                              .contains(
+                                                                  FirebaseAuth
+                                                                      .instance
+                                                                      .currentUser!
+                                                                      .uid)
+                                                          ? tealColor
+                                                          : Colors.grey,
+                                                    ),
+                                                  ),
+                                                ],
                                               );
                                             },
                                           ),
                                           SizedBox(width: size.width * 0.05),
                                           InkWell(
-                                              onTap: () {
-
-                                              },
+                                              onTap: () {},
                                               child: const Icon(
                                                   FontAwesomeIcons.comment)),
                                         ],
@@ -172,15 +188,24 @@ class InsidePost extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                               Text('Comments',
-                                  style: TextStyle(fontSize: 12,
-                                  color: context.read<ThemeProvider>().isDarkMode?Colors.white:Colors.black)),
+                              Text('Comments',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: context
+                                              .read<ThemeProvider>()
+                                              .isDarkMode
+                                          ? Colors.white
+                                          : Colors.black)),
                               Text(
                                 timeago
                                     .format(postDateTime, allowFromNow: true)
                                     .toString(),
-                                style:  TextStyle(fontSize: 12,
-                                color: context.read<ThemeProvider>().isDarkMode?Colors.white:Colors.black),
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color:
+                                        context.read<ThemeProvider>().isDarkMode
+                                            ? Colors.white
+                                            : Colors.black),
                               ),
                             ],
                           ),
@@ -227,9 +252,13 @@ class InsidePost extends StatelessWidget {
                                         subtitle: Text(
                                           timeago.format(comentTime,
                                               allowFromNow: true),
-                                          style:  TextStyle(
+                                          style: TextStyle(
                                               fontSize: 12,
-                                              color: context.read<ThemeProvider>().isDarkMode?Colors.white:Colors.black),
+                                              color: context
+                                                      .read<ThemeProvider>()
+                                                      .isDarkMode
+                                                  ? Colors.white
+                                                  : Colors.black),
                                         ),
                                         leading: FutureBuilder<UserModel?>(
                                           future: GetProfileData().getUserData(
@@ -261,7 +290,8 @@ class InsidePost extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: ComentTextField(uniqueIdOfPost: uniqueIdOfPost, userId: userId),
+                      child: ComentTextField(
+                          uniqueIdOfPost: uniqueIdOfPost, userId: userId),
                     ),
                   ],
                 ),
@@ -273,4 +303,3 @@ class InsidePost extends StatelessWidget {
     );
   }
 }
-

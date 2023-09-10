@@ -3,18 +3,18 @@ import 'package:hotspot/core/constants/consts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  ThemeData lightTheme = ThemeData.light().copyWith(
-    appBarTheme: const AppBarTheme(
-      color: Colors.teal,
-    ),
-    primaryColor: Colors.teal,
-    primaryColorLight: tealColor,
-    textTheme: const TextTheme(
-      titleLarge: TextStyle(fontFamily: 'archivoNarrow', color: Colors.black),
-      titleMedium: TextStyle(fontFamily: 'archivoNarrow', color: Colors.black),
-      titleSmall: TextStyle(fontFamily: 'archivoNarrow', color: Colors.black),
-    ),
-  );
+ ThemeData lightTheme = ThemeData.light().copyWith(
+  
+  appBarTheme: const AppBarTheme(
+    color: Colors.teal,
+  ),
+  primaryColor: Colors.teal,
+  hintColor: tealColor,
+  highlightColor: tealColor,
+  primaryColorLight: tealColor,
+  primaryColorDark: tealColor,
+  progressIndicatorTheme:const ProgressIndicatorThemeData(color: tealColor),
+);
   ThemeData darkTheme = ThemeData.dark();
 
   bool isDarkMode = false;

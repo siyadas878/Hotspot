@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hotspot/applications/provider/post_provider/follow_provider.dart';
 import 'package:hotspot/core/constants/consts.dart';
 import 'package:hotspot/presentation/screens/user_screen/user_screen.dart';
+import 'package:hotspot/presentation/widgets/shimmer_list.dart';
 import 'package:provider/provider.dart';
 import 'package:hotspot/applications/provider/search_provider/search_provider.dart';
 import 'package:hotspot/presentation/widgets/app_bar.dart';
@@ -64,7 +65,7 @@ class SearchScreen extends StatelessWidget {
                     future: value.getAllUsers(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
+                        return const ShimmerList();
                       } else if (snapshot.hasError) {
                         return const Center(child: Text('Error fetching data'));
                       } else {
@@ -87,7 +88,7 @@ class SearchScreen extends StatelessWidget {
                                     NetworkImage(user.imgpath.toString()),
                               ),
                               title: Text(user.username!),
-                              subtitle: Text(user.name!),
+                              subtitle: Text(user.name!,style:const TextStyle(color: Colors.grey),),
                               trailing: Consumer<FollowProvider>(
                                 builder: (context, value, child) {
                                   String userId = FirebaseAuth
@@ -114,7 +115,6 @@ class SearchScreen extends StatelessWidget {
                                         backgroundcolor: tealColor,
                                       );
                                       },
-                                      // child: 
                                     ),
                                   );
                                 },

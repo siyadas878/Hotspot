@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:shimmer/shimmer.dart'; // Import the shimmer package
+import 'package:shimmer/shimmer.dart';
 import '../../../../applications/provider/post_provider/getall_post.dart';
 import '../../../../applications/provider/post_provider/like_provider.dart';
 import '../../../../applications/provider/profile_provider/get_data_in_profile.dart';
@@ -85,7 +85,7 @@ class PostWidget extends StatelessWidget {
                       baseColor: Colors.grey[300]!,
                       highlightColor: Colors.grey[100]!,
                       child: Container(
-                        height: 48.0, // Adjust the height as needed
+                        height: 48.0,
                       ),
                     );
                   } else if (snapshot.hasError) {
@@ -148,27 +148,39 @@ class PostWidget extends StatelessWidget {
                                     baseColor: Colors.grey[300]!,
                                     highlightColor: Colors.grey[100]!,
                                     child: Container(
-                                      width: 24.0, // Adjust the width as needed
+                                      width: 24.0,
                                     ),
                                   );
                                 }
-                                return InkWell(
-                                  onTap: () async {
-                                    await likeProvider.likePost(
-                                      FirebaseAuth.instance.currentUser!.uid,
-                                      uniqueIdOfPost,
-                                      postsnapshot.data!.like!,
-                                      userId,
-                                    );
-                                  },
-                                  child: Icon(
-                                    FontAwesomeIcons.solidHeart,
-                                    color: postsnapshot.data!.like!
-                                            .contains(FirebaseAuth
-                                                .instance.currentUser!.uid)
-                                        ? tealColor
-                                        : Colors.grey,
-                                  ),
+                                return Row(
+                                  children: [
+                                    Text(
+                                      postsnapshot.data!.like!.length
+                                          .toString(),
+                                      style:
+                                          const TextStyle(color: Colors.grey),
+                                    ),
+                                    SizedBox(width: size.width*0.01,),
+                                    InkWell(
+                                      onTap: () async {
+                                        await likeProvider.likePost(
+                                          FirebaseAuth
+                                              .instance.currentUser!.uid,
+                                          uniqueIdOfPost,
+                                          postsnapshot.data!.like!,
+                                          userId,
+                                        );
+                                      },
+                                      child: Icon(
+                                        FontAwesomeIcons.solidHeart,
+                                        color: postsnapshot.data!.like!
+                                                .contains(FirebaseAuth
+                                                    .instance.currentUser!.uid)
+                                            ? tealColor
+                                            : Colors.grey,
+                                      ),
+                                    ),
+                                  ],
                                 );
                               },
                             ),

@@ -32,6 +32,7 @@ dependencies:
   carousel_slider: ^4.2.1
   cloud_firestore: ^4.8.4
   connectivity_plus: ^4.0.2
+  convex_bottom_bar: ^3.2.0
   cupertino_icons: ^1.0.2
   easy_image_viewer: ^1.2.1
   firebase_auth: ^4.7.2
@@ -49,6 +50,7 @@ dependencies:
   image_picker: ^1.0.2
   json_annotation: ^4.8.1
   provider: ^6.0.5
+  share: ^2.0.1
   shared_preferences: ^2.2.1
   shimmer: ^3.0.0
   timeago: ^3.5.0

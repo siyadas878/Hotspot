@@ -4,7 +4,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hotspot/applications/provider/profile_provider/get_data_in_profile.dart';
 import 'package:hotspot/core/constants/consts.dart';
+import 'package:hotspot/infrastructure/functions/share_app.dart';
 import 'package:hotspot/main.dart';
+import 'package:hotspot/presentation/screens/about_app/about_app.dart';
+import 'package:hotspot/presentation/screens/privacy_policy/privacy_policy.dart';
 import 'package:hotspot/presentation/widgets/snackbar_warning.dart';
 import 'package:hotspot/presentation/widgets/space_with_height.dart';
 import 'package:provider/provider.dart';
@@ -95,7 +98,7 @@ class DrawerScreen extends StatelessWidget {
             title:  Text('Privacy Policy',
             style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context) =>const PrivacyPolicy(),));
             },
           ),
           ListTile(
@@ -103,7 +106,7 @@ class DrawerScreen extends StatelessWidget {
             title:  Text('Share App',
             style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black)),
             onTap: () {
-              Navigator.pop(context);
+              shareApp();
             },
           ),
           ListTile(
@@ -111,7 +114,7 @@ class DrawerScreen extends StatelessWidget {
             title:  Text('About Us',
             style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black)),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context) =>const AboutApp(),));
             },
           ),
           ListTile(

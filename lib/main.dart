@@ -24,8 +24,6 @@ import 'package:provider/provider.dart';
 import 'applications/provider/message_provider/message_provider.dart';
 import 'infrastructure/push_notification.dart';
 
-String serverKey='AAAAI8CcaFs:APA91bGfdBvfWfrFRkwmoeUcc6QYArKGBp4fa0-fzXmWDXAAri0L3-0noHveUq_UK_jCuI2HOzNM8qZmoKDfxLlLJYq1CDn5cjgP40BTQ3UdnHxQOAl5VHN-BcA0BGThOi_Z--wu7-VI';
-
 Future<void> _firebaseMessagingBackGroudHandler(RemoteMessage message) async {
   print(message.data.toString());
   print(message.notification!.toString());

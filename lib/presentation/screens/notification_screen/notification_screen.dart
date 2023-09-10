@@ -3,6 +3,7 @@ import 'package:hotspot/applications/provider/notification_provider/notification
 import 'package:hotspot/applications/provider/profile_provider/get_data_in_profile.dart';
 import 'package:hotspot/domain/notification_model/notification_model.dart';
 import 'package:hotspot/domain/user_model/user_model.dart';
+import 'package:hotspot/presentation/widgets/shimmer_list.dart';
 import '../../widgets/app_bar.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -11,7 +12,6 @@ class NotificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: const MyAppBar(title: 'Notification'),
       body: SafeArea(
@@ -24,7 +24,7 @@ class NotificationScreen extends StatelessWidget {
                   future: NotificationProvider().getAllNotifications(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
+                      return const ShimmerList();
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                       return const Center(child: Text('Empty'));
                     }
@@ -42,8 +42,7 @@ class NotificationScreen extends StatelessWidget {
                             builder: (context, profilesnapshot) {
                               if (profilesnapshot.connectionState ==
                                   ConnectionState.waiting) {
-                                return const Center(
-                                    child: CircularProgressIndicator());
+                                return const ShimmerList();
                               } else if (!profilesnapshot.hasData ||
                                   snapshot.data!.isEmpty) {
                                 return const Center(child: Text('Empty'));

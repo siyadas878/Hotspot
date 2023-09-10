@@ -28,6 +28,7 @@ class NavScreen extends StatelessWidget {
           return _screens[navcontroller.currentIndex];
         },
       ),
+      
       bottomNavigationBar: Consumer<NavBAr>(
         builder: (context, navcontroller, child) {
           return BottomNavigationBar(
@@ -53,6 +54,7 @@ class NavScreen extends StatelessWidget {
                 label: 'profile',
               ),
             ],
+            type: BottomNavigationBarType.shifting,
             unselectedItemColor: Colors.grey,
             selectedItemColor: tealColor,
             currentIndex: navcontroller.currentIndex,

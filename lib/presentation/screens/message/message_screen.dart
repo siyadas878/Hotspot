@@ -44,7 +44,9 @@ class MessageScreen extends StatelessWidget {
               child: FutureBuilder<List<UserModel>>(
                 future: ListMessagedUsers().getMessagedUsers(),
                 builder: (context, snapshot) {
-                  if (snapshot.hasError) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else if (!snapshot.hasData) {
                     return const Center(child: Text('No chat'));
@@ -66,7 +68,7 @@ class MessageScreen extends StatelessWidget {
                                 fromId: user.uid.toString(),
                                 title: user.name!,
                                 imageUrl: user.imgpath!,
-                                fcmTocken: user.fcmTocken??'',
+                                fcmTocken: user.fcmTocken ?? '',
                               ),
                             ),
                           );

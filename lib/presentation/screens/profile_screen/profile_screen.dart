@@ -181,7 +181,31 @@ class ProfileScreen extends StatelessWidget {
                             crossAxisSpacing: 10.0,
                           ),
                           itemBuilder: (context, index) {
-                            return InkWell(
+                            return GestureDetector(
+                              onLongPress: () {
+                                showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Delete'),
+                  content: const Text('Do yo want to delete'),
+                  actions: <Widget>[
+                    TextButton(
+                      child: const Text('CANCEL',style: TextStyle(color: tealColor)),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    TextButton(
+                      child: const Text('DELETE',style: TextStyle(color: tealColor),),
+                      onPressed: () async {
+                        context.read<GetProfileData>().deletePost(uid, snapshot.data![index].postId!);
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ),
+              );
+                              },
                               onTap: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(

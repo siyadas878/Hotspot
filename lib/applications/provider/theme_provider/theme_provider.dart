@@ -9,6 +9,7 @@ class ThemeProvider extends ChangeNotifier {
     color: Colors.teal,
   ),
   primaryColor: Colors.teal,
+  focusColor: tealColor,
   hintColor: tealColor,
   highlightColor: tealColor,
   primaryColorLight: tealColor,

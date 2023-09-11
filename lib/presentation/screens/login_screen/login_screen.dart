@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hotspot/applications/provider/login_provider/login.dart';
@@ -9,6 +10,8 @@ import 'package:hotspot/presentation/widgets/app_logo.dart';
 import 'package:hotspot/presentation/widgets/teal_login_button.dart';
 import 'package:hotspot/presentation/widgets/text_field.dart';
 import 'package:provider/provider.dart';
+import '../../../infrastructure/push_notification.dart';
+import '../../../main.dart';
 import '../../widgets/space_with_height.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -22,7 +25,7 @@ class LoginScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(children: [
             SizedBox(height: size.height * 0.14),
-            const AppLogo(size: 50,head: 'hotspot',color: Colors.black),
+            const AppLogo(size: 50, head: 'hotspot', color: Colors.black),
             const Text('Log In your account',
                 style: TextStyle(color: tealColor, fontSize: 13)),
             SpaceWithHeight(size: size),
@@ -50,6 +53,14 @@ class LoginScreen extends StatelessWidget {
                     Provider.of<LoginProvider>(context, listen: false);
 
                 loginProvider.loginUser(context);
+
+                FirebaseMessaging.onBackgroundMessage(
+                    firebaseMessagingBackGroudHandler);
+                FirebaseMessaging.instance.getInitialMessage();
+                FirebaseMessaging.onMessage.listen((message) {
+                  LocalNotificationService.display(message);
+                });
+                LocalNotificationService.storeToken();
               },
               text: 'Login',
               isLoading: Provider.of<LoginProvider>(context).isLoading,
@@ -111,14 +122,19 @@ class LoginScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                 Text('Don’t have account? Let’s ',
-                style: TextStyle(color: context.read<ThemeProvider>().isDarkMode?Colors.grey:Colors.black),),
+                Text(
+                  'Don’t have account? Let’s ',
+                  style: TextStyle(
+                      color: context.read<ThemeProvider>().isDarkMode
+                          ? Colors.grey
+                          : Colors.black),
+                ),
                 InkWell(
                     onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>const SignUp(),
+                            builder: (context) => const SignUp(),
                           ));
                     },
                     child: const Text(

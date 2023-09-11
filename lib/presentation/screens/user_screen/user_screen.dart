@@ -36,7 +36,12 @@ class UserScreen extends StatelessWidget {
         final UserModel user = snapshot.data!;
 
         return Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            title: Text(
+              snapshot.data!.username!,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
           body: SafeArea(
             child: Column(
               children: [
@@ -260,10 +265,12 @@ buildNumberContainer(String number, String title, BuildContext context) {
           children: [
             Text(
               title,
-              style:  TextStyle(fontSize: size.width*0.025, color: Colors.white),
+              style:
+                  TextStyle(fontSize: size.width * 0.025, color: Colors.white),
             ),
-                          SizedBox(height: size.height*0.01,),
-
+            SizedBox(
+              height: size.height * 0.01,
+            ),
             Text(
               number.toString(),
               style: const TextStyle(fontSize: 20, color: Colors.white),

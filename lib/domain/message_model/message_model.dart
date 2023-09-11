@@ -8,6 +8,7 @@ class MessageModel {
   String? userId;
   String? time;
   String? message;
+  String? id;
 
   MessageModel({
     this.messageId,
@@ -15,6 +16,7 @@ class MessageModel {
     this.userId,
     this.time,
     this.message,
+    this.id
   });
 
   factory MessageModel.fromJson(Map<String, dynamic> json) {

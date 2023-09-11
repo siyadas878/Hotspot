@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hotspot/applications/provider/message_provider/message_provider.dart';
+import 'package:hotspot/domain/message_model/message_model.dart';
 import 'package:hotspot/presentation/widgets/app_bar.dart';
 import 'package:hotspot/presentation/widgets/back_arrow.dart';
 import '../../../applications/provider/message_provider/list_messages_users.dart';
@@ -84,9 +86,18 @@ class MessageScreen extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        subtitle: const Text(
-                          'data',
-                          style: TextStyle(color: Colors.grey),
+                        subtitle: FutureBuilder<MessageModel?>(
+                          future: MessageCreationProvider().getLastMessage(user.uid.toString()),
+                          builder: (context, snapshot) {
+                             if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                            return Text(
+                            snapshot.data!.message!,
+                            style:const TextStyle(color: Colors.grey),
+                          );
+                          },
+                          // child: const 
                         ),
                       );
                     },

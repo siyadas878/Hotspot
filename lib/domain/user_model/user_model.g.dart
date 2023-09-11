@@ -19,7 +19,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       following: (json['following'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-          fcmTocken: json['fcmToken'] as String?,
+          fcmTocken: json['fcmTocken'] as String?,
     );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{

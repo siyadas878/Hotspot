@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hotspot/applications/provider/post_provider/like_provider.dart';
+import 'package:hotspot/core/constants/consts.dart';
 import 'package:hotspot/presentation/screens/home_screen/widgets/post_widget.dart';
+import 'package:hotspot/presentation/widgets/post_shimmer.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/app_bar.dart';
-import '../../widgets/shimmer_list.dart';
 import '../drawer_screen/drawer.dart';
 import '../message/message_screen.dart';
 import 'package:hotspot/applications/provider/post_provider/getall_post.dart';
@@ -38,7 +39,7 @@ class HomeScreen extends StatelessWidget {
         future: GetallPostProvider().getAllPosts(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const ShimmerList();
+            return const PostShimmerList();
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -46,24 +47,28 @@ class HomeScreen extends StatelessWidget {
           } else {
             final posts = snapshot.data!;
 
-            return ListView.builder(
-              itemCount: posts.length,
-              itemBuilder: (context, index) {
-                final post = posts[index];
-                final imageUrl = post.imgUrl!;
-                return ChangeNotifierProvider(
-                  create: (context) => LikeProvider(),
-                  child: PostWidget(
-                    size: size,
-                    imageUrl: imageUrl,
-                    like: posts[index].like!,
-                    userId: posts[index].userId.toString(),
-                    uniqueIdOfPost: posts[index].postId!,
-                    time: posts[index].time!,
-                    caption: posts[index].caption!,
-                  ),
-                );
-              },
+            return RefreshIndicator(
+              color: tealColor,
+              onRefresh: () => context.read<GetallPostProvider>().getAllPosts(),
+              child: ListView.builder(
+                itemCount: posts.length,
+                itemBuilder: (context, index) {
+                  final post = posts[index];
+                  final imageUrl = post.imgUrl!;
+                  return ChangeNotifierProvider(
+                    create: (context) => LikeProvider(),
+                    child: PostWidget(
+                      size: size,
+                      imageUrl: imageUrl,
+                      like: posts[index].like!,
+                      userId: posts[index].userId.toString(),
+                      uniqueIdOfPost: posts[index].postId!,
+                      time: posts[index].time!,
+                      caption: posts[index].caption!,
+                    ),
+                  );
+                },
+              ),
             );
           }
         },

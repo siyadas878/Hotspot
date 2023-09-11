@@ -17,7 +17,7 @@ class LocalNotificationService {
   static void initialize() {
     const InitializationSettings initializationSettings =
         InitializationSettings(
-            android: AndroidInitializationSettings("assets/logo.jpg"));
+            android: AndroidInitializationSettings("assets/hotsopticon.jpg"));
     _flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
@@ -37,15 +37,14 @@ class LocalNotificationService {
           message.notification!.body,
           notificationDetails);
     } on Exception catch (e) {
-      print("erorr>>>>>>>>$e");
+      print("erorr   $e");
     }
   }
 
   static Future<void> sendNotification(
       {String? title, String? message, String? token}) async {
-    print("\n\n\n\n\n\n\n\n");
+        
     print("token is $token");
-    print("\n\n\n\n\n\n\n\n");
 
     final data = {
       "click_action": "FLUTTER_NOTIFICATION_CLICK",
@@ -73,9 +72,7 @@ class LocalNotificationService {
       if (r.statusCode == 200) {
         print("done");
       } else {
-        print("\n\n\n\n\n\n\n\n");
         print("the erorr is this ${r.statusCode}");
-        print("\n\n\n\n\n\n\n\n");
       }
     } catch (e) {
       print("Exception $e");
@@ -88,7 +85,7 @@ class LocalNotificationService {
       FirebaseFirestore.instance
           .collection("users")
           .doc(FirebaseAuth.instance.currentUser!.uid)
-          .set({"fcmToken": token!}, SetOptions(merge: true));
+          .set({"fcmTocken": token!}, SetOptions(merge: true));
     } catch (e) {
       print("erorr is $e");
     }

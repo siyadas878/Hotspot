@@ -129,13 +129,13 @@ class DrawerScreen extends StatelessWidget {
                   content: const Text('Do yo want to LogOut'),
                   actions: <Widget>[
                     TextButton(
-                      child: const Text('CANCEL'),
+                      child: const Text('CANCEL',style: TextStyle(color: tealColor)),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
                     ),
                     TextButton(
-                      child: const Text('LOGOUT'),
+                      child: const Text('LOGOUT',style: TextStyle(color: tealColor)),
                       onPressed: () async {
                         try {
                           await FirebaseAuth.instance.signOut();

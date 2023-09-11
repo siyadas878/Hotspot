@@ -56,4 +56,17 @@ class GetProfileData extends ChangeNotifier {
     }
     return [];
   }
+
+   Future<void>deletePost(String uid,String id) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('posts')
+          .doc(uid)
+          .collection('this_user')
+          .doc(id).delete();
+      notifyListeners();
+    } catch (e) {
+      log('errror--$e');
+    }
+  }
 }

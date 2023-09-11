@@ -23,7 +23,7 @@ class AboutApp extends StatelessWidget {
                         SizedBox(height: MediaQuery.of(context).size.height * .005),
                         ClipOval(
                           child: Image.asset(
-                            'assets/logo.jpg',
+                            'assets/hotsopticon.jpg',
                             width: 100.0,
                             height: 100.0,
                           ),

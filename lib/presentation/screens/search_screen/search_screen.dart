@@ -43,7 +43,7 @@ class SearchScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30),
                       borderSide: BorderSide.none,
                     ),
-                    labelText: 'Search',
+                    // labelText: 'Search',
                     prefixIcon: const Icon(Icons.search),
                     suffixIcon: IconButton(
                       icon: const Icon(Icons.clear),

@@ -9,14 +9,14 @@ import '../../../domain/message_model/message_model.dart';
 class MessageCreationProvider extends ChangeNotifier {
   final TextEditingController messageController = TextEditingController();
   String userId = FirebaseAuth.instance.currentUser!.uid;
-  UidOfMessages adduid=UidOfMessages();
+  UidOfMessages adduid = UidOfMessages();
 
   Future<void> addMessage(String fromId) async {
     String addinguid = fromId + userId;
     List<String> charList = addinguid.split('');
     charList.sort();
     String uniqueId = charList.join();
-
+   String id = DateTime.now().millisecondsSinceEpoch.toString();
     try {
       MessageModel message = MessageModel(
         fromId: fromId,
@@ -24,29 +24,49 @@ class MessageCreationProvider extends ChangeNotifier {
         messageId: uniqueId,
         time: DateTime.now().toString(),
         userId: userId,
+        id: id
       );
 
       CollectionReference usersCollection =
           FirebaseFirestore.instance.collection('chat');
 
       Map<String, dynamic> messageData = message.toJson();
+      
 
       await usersCollection
           .doc(uniqueId)
-          .set({'id': uniqueId, 'fromId': fromId, 'userId': userId});
+          .set({'id': uniqueId, 'fromId': fromId, 'userId': userId, });
 
       await usersCollection
           .doc(uniqueId)
-          .collection('messages')
-          .add(messageData);
+          .collection('messages').doc(id)
+          .set(messageData);
 
-      Timer(const Duration(seconds: 1), () {
-        messageController.clear();
-        notifyListeners();
-      });
+      messageController.clear();
+      notifyListeners();
+
       adduid.addUidOfMessage(userId, fromId);
     } catch (error) {
       log("Error adding message: $error");
+    }
+  }
+
+  Future<void> deleteMessage(String fromId, String id) async {
+    String addinguid = fromId + userId;
+    List<String> charList = addinguid.split('');
+    charList.sort();
+    String uniqueId = charList.join();
+
+    try {
+      await FirebaseFirestore.instance
+          .collection('chat')
+          .doc(uniqueId)
+          .collection('messages')
+          .doc(id)
+          .delete();
+      notifyListeners();
+    } catch (e) {
+      log('Error getting messages: $e');
     }
   }
 
@@ -71,7 +91,7 @@ class MessageCreationProvider extends ChangeNotifier {
       }).toList();
 
       allmessages = message;
-      
+
       notifyListeners();
       return allmessages;
     } catch (e) {
@@ -82,38 +102,36 @@ class MessageCreationProvider extends ChangeNotifier {
   }
 
   Future<MessageModel?> getLastMessage(String fromId) async {
-  String addinguid = fromId + userId;
-  List<String> charList = addinguid.split('');
-  charList.sort();
-  String uniqueId = charList.join();
+    String addinguid = fromId + userId;
+    List<String> charList = addinguid.split('');
+    charList.sort();
+    String uniqueId = charList.join();
 
-  try {
-    var userCollectionSnapshot = await FirebaseFirestore.instance
-        .collection('chat')
-        .doc(uniqueId)
-        .collection('messages')
-        .orderBy('time', descending: true) 
-        .limit(1)
-        .get();
+    try {
+      var userCollectionSnapshot = await FirebaseFirestore.instance
+          .collection('chat')
+          .doc(uniqueId)
+          .collection('messages')
+          .orderBy('time', descending: true)
+          .limit(1)
+          .get();
 
-    if (userCollectionSnapshot.docs.isNotEmpty) {
-      Map<String, dynamic> data = userCollectionSnapshot.docs.first.data();
-      return MessageModel.fromJson(data);
-    } else {
-      return null;
+      if (userCollectionSnapshot.docs.isNotEmpty) {
+        Map<String, dynamic> data = userCollectionSnapshot.docs.first.data();
+        return MessageModel.fromJson(data);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      log('Error getting last message: $e');
     }
-  } catch (e) {
-    log('Error getting last message: $e');
+
+    return null;
   }
-
-  return null; 
-}
-
 
   @override
   void dispose() {
     messageController.dispose();
     super.dispose();
   }
-
 }

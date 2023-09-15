@@ -17,7 +17,7 @@ class LocalNotificationService {
   static void initialize() {
     const InitializationSettings initializationSettings =
         InitializationSettings(
-            android: AndroidInitializationSettings("assets/hotsopticon.jpg"));
+            android: AndroidInitializationSettings("@mipmap/ic_launcher"));
     _flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
@@ -82,6 +82,7 @@ class LocalNotificationService {
   static storeToken() async {
     try {
       String? token = await FirebaseMessaging.instance.getToken();
+      print("-----------------${token}");
       FirebaseFirestore.instance
           .collection("users")
           .doc(FirebaseAuth.instance.currentUser!.uid)

@@ -163,79 +163,82 @@ class ProfileScreen extends StatelessWidget {
                     child: Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 13),
-                  child: FutureBuilder<List<PostModel>>(
-                    future: GetProfileData().getposts(uid),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        return const Center(child: Text('No data available.'));
-                      } else {
-                        return GridView.builder(
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            mainAxisSpacing: 10.0,
-                            crossAxisSpacing: 10.0,
-                          ),
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onLongPress: () {
-                                showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('Delete'),
-                  content: const Text('Do yo want to delete'),
-                  actions: <Widget>[
-                    TextButton(
-                      child: const Text('CANCEL',style: TextStyle(color: tealColor)),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                    TextButton(
-                      child: const Text('DELETE',style: TextStyle(color: tealColor),),
-                      onPressed: () async {
-                        context.read<GetProfileData>().deletePost(uid, snapshot.data![index].postId!);
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                ),
-              );
-                              },
-                              onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => InsidePost(
-                                        imageUrl: snapshot.data![index].imgUrl
-                                            as String,
-                                        userId: uid,
-                                        uniqueIdOfPost:
-                                            snapshot.data![index].postId!,
-                                        time: snapshot.data![index].time!,
-                                        caption:
-                                            snapshot.data![index].caption!),
-                                  )),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: NetworkImage(
-                                        snapshot.data![index].imgUrl as String),
-                                    fit: BoxFit.cover,
+                  child: Consumer<GetProfileData>(
+                    builder: (context, value, child) {
+                      return FutureBuilder<List<PostModel>>(
+                      future: value.getposts(uid),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                          return const Center(child: Text('No data available.'));
+                        } else {
+                          return GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              mainAxisSpacing: 10.0,
+                              crossAxisSpacing: 10.0,
+                            ),
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onLongPress: () {
+                                  showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                    title: const Text('Delete'),
+                    content: const Text('Do yo want to delete'),
+                    actions: <Widget>[
+                      TextButton(
+                        child: const Text('CANCEL',style: TextStyle(color: tealColor)),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: const Text('DELETE',style: TextStyle(color: tealColor),),
+                        onPressed: () async {
+                          context.read<GetProfileData>().deletePost(uid, snapshot.data![index].postId!);
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
                                   ),
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.teal,
+                                );
+                                },
+                                onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => InsidePost(
+                                          imageUrl: snapshot.data![index].imgUrl
+                                              as String,
+                                          userId: uid,
+                                          uniqueIdOfPost:
+                                              snapshot.data![index].postId!,
+                                          time: snapshot.data![index].time!,
+                                          caption:
+                                              snapshot.data![index].caption!),
+                                    )),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                          snapshot.data![index].imgUrl as String),
+                                      fit: BoxFit.cover,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.teal,
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                          itemCount: snapshot.data!.length,
-                        );
-                      }
+                              );
+                            },
+                            itemCount: snapshot.data!.length,
+                          );
+                        }
+                      },
+                    );
                     },
+                    // child: 
                   ),
                 ))
               ],

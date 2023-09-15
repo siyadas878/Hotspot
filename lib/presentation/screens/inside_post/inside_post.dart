@@ -11,6 +11,7 @@ import 'package:hotspot/domain/user_model/user_model.dart';
 import 'package:hotspot/presentation/screens/inside_post/widgets/coment_textfield.dart';
 import 'package:hotspot/presentation/screens/user_screen/user_screen.dart';
 import 'package:hotspot/presentation/widgets/app_bar.dart';
+import 'package:hotspot/presentation/widgets/post_shimmer.dart';
 import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../../../applications/provider/post_provider/getall_post.dart';
@@ -73,8 +74,7 @@ class InsidePost extends StatelessWidget {
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return const Center(
-                                  child: CircularProgressIndicator());
+                              return const PostShimmerList();
                             }
                             return ListTile(
                               leading: CircleAvatar(

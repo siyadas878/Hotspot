@@ -20,6 +20,8 @@ import 'package:hotspot/applications/provider/signup_provider/signup.dart';
 import 'package:hotspot/applications/provider/profile_provider/update.dart';
 import 'package:hotspot/applications/provider/profile_provider/update_user_details.dart';
 import 'package:hotspot/applications/provider/signup_provider/user_signup.dart';
+import 'package:hotspot/applications/provider/story_provider/add_story.dart';
+import 'package:hotspot/applications/provider/story_provider/get_all_story.dart';
 import 'package:hotspot/applications/provider/theme_provider/theme_provider.dart';
 import 'package:hotspot/presentation/screens/splash_screen/splash_screen.dart';
 import 'package:provider/provider.dart';
@@ -27,14 +29,16 @@ import 'applications/provider/message_provider/message_provider.dart';
 import 'infrastructure/push_notification.dart';
 
 Future<void> firebaseMessagingBackGroudHandler(RemoteMessage message) async {
-  print(message.data.toString());
-  print(message.notification!.toString());
+  print("Handling background message: ${message.data.toString()}");
+  print("Notification: ${message.notification!.toString()}");
+  LocalNotificationService.display(message);
 }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   LocalNotificationService.initialize();
+  LocalNotificationService.storeToken();
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackGroudHandler);
   runApp(const MyApp());
 }
@@ -111,6 +115,12 @@ class _MyAppState extends State<MyApp> {
           ),
           ChangeNotifierProvider(
             create: (context) => ThemeProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => AddStory(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => GetallStoryProvider(),
           ),
         ],
         child: Consumer<ThemeProvider>(

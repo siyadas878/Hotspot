@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hotspot/applications/provider/post_provider/like_provider.dart';
 import 'package:hotspot/core/constants/consts.dart';
 import 'package:hotspot/presentation/screens/home_screen/widgets/post_widget.dart';
+import 'package:hotspot/presentation/screens/story_screen/story_screen.dart';
 import 'package:hotspot/presentation/widgets/post_shimmer.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/app_bar.dart';
@@ -21,17 +22,34 @@ class HomeScreen extends StatelessWidget {
       drawer: DrawerScreen(),
       appBar: MyAppBar(
         title: 'Hotspot',
-        trailing: IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const MessageScreen()),
-            );
-          },
-          icon: const Icon(
-            FontAwesomeIcons.facebookMessenger,
-            color: Colors.white,
-          ),
+        trailing: Row(
+          children: [
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const StoryScreen()),
+                );
+              },
+              icon: const Icon(
+                FontAwesomeIcons.faceGrinStars,
+                color: Colors.white,
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MessageScreen()),
+                );
+              },
+              icon: const Icon(
+                FontAwesomeIcons.facebookMessenger,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(width: size.width*0.01,)
+          ],
         ),
       ),
       body: SafeArea(
@@ -76,4 +94,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-

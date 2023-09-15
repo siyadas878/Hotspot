@@ -53,54 +53,67 @@ class MessageScreen extends StatelessWidget {
                   } else if (!snapshot.hasData) {
                     return const Center(child: Text('No chat'));
                   }
-                  return ListView.separated(
-                    padding: const EdgeInsets.only(top: 15),
-                    separatorBuilder: (context, index) => SizedBox(
-                      height: size.height * 0.02,
-                    ),
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      final user = snapshot.data![index];
-                      return ListTile(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ChatScreen(
-                                fromId: user.uid.toString(),
-                                title: user.name!,
-                                imageUrl: user.imgpath!,
-                                fcmTocken: user.fcmTocken ?? '',
+                  return RefreshIndicator(
+                    onRefresh: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MessageScreen(),
+                        )),
+                    child: ListView.separated(
+                      padding: const EdgeInsets.only(top: 15),
+                      separatorBuilder: (context, index) => SizedBox(
+                        height: size.height * 0.02,
+                      ),
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        final user = snapshot.data![index];
+                        return ListTile(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChatScreen(
+                                  fromId: user.uid.toString(),
+                                  title: user.name!,
+                                  imageUrl: user.imgpath!,
+                                  fcmTocken: user.fcmTocken ?? '',
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                        leading: CircleAvatar(
-                          radius: 30,
-                          backgroundImage:
-                              NetworkImage(user.imgpath.toString()),
-                        ),
-                        title: Text(
-                          user.name!,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        subtitle: FutureBuilder<MessageModel?>(
-                          future: MessageCreationProvider().getLastMessage(user.uid.toString()),
-                          builder: (context, snapshot) {
-                             if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                            return Text(
-                            snapshot.data!.message!,
-                            style:const TextStyle(color: Colors.grey),
-                          );
+                            );
                           },
-                          // child: const 
-                        ),
-                      );
-                    },
+                          leading: CircleAvatar(
+                            radius: 30,
+                            backgroundImage:
+                                NetworkImage(user.imgpath.toString()),
+                          ),
+                          title: Text(
+                            user.name!,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          subtitle: FutureBuilder<MessageModel?>(
+                            future: MessageCreationProvider()
+                                .getLastMessage(user.uid.toString()),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Center(
+                                    child: CircularProgressIndicator());
+                              }else if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Center(
+                                    child: Text('No messages'));
+                              }
+                              return Text(
+                                snapshot.data!.message!,
+                                style: const TextStyle(color: Colors.grey),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
                   );
                 },
               ),

@@ -4,6 +4,7 @@ import 'package:hotspot/presentation/screens/chat_screen/widgets/message_field.d
 import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../../../applications/provider/message_provider/message_provider.dart';
+import '../../../core/constants/consts.dart';
 import '../../../domain/message_model/message_model.dart';
 import '../../../infrastructure/push_notification.dart';
 
@@ -65,7 +66,6 @@ class ChatScreen extends StatelessWidget {
                       final messages = snapshot.data!;
 
                       return ListView.separated(
-                        reverse: true,
                         keyboardDismissBehavior:
                             ScrollViewKeyboardDismissBehavior.onDrag,
                         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -82,28 +82,63 @@ class ChatScreen extends StatelessWidget {
                                 ? CrossAxisAlignment.start
                                 : CrossAxisAlignment.end,
                             children: [
-                              Container(
-                                padding: const EdgeInsets.all(12),
-                                decoration: BoxDecoration(
-                                  color: isCurrentUser
-                                      ? Colors.teal
-                                      : Colors.teal[300],
-                                  borderRadius: isCurrentUser
-                                      ? const BorderRadius.only(
-                                          topLeft: Radius.circular(20),
-                                          topRight: Radius.circular(20),
-                                          bottomRight: Radius.circular(20),
-                                        )
-                                      : const BorderRadius.only(
-                                          topLeft: Radius.circular(20),
-                                          topRight: Radius.circular(20),
-                                          bottomLeft: Radius.circular(20),
+                              GestureDetector(
+                                onLongPress: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: const Text('Delete'),
+                                      content:
+                                          const Text('Do yo want to delete'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: const Text('CANCEL',
+                                              style:
+                                                  TextStyle(color: tealColor)),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
                                         ),
-                                ),
-                                child: Text(
-                                  messages[index].message!,
-                                  style: const TextStyle(
-                                    color: Colors.white,
+                                        TextButton(
+                                          child: const Text(
+                                            'DELETE',
+                                            style: TextStyle(color: tealColor),
+                                          ),
+                                          onPressed: () async {
+                                            context
+                                                .read<MessageCreationProvider>()
+                                                .deleteMessage(fromId,
+                                                    snapshot.data![index].id!);
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    color: isCurrentUser
+                                        ? Colors.teal
+                                        : Colors.teal[300],
+                                    borderRadius: isCurrentUser
+                                        ? const BorderRadius.only(
+                                            topLeft: Radius.circular(20),
+                                            topRight: Radius.circular(20),
+                                            bottomRight: Radius.circular(20),
+                                          )
+                                        : const BorderRadius.only(
+                                            topLeft: Radius.circular(20),
+                                            topRight: Radius.circular(20),
+                                            bottomLeft: Radius.circular(20),
+                                          ),
+                                  ),
+                                  child: Text(
+                                    messages[index].message!,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
                               ),

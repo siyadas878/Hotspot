@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -48,5 +49,18 @@ class FollowProvider extends ChangeNotifier {
       return false;
     }
     return true;
+  }
+  Future<bool> isFollowing(String personId) async {
+    String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+    var userDetails = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(currentUserId)
+        .get();
+    List<dynamic> details = userDetails['following'];
+    // notifyListeners();
+    if (details.contains(personId)) {
+      return true;
+    }
+    return false;
   }
 }

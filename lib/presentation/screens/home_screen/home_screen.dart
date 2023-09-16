@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hotspot/applications/provider/post_provider/like_provider.dart';
 import 'package:hotspot/core/constants/consts.dart';
 import 'package:hotspot/presentation/screens/home_screen/widgets/post_widget.dart';
-import 'package:hotspot/presentation/screens/story_screen/story_screen.dart';
+import 'package:hotspot/presentation/screens/story_screen/widgets/story_viwer.dart';
 import 'package:hotspot/presentation/widgets/post_shimmer.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/app_bar.dart';
@@ -28,7 +28,7 @@ class HomeScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const StoryScreen()),
+                  MaterialPageRoute(builder: (context) => const Home()),
                 );
               },
               icon: const Icon(

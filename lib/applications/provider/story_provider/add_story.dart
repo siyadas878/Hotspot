@@ -16,7 +16,7 @@ class AddStory extends ChangeNotifier {
         'imgUrl': imgUrl,
         'id': uid,
         'time': time,
-        'postId': id,
+        'storyId': id,
       };
 
       await postsCollection
@@ -29,6 +29,21 @@ class AddStory extends ChangeNotifier {
       notifyListeners();
     } catch (error) {
       log("Error adding post: $error");
+    }
+  }
+  Future<void> autodeletStory() async {
+    final sdata = await FirebaseFirestore.instance.collection('story').get();
+    for (var element in sdata.docs) {
+      Timestamp time = element['time'];
+      int now = DateTime.now().millisecondsSinceEpoch;
+      final duration = now - time.millisecondsSinceEpoch;
+      // 86400000
+      if (duration > 86400000) {
+        await FirebaseFirestore.instance
+            .collection("story")
+            .doc(element['storyId'])
+            .delete();
+      }
     }
   }
 }

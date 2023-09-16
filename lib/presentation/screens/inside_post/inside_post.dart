@@ -224,59 +224,111 @@ class InsidePost extends StatelessWidget {
                               uniqueIdOfPost,
                               userId,
                             ),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
+                            builder: (context, comentsnapshot) {
+                              if (comentsnapshot.connectionState ==
                                   ConnectionState.waiting) {
                                 return const Center(
                                   child: CircularProgressIndicator(),
                                 );
                               }
-                              if (snapshot.hasError) {
-                                return Text('Error: ${snapshot.error}');
-                              } else if (!snapshot.hasData ||
-                                  snapshot.data!.isEmpty) {
+                              if (comentsnapshot.hasError) {
+                                return Text('Error: ${comentsnapshot.error}');
+                              } else if (!comentsnapshot.hasData ||
+                                  comentsnapshot.data!.isEmpty) {
                                 return const Center(
                                   child: Text('No comments yet'),
                                 );
                               } else {
-                                List<Coment> comments = snapshot.data!;
+                                List<Coment> comments = comentsnapshot.data!;
                                 return ListView.builder(
                                   itemCount: comments.length,
                                   itemBuilder: (context, index) {
                                     Coment comment = comments[index];
                                     DateTime comentTime =
                                         DateTime.parse(comment.time!);
-                                    return Card(
-                                      child: ListTile(
-                                        title: Text(comment.comment.toString()),
-                                        subtitle: Text(
-                                          timeago.format(comentTime,
-                                              allowFromNow: true),
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color: context
-                                                      .read<ThemeProvider>()
-                                                      .isDarkMode
-                                                  ? Colors.white
-                                                  : Colors.black),
-                                        ),
-                                        leading: FutureBuilder<UserModel?>(
-                                          future: GetProfileData().getUserData(
-                                              comment.commentedUserId!),
-                                          builder: (context, userimage) {
-                                            if (userimage.hasData &&
-                                                userimage.data != null) {
-                                              final userImage = userimage.data!;
-                                              final imgPath = userImage.imgpath;
-                                              return CircleAvatar(
-                                                backgroundImage:
-                                                    NetworkImage(imgPath!),
-                                              );
-                                            } else {
-                                              return const Text(
-                                                  'No user data available');
-                                            }
-                                          },
+                                    return GestureDetector(
+                                      onLongPress: () {
+                                        if (comentsnapshot
+                                                .data![index].commentedUserId ==
+                                            FirebaseAuth
+                                                .instance.currentUser!.uid) {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                              title: const Text('Delete'),
+                                              content: const Text(
+                                                  'Do yo want to delete'),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  child: const Text('CANCEL',
+                                                      style: TextStyle(
+                                                          color: tealColor)),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                                TextButton(
+                                                  child: const Text(
+                                                    'DELETE',
+                                                    style: TextStyle(
+                                                        color: tealColor),
+                                                  ),
+                                                  onPressed: () async {
+                                                    context
+                                                        .read<
+                                                            LikeComentProvider>()
+                                                        .deleteComent(
+                                                            comentsnapshot
+                                                                .data![index]
+                                                                .commentedUserId!,
+                                                            uniqueIdOfPost,
+                                                            comentsnapshot
+                                                                .data![index]
+                                                                .commentId!);
+                                                    Navigator.pop(context);
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        }
+                                      },
+                                      child: Card(
+                                        child: ListTile(
+                                          title:
+                                              Text(comment.comment.toString()),
+                                          subtitle: Text(
+                                            timeago.format(comentTime,
+                                                allowFromNow: true),
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                color: context
+                                                        .read<ThemeProvider>()
+                                                        .isDarkMode
+                                                    ? Colors.white
+                                                    : Colors.black),
+                                          ),
+                                          leading: FutureBuilder<UserModel?>(
+                                            future: GetProfileData()
+                                                .getUserData(
+                                                    comment.commentedUserId!),
+                                            builder: (context, userimage) {
+                                              if (userimage.hasData &&
+                                                  userimage.data != null) {
+                                                final userImage =
+                                                    userimage.data!;
+                                                final imgPath =
+                                                    userImage.imgpath;
+                                                return CircleAvatar(
+                                                  backgroundImage:
+                                                      NetworkImage(imgPath!),
+                                                );
+                                              } else {
+                                                return const Text(
+                                                    'No user data available');
+                                              }
+                                            },
+                                          ),
                                         ),
                                       ),
                                     );

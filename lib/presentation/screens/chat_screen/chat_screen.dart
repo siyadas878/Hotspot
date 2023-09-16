@@ -65,56 +65,90 @@ class ChatScreen extends StatelessWidget {
 
                       final messages = snapshot.data!;
 
-                      return ListView.separated(
+                      DateTime? previousMessageDate;
+
+                      return ListView.builder(
                         keyboardDismissBehavior:
                             ScrollViewKeyboardDismissBehavior.onDrag,
                         padding: const EdgeInsets.symmetric(horizontal: 10),
-                        separatorBuilder: (context, index) =>
-                            SizedBox(height: size.height * 0.02),
                         itemCount: messages.length,
                         itemBuilder: (context, index) {
                           DateTime postDateTime =
                               DateTime.parse(messages[index].time.toString());
                           bool isCurrentUser = messages[index].fromId == userId;
 
+                          bool showDate = previousMessageDate == null ||
+                              previousMessageDate!.day != postDateTime.day ||
+                              previousMessageDate!.month !=
+                                  postDateTime.month ||
+                              previousMessageDate!.year != postDateTime.year;
+
+                          previousMessageDate = postDateTime;
+
                           return Column(
                             crossAxisAlignment: isCurrentUser
                                 ? CrossAxisAlignment.start
                                 : CrossAxisAlignment.end,
                             children: [
+                              if (showDate)
+                                Center(
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 4,
+                                      horizontal: 8,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[300],
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Text(
+                                      "${postDateTime.day}/${postDateTime.month}/${postDateTime.year}",
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        color:tealColor,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               GestureDetector(
                                 onLongPress: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      title: const Text('Delete'),
-                                      content:
-                                          const Text('Do yo want to delete'),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: const Text('CANCEL',
-                                              style:
-                                                  TextStyle(color: tealColor)),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        ),
-                                        TextButton(
-                                          child: const Text(
-                                            'DELETE',
-                                            style: TextStyle(color: tealColor),
+                                  if (messages[index].userId == userId) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: const Text('Delete'),
+                                        content:
+                                            const Text('Do yo want to delete'),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: const Text('CANCEL',
+                                                style: TextStyle(
+                                                    color: tealColor)),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
                                           ),
-                                          onPressed: () async {
-                                            context
-                                                .read<MessageCreationProvider>()
-                                                .deleteMessage(fromId,
-                                                    snapshot.data![index].id!);
-                                            Navigator.pop(context);
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  );
+                                          TextButton(
+                                            child: const Text(
+                                              'DELETE',
+                                              style:
+                                                  TextStyle(color: tealColor),
+                                            ),
+                                            onPressed: () async {
+                                              context
+                                                  .read<
+                                                      MessageCreationProvider>()
+                                                  .deleteMessage(
+                                                      fromId,
+                                                      snapshot
+                                                          .data![index].id!);
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.all(12),
@@ -149,7 +183,9 @@ class ChatScreen extends StatelessWidget {
                                       .format(postDateTime, allowFromNow: true)
                                       .toString(),
                                   style: const TextStyle(
-                                      fontSize: 10, color: Colors.grey),
+                                    fontSize: 10,
+                                    color: Colors.grey,
+                                  ),
                                 ),
                               ),
                             ],

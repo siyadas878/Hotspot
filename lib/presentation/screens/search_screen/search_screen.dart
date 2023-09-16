@@ -1,3 +1,5 @@
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hotspot/applications/provider/post_provider/follow_provider.dart';
@@ -7,8 +9,6 @@ import 'package:hotspot/presentation/widgets/shimmer_list.dart';
 import 'package:provider/provider.dart';
 import 'package:hotspot/applications/provider/search_provider/search_provider.dart';
 import 'package:hotspot/presentation/widgets/app_bar.dart';
-import '../../../applications/provider/profile_provider/get_data_in_profile.dart';
-import '../../../domain/user_model/user_model.dart';
 import '../../widgets/follow_icon.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -100,20 +100,23 @@ class SearchScreen extends StatelessWidget {
                                     onTap: () {
                                       Provider.of<FollowProvider>(context,listen: false).followfollowing(userId, otherUserId);
                                     },
-                                    child: FutureBuilder<UserModel?>(
-                                      future: GetProfileData().getUserData(FirebaseAuth.instance.currentUser!.uid),
-                                      builder: (context, iconsnapshot) {
-                                        if (iconsnapshot.connectionState==ConnectionState.waiting) {
-                                          return const CircularProgressIndicator();
-                                        }
-                                        return FollowIcon(
-                                        size: size,
-                                        name: iconsnapshot.data!.following!.contains(user.uid)
-                                            ? 'Following'
-                                            : 'Follow',
-                                        color: Colors.white,
-                                        backgroundcolor: tealColor,
-                                      );
+                                    child: Consumer<FollowProvider>(
+                                      builder: (context, followingvalue, child) 
+                                       {
+                                        return FutureBuilder(
+                                          future: followingvalue.isFollowing(otherUserId),
+                                          builder: (context, followsnapshot) {
+                                            return FollowIcon(
+                                          size: size,
+                                          name: followsnapshot.data==true
+                                              ? 'Following'
+                                              : 'Follow',
+                                          color: Colors.white,
+                                          backgroundcolor: tealColor,
+                                                                              );
+                                          },
+                                          // child: 
+                                        );
                                       },
                                     ),
                                   );

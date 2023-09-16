@@ -42,6 +42,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_image_compress: ^2.0.4
+  flutter_instagram_stories: ^1.0.3+1
   flutter_local_notifications: ^15.1.1
   font_awesome_flutter: ^10.5.0
   google_fonts: ^5.1.0
@@ -49,10 +50,12 @@ dependencies:
   http: ^1.1.0
   image_picker: ^1.0.2
   json_annotation: ^4.8.1
+  lottie: ^2.6.0
   provider: ^6.0.5
   share: ^2.0.1
   shared_preferences: ^2.2.1
   shimmer: ^3.0.0
+  story_view: ^0.15.0
   timeago: ^3.5.0
 
 dev_dependencies:
@@ -81,6 +84,7 @@ flutter:
   assets:
     - assets/logo.jpg
     - assets/hotsopticon.jpg
+    - assets/animation_lmk9ixfw.json
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

@@ -107,27 +107,25 @@ class UserScreen extends StatelessWidget {
                                               .instance.currentUser!.uid,
                                           uid);
                                 },
-                                child: FutureBuilder<UserModel?>(
-                                  future: GetProfileData().getUserData(
-                                      FirebaseAuth.instance.currentUser!.uid),
-                                  builder: (context, followingsnapshot) {
-                                    if (followingsnapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return const Center(
-                                          child: CircularProgressIndicator());
-                                    }
-                                    return FollowIcon(
-                                      size: size,
-                                      name: followingsnapshot.data!.following!
-                                              .contains(uid)
-                                          ? "Unfollow"
-                                          : 'Follow',
-                                      color: tealColor,
-                                      backgroundcolor: Colors.white,
-                                    );
-                                  },
-                                  // child:
-                                ),
+                                child: Consumer<FollowProvider>(
+                                      builder: (context, followingvalue, child) 
+                                       {
+                                        return FutureBuilder(
+                                          future: followingvalue.isFollowing(uid),
+                                          builder: (context, followsnapshot) {
+                                            return FollowIcon(
+                                          size: size,
+                                          name: followsnapshot.data==true
+                                              ? 'Following'
+                                              : 'Follow',
+                                          color: tealColor,
+                                          backgroundcolor: Colors.white,
+                                                                              );
+                                          },
+                                          // child: 
+                                        );
+                                      },
+                                    ),
                               );
                             },
                           )

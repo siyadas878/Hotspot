@@ -12,6 +12,8 @@ class GetallStoryProvider extends ChangeNotifier {
           await FirebaseFirestore.instance.collection('uids').get();
       List<DocumentSnapshot> postsin = getusers.docs;
 
+      
+
       for (var i = 0; i < postsin.length; i++) {
         var data = postsin[i];
         var uid = data['uid'];
@@ -26,13 +28,10 @@ class GetallStoryProvider extends ChangeNotifier {
           return StoryModel.fromJson(data);
         }).toList();
 
-        posts.sort((a, b) => b.postId!.compareTo(a.postId!));
+        posts.sort((a, b) => b.storyId!.compareTo(a.storyId!));
         allposts.addAll(posts);
         notifyListeners();
       }
-
-      allposts.sort((a, b) => b.postId!.compareTo(a.postId!));
-      notifyListeners();
 
       return allposts;
     } catch (e) {

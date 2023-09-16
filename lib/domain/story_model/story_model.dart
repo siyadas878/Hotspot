@@ -2,15 +2,15 @@ class StoryModel {
   String? imgUrl;
   String? id;
   String? time;
-  String? postId;
+  String? storyId;
 
-  StoryModel({this.imgUrl, this.id, this.time, this.postId});
+  StoryModel({this.imgUrl, this.id, this.time, this.storyId});
 
   StoryModel.fromJson(Map<String, dynamic> json) {
     imgUrl = json['imgUrl'];
     id = json['id'];
     time = json['time'];
-    postId = json['postId'];
+    storyId = json['storyId'];
   }
 
   Map<String, dynamic> toJson() {
@@ -18,7 +18,7 @@ class StoryModel {
     data['imgUrl'] = imgUrl;
     data['id'] = id;
     data['time'] = time;
-    data['postId'] = postId;
+    data['storyId'] = storyId;
     return data;
   }
 }

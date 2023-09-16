@@ -20,7 +20,10 @@ class StoryScreen extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Stories', style: GoogleFonts.jollyLodger(fontSize: 30),),
+        title: Text(
+          'Stories',
+          style: GoogleFonts.jollyLodger(fontSize: 30),
+        ),
         actions: [
           IconButton(
               onPressed: () {
@@ -39,21 +42,14 @@ class StoryScreen extends StatelessWidget {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Container(
-                                      width: size.width * 0.3,
-                                      height: size.height * 0.1,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: NetworkImage(value.imageUrl ??
-                                              'https://static.thenounproject.com/png/396915-200.png'),
-                                          fit: BoxFit.contain,
-                                        ),
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(150)),
-                                        border: Border.all(
-                                          color: tealColor,
-                                          width: 2,
-                                        ),
+                                    ClipOval(
+                                      clipBehavior: Clip.antiAlias,
+                                      child: Image.network(
+                                        value.imageUrl ??
+                                            'https://static.thenounproject.com/png/396915-200.png',
+                                        width: size.width * 0.3,
+                                        height: size.height * 0.1,
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
                                     SpaceWithHeight(size: size),
@@ -109,6 +105,7 @@ class StoryScreen extends StatelessWidget {
                                             () {
                                           value.clearImage();
                                         });
+                                        Navigator.pop(context);
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: tealColor,
@@ -133,74 +130,80 @@ class StoryScreen extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-        child: FutureBuilder<List<StoryModel>>(
-          future: GetallStoryProvider().getAllStories(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return const Center(child: Text('No data available'));
-            } else {
-              return GridView.builder(
-                padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
-                itemCount: snapshot.data!.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  mainAxisSpacing: 15,
-                  crossAxisSpacing: 15,
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.75,
-                ),
-                itemBuilder: (context, index) {
-                  return Stack(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(),
-                          image: DecorationImage(
-                            image: NetworkImage(snapshot.data![index].imgUrl!),
-                            fit: BoxFit.cover,
+        child: Consumer<GetallStoryProvider>(
+          builder: (context, value, child) {
+            return FutureBuilder<List<StoryModel>>(
+              future: GetallStoryProvider().getAllStories(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text('No data available'));
+                } else {
+                  return GridView.builder(
+                    padding:
+                        const EdgeInsets.only(top: 10, left: 15, right: 15),
+                    itemCount: snapshot.data!.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      mainAxisSpacing: 15,
+                      crossAxisSpacing: 15,
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.75,
+                    ),
+                    itemBuilder: (context, index) {
+                      return Stack(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(),
+                              image: DecorationImage(
+                                image:
+                                    NetworkImage(snapshot.data![index].imgUrl!),
+                                fit: BoxFit.cover,
+                              ),
+                              color: Colors.teal,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
                           ),
-                          color: Colors.teal,
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                      ),
-                      Positioned(
-                        bottom:
-                            10,
-                        left:
-                            10, 
-                        child: FutureBuilder<UserModel?>(
-                          future: GetProfileData()
-                              .getUserData(snapshot.data![index].id!),
-                          builder: (context, usersnapshot) {
-                            if (usersnapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const Center(
-                                  child: CircularProgressIndicator());
-                            } else {
-                              return Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    backgroundImage:
-                                        NetworkImage(usersnapshot.data!.imgpath!),
-                                    radius: 20, 
-                                  ),
-                                  Text(usersnapshot.data!.username!,style: GoogleFonts.aBeeZee())
-                                ],
-                              );
-                            }
-                          },
-                        ),
-                      ),
-                    ],
+                          Positioned(
+                            bottom: 10,
+                            left: 10,
+                            child: FutureBuilder<UserModel?>(
+                              future: GetProfileData()
+                                  .getUserData(snapshot.data![index].id!),
+                              builder: (context, usersnapshot) {
+                                if (usersnapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                } else {
+                                  return Row(
+                                    children: [
+                                      CircleAvatar(
+                                        backgroundColor: Colors.white,
+                                        backgroundImage: NetworkImage(
+                                            usersnapshot.data!.imgpath!),
+                                        radius: 20,
+                                      ),
+                                      Text('  ${usersnapshot.data!.username!}',
+                                          style: GoogleFonts.aBeeZee(
+                                              color: Colors.white))
+                                    ],
+                                  );
+                                }
+                              },
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   );
-                },
-              );
-            }
+                }
+              },
+            );
           },
+          // child:
         ),
       ),
     );

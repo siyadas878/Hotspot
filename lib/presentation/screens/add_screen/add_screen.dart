@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hotspot/applications/provider/post_provider/add_post.dart';
 import 'package:hotspot/applications/provider/post_provider/image_for_post.dart';
 import 'package:hotspot/presentation/widgets/app_bar.dart';
+import 'package:hotspot/presentation/widgets/snackbar_warning.dart';
 import 'package:hotspot/presentation/widgets/space_with_height.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/consts.dart';
@@ -33,7 +35,7 @@ class AddScreen extends StatelessWidget {
                       image: DecorationImage(
                           image: NetworkImage(value.imageUrl ??
                               'https://static.thenounproject.com/png/396915-200.png'),
-                          fit: BoxFit.contain),
+                          fit: BoxFit.cover),
                       borderRadius: const BorderRadius.all(Radius.circular(15)),
                       border: Border.all(
                           color: tealColor, width: 2), // Adding border
@@ -106,6 +108,7 @@ class AddScreen extends StatelessWidget {
                         value.clearImage();
                         captionController.clear();
                       });
+                       warning(context, 'Successfully Added');
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: tealColor,

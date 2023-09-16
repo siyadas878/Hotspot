@@ -59,4 +59,18 @@ class LikeComentProvider extends ChangeNotifier {
 
     return comments;
   }
+
+  Future<void> deleteComent(String postId,String uniqueIdOfPost,String id)async{
+    try {
+      await firestore
+        .collection('posts')
+        .doc(postId)
+        .collection('this_user')
+        .doc(uniqueIdOfPost)
+        .collection('comments').doc(id).delete();
+        notifyListeners();
+    } catch (e) {
+      log(e.toString());
+    }
+  }
 }

@@ -5,6 +5,7 @@ import 'package:hotspot/applications/provider/login_provider/login.dart';
 import 'package:hotspot/applications/provider/theme_provider/theme_provider.dart';
 import 'package:hotspot/core/constants/consts.dart';
 import 'package:hotspot/infrastructure/functions/google_login.dart';
+import 'package:hotspot/presentation/screens/reset_password_screen/reset_password_screen.dart';
 import 'package:hotspot/presentation/screens/signup_screen/sign_up_screen.dart';
 import 'package:hotspot/presentation/widgets/app_logo.dart';
 import 'package:hotspot/presentation/widgets/teal_login_button.dart';
@@ -41,11 +42,16 @@ class LoginScreen extends StatelessWidget {
               obscureText: true,
             ),
             SpaceWithHeight(size: size),
-            const Text('Forgot your password?',
-                style: TextStyle(
-                  color: tealColor,
-                  fontSize: 13,
-                )),
+            InkWell(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) =>const ResetPasswordScreen(),));
+              },
+              child: const Text('Forgot your password?',
+                  style: TextStyle(
+                    color: tealColor,
+                    fontSize: 13,
+                  )),
+            ),
             SpaceWithHeight(size: size),
             TealLoginButton(
               onPressed: () {

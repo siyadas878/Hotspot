@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:hotspot/applications/provider/login_provider/reser_password.dart';
 import 'package:hotspot/applications/provider/message_provider/list_messages_users.dart';
 import 'package:hotspot/applications/provider/message_provider/messageuid_collection.dart';
 import 'package:hotspot/applications/provider/post_provider/add_post.dart';
@@ -26,6 +27,7 @@ import 'package:hotspot/applications/provider/theme_provider/theme_provider.dart
 import 'package:hotspot/presentation/screens/splash_screen/splash_screen.dart';
 import 'package:provider/provider.dart';
 import 'applications/provider/message_provider/message_provider.dart';
+import 'applications/provider/story_provider/story_viewer.dart';
 import 'infrastructure/push_notification.dart';
 
 Future<void> firebaseMessagingBackGroudHandler(RemoteMessage message) async {
@@ -121,6 +123,12 @@ class _MyAppState extends State<MyApp> {
           ),
           ChangeNotifierProvider(
             create: (context) => GetallStoryProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => ResetPassword(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => StorieControllerProvider(),
           ),
         ],
         child: Consumer<ThemeProvider>(

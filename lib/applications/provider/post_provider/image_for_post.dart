@@ -8,6 +8,7 @@ class PostImageProviderClass extends ChangeNotifier {
   String? _imgPath;
   String? get imgPath => _imgPath;
   String? imageUrl;
+  bool isloading=false;
 
   void clearImage() {
     _imgPath = null;
@@ -18,6 +19,7 @@ class PostImageProviderClass extends ChangeNotifier {
   Future<void> getImageFromGallery(BuildContext context) async {
     final ImagePicker picker = ImagePicker();
     try {
+      isloading=true;
       final XFile? image = await picker.pickImage(source: ImageSource.gallery);
       if (image?.path != null) {
         _imgPath = image!.path;
@@ -32,6 +34,7 @@ class PostImageProviderClass extends ChangeNotifier {
         await uploadImage.putFile(File(image.path));
 
         imageUrl = await uploadImage.getDownloadURL();
+        isloading=false;
         notifyListeners();
       }
     } catch (e) {
@@ -42,6 +45,7 @@ class PostImageProviderClass extends ChangeNotifier {
   Future<void> getImageCamera(BuildContext context) async {
     final ImagePicker picker = ImagePicker();
     try {
+      isloading=true;
       final XFile? image = await picker.pickImage(source: ImageSource.camera);
       if (image?.path != null) {
         _imgPath = image!.path;
@@ -56,6 +60,7 @@ class PostImageProviderClass extends ChangeNotifier {
         await uploadImage.putFile(File(image.path));
 
         imageUrl = await uploadImage.getDownloadURL();
+        isloading=false;
         notifyListeners();
       }
     } catch (e) {

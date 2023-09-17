@@ -86,6 +86,8 @@ class SignUpProvider extends ChangeNotifier {
           .set({
         'uid': [],
       });
+
+      
       notifyListeners();
     } catch (error) {
       _isLoading = false;

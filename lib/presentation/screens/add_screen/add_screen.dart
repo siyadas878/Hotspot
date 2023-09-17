@@ -20,7 +20,10 @@ class AddScreen extends StatelessWidget {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: const MyAppBar(title: '    Add Post'),
+      appBar:  MyAppBar(title: '    Add Post',leading: IconButton(onPressed: () {
+        Navigator.pop(context);
+        context.read<PostImageProviderClass>().clearImage();
+      }, icon:const Icon(Icons.arrow_back))),
       body: Center(
         child: SingleChildScrollView(
           child: Consumer<PostImageProviderClass>(
@@ -91,6 +94,8 @@ class AddScreen extends StatelessWidget {
                     ),
                   ),
                   SpaceWithHeight(size: size),
+                  context.read<PostImageProviderClass>().isloading==true?
+                  const CircularProgressIndicator(color: tealColor):
                   ElevatedButton(
                     onPressed: () {
                       String uid =

@@ -31,19 +31,17 @@ class AddStory extends ChangeNotifier {
       log("Error adding post: $error");
     }
   }
-  Future<void> autodeletStory() async {
-    final sdata = await FirebaseFirestore.instance.collection('story').get();
-    for (var element in sdata.docs) {
-      Timestamp time = element['time'];
-      int now = DateTime.now().millisecondsSinceEpoch;
-      final duration = now - time.millisecondsSinceEpoch;
-      // 86400000
-      if (duration > 86400000) {
-        await FirebaseFirestore.instance
-            .collection("story")
-            .doc(element['storyId'])
-            .delete();
-      }
+
+  Future<void> deleteStory(String storyId, String userId)async{
+    try {
+      CollectionReference postsCollection =
+          FirebaseFirestore.instance.collection('story');
+    await postsCollection
+          .doc(userId)
+          .collection('this_user')
+          .doc(storyId).delete();
+    } catch (e) {
+      log("Error deleting post: $e");
     }
   }
 }

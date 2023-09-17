@@ -1,6 +1,7 @@
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hotspot/applications/provider/post_provider/follow_provider.dart';
 import 'package:hotspot/applications/provider/profile_provider/get_data_in_profile.dart';
 import 'package:hotspot/domain/post_model/post_model.dart';
@@ -10,6 +11,7 @@ import 'package:hotspot/presentation/widgets/space_with_height.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/consts.dart';
 import '../../../domain/user_model/user_model.dart';
+import '../chat_screen/chat_screen.dart';
 
 class UserScreen extends StatelessWidget {
   final String uid;
@@ -41,6 +43,22 @@ class UserScreen extends StatelessWidget {
               snapshot.data!.username!,
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
+            actions: [Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: IconButton(onPressed: () {
+                Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChatScreen(
+                                  fromId: user.uid.toString(),
+                                  title: user.name!,
+                                  imageUrl: user.imgpath!,
+                                  fcmTocken: user.fcmTocken ?? '',
+                                ),
+                              ),
+                            );
+              }, icon:const Icon(FontAwesomeIcons.message)),
+            ),],
           ),
           body: SafeArea(
             child: Column(
@@ -122,7 +140,6 @@ class UserScreen extends StatelessWidget {
                                           backgroundcolor: Colors.white,
                                                                               );
                                           },
-                                          // child: 
                                         );
                                       },
                                     ),

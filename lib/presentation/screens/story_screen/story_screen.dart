@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hotspot/applications/provider/story_provider/add_story.dart';
 import 'package:hotspot/applications/provider/story_provider/get_all_story.dart';
 import 'package:hotspot/domain/story_model/story_model.dart';
+import 'package:hotspot/presentation/screens/story_screen/widgets/view_image.dart';
+import 'package:hotspot/presentation/widgets/shimmer_for_story.dart';
 import 'package:provider/provider.dart';
 import '../../../applications/provider/post_provider/image_for_post.dart';
 import '../../../applications/provider/profile_provider/get_data_in_profile.dart';
@@ -43,7 +45,7 @@ class StoryScreen extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     ClipOval(
-                                      clipBehavior: Clip.antiAlias,
+                                      clipBehavior: Clip.none,
                                       child: Image.network(
                                         value.imageUrl ??
                                             'https://static.thenounproject.com/png/396915-200.png',
@@ -84,6 +86,8 @@ class StoryScreen extends StatelessWidget {
                                         ),
                                       ],
                                     ),
+                                    value.isloading==true?
+                                    const CircularProgressIndicator(color: tealColor,):
                                     ElevatedButton(
                                       onPressed: () {
                                         String uid = FirebaseAuth
@@ -135,75 +139,125 @@ class StoryScreen extends StatelessWidget {
             return FutureBuilder<List<StoryModel>>(
               future: GetallStoryProvider().getAllStories(),
               builder: (context, snapshot) {
-                if (snapshot.hasError) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const ShimmerForStory();
+                } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return const Center(child: Text('No data available'));
                 } else {
-                  return GridView.builder(
-                    padding:
-                        const EdgeInsets.only(top: 10, left: 15, right: 15),
-                    itemCount: snapshot.data!.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisSpacing: 15,
-                      crossAxisSpacing: 15,
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.75,
-                    ),
-                    itemBuilder: (context, index) {
-                      return Stack(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(),
-                              image: DecorationImage(
-                                image:
-                                    NetworkImage(snapshot.data![index].imgUrl!),
-                                fit: BoxFit.cover,
+                  return RefreshIndicator(
+                    onRefresh: () => context.read<GetallStoryProvider>().getAllStories(),
+                    child: GridView.builder(
+                      padding:
+                          const EdgeInsets.only(top: 10, left: 15, right: 15),
+                      itemCount: snapshot.data!.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        mainAxisSpacing: 15,
+                        crossAxisSpacing: 15,
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.75,
+                      ),
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onLongPress: () {
+                            var userId = FirebaseAuth.instance.currentUser!.uid;
+                            if (snapshot.data![index].id == userId) {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title:const Text('Delete'),
+                                  content:
+                                    const  Text('Do you want to delete this story?'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child:const Text('CANCEL',
+                                          style: TextStyle(color: tealColor)),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    TextButton(
+                                      child:const Text('DELETE',
+                                          style: TextStyle(color: tealColor)),
+                                      onPressed: () async {
+                                        await context
+                                            .read<AddStory>()
+                                            .deleteStory(
+                                              snapshot.data![index].storyId!,
+                                              userId,
+                                            );
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                          },
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => StorieView(
+                                      image: snapshot.data![index].imgUrl!),
+                                ));
+                          },
+                          child: Stack(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                        snapshot.data![index].imgUrl!),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  color: Colors.teal,
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
                               ),
-                              color: Colors.teal,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
+                              Positioned(
+                                bottom: 10,
+                                left: 10,
+                                child: FutureBuilder<UserModel?>(
+                                  future: GetProfileData()
+                                      .getUserData(snapshot.data![index].id!),
+                                  builder: (context, usersnapshot) {
+                                    if (usersnapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return const Center(
+                                          child: CircularProgressIndicator());
+                                    } else {
+                                      return Row(
+                                        children: [
+                                          CircleAvatar(
+                                            backgroundColor: Colors.white,
+                                            backgroundImage: NetworkImage(
+                                                usersnapshot.data!.imgpath!),
+                                            radius: 20,
+                                          ),
+                                          Text(
+                                              '  ${usersnapshot.data!.username!}',
+                                              style: GoogleFonts.aBeeZee(
+                                                  color: Colors.white))
+                                        ],
+                                      );
+                                    }
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
-                          Positioned(
-                            bottom: 10,
-                            left: 10,
-                            child: FutureBuilder<UserModel?>(
-                              future: GetProfileData()
-                                  .getUserData(snapshot.data![index].id!),
-                              builder: (context, usersnapshot) {
-                                if (usersnapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const Center(
-                                      child: CircularProgressIndicator());
-                                } else {
-                                  return Row(
-                                    children: [
-                                      CircleAvatar(
-                                        backgroundColor: Colors.white,
-                                        backgroundImage: NetworkImage(
-                                            usersnapshot.data!.imgpath!),
-                                        radius: 20,
-                                      ),
-                                      Text('  ${usersnapshot.data!.username!}',
-                                          style: GoogleFonts.aBeeZee(
-                                              color: Colors.white))
-                                    ],
-                                  );
-                                }
-                              },
-                            ),
-                          ),
-                        ],
-                      );
-                    },
+                        );
+                      },
+                    ),
                   );
                 }
               },
             );
           },
-          // child:
         ),
       ),
     );

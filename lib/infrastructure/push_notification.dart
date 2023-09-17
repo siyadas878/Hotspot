@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, prefer_const_constructors
 
 import 'dart:convert';
 import 'dart:math';
@@ -15,7 +15,7 @@ class LocalNotificationService {
       _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   static void initialize() {
-    const InitializationSettings initializationSettings =
+    final InitializationSettings initializationSettings =
         InitializationSettings(
             android: AndroidInitializationSettings("@mipmap/ic_launcher"));
     _flutterLocalNotificationsPlugin.initialize(initializationSettings);
@@ -26,7 +26,7 @@ class LocalNotificationService {
       print("In notification method");
       Random random =  Random();
       int id = random.nextInt(1000);
-      const NotificationDetails notificationDetails = NotificationDetails(
+      final NotificationDetails notificationDetails = NotificationDetails(
           android: AndroidNotificationDetails("mychanel", "my chanel",
               importance: Importance.max, priority: Priority.high));
 
@@ -37,14 +37,15 @@ class LocalNotificationService {
           message.notification!.body,
           notificationDetails);
     } on Exception catch (e) {
-      print("erorr   $e");
+      print("erorr>>>>>>>>$e");
     }
   }
 
   static Future<void> sendNotification(
       {String? title, String? message, String? token}) async {
-        
+    print("\n\n\n\n\n\n\n\n");
     print("token is $token");
+    print("\n\n\n\n\n\n\n\n");
 
     final data = {
       "click_action": "FLUTTER_NOTIFICATION_CLICK",
@@ -72,7 +73,9 @@ class LocalNotificationService {
       if (r.statusCode == 200) {
         print("done");
       } else {
+        print("\n\n\n\n\n\n\n\n");
         print("the erorr is this ${r.statusCode}");
+        print("\n\n\n\n\n\n\n\n");
       }
     } catch (e) {
       print("Exception $e");
@@ -82,7 +85,7 @@ class LocalNotificationService {
   static storeToken() async {
     try {
       String? token = await FirebaseMessaging.instance.getToken();
-      print("-----------------${token}");
+      print('-------------------${token.toString()}');
       FirebaseFirestore.instance
           .collection("users")
           .doc(FirebaseAuth.instance.currentUser!.uid)

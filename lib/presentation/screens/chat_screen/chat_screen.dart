@@ -208,7 +208,7 @@ class ChatScreen extends StatelessWidget {
                     ),
                     const SizedBox(width: 10),
                     InkWell(
-                      onTap: () {
+                      onTap: () async{
                         if (context
                             .read<MessageCreationProvider>()
                             .messageController
@@ -220,7 +220,7 @@ class ChatScreen extends StatelessWidget {
                               .read<MessageCreationProvider>()
                               .addMessage(fromId);
 
-                          LocalNotificationService.sendNotification(
+                        await  LocalNotificationService.sendNotification(
                               title: "New message",
                               message: context
                                   .read<MessageCreationProvider>()

@@ -41,7 +41,6 @@ dependencies:
   firebase_storage: ^11.2.5
   flutter:
     sdk: flutter
-  flutter_image_compress: ^2.0.4
   flutter_instagram_stories: ^1.0.3+1
   flutter_local_notifications: ^15.1.1
   font_awesome_flutter: ^10.5.0
@@ -56,6 +55,7 @@ dependencies:
   shared_preferences: ^2.2.1
   shimmer: ^3.0.0
   story_view: ^0.15.0
+  story_viewer: ^0.2.0
   timeago: ^3.5.0
 
 dev_dependencies:
@@ -69,7 +69,7 @@ dev_dependencies:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/hotsopticon.jpg"
+  image_path: "assets/logoo.png"
   min_sdk_android: 21
 
 # For information on the generic Dart part of this file, see the
@@ -85,6 +85,7 @@ flutter:
     - assets/logo.jpg
     - assets/hotsopticon.jpg
     - assets/animation_lmk9ixfw.json
+    - assets/logoo.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

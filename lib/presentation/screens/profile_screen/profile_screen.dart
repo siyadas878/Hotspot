@@ -164,9 +164,9 @@ class ProfileScreen extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 13),
                   child: Consumer<GetProfileData>(
-                    builder: (context, value, child) {
+                    builder: (context, profilevalue, child) {
                       return FutureBuilder<List<PostModel>>(
-                      future: value.getposts(uid),
+                      future: profilevalue.getposts(uid),
                       builder: (context, snapshot) {
                         if (snapshot.hasError) {
                           return Text('Error: ${snapshot.error}');
@@ -277,7 +277,7 @@ buildNumberContainer(int number, String title, BuildContext context,Function fun
               SizedBox(height: size.height*0.01,),
               Text(
                 number.toString(),
-                style: const TextStyle(fontSize: 20, color: Colors.white),
+                style: const TextStyle(fontSize: 18, color: Colors.white),
               ),
             ],
           ),

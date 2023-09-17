@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -86,39 +88,42 @@ class StoryScreen extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                    value.isloading==true?
-                                    const CircularProgressIndicator(color: tealColor,):
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        String uid = FirebaseAuth
-                                            .instance.currentUser!.uid
-                                            .toString();
-                                        try {
-                                          Provider.of<AddStory>(context,
-                                                  listen: false)
-                                              .addStory(
-                                            value.imageUrl!,
-                                            uid,
-                                            DateTime.now().toString(),
-                                          );
-                                        } catch (e) {
-                                          log('$e');
-                                        }
-                                        Future.delayed(
-                                            const Duration(milliseconds: 100),
-                                            () {
-                                          value.clearImage();
-                                        });
-                                        Navigator.pop(context);
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: tealColor,
-                                      ),
-                                      child: const Text(
-                                        'Add',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ),
+                                    value.isloading == true
+                                        ? const CircularProgressIndicator(
+                                            color: tealColor,
+                                          )
+                                        : ElevatedButton(
+                                            onPressed: () {
+                                              String uid = FirebaseAuth
+                                                  .instance.currentUser!.uid
+                                                  .toString();
+                                              try {
+                                                Provider.of<AddStory>(context,
+                                                        listen: false)
+                                                    .addStory(
+                                                  value.imageUrl!,
+                                                  uid,
+                                                  DateTime.now().toString(),
+                                                );
+                                              } catch (e) {
+                                                log('$e');
+                                              }
+                                              Future.delayed(
+                                                  const Duration(
+                                                      milliseconds: 100), () {
+                                                value.clearImage();
+                                              });
+                                              Navigator.pop(context);
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: tealColor,
+                                            ),
+                                            child: const Text(
+                                              'Add',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
                                   ],
                                 ),
                               );
@@ -147,7 +152,8 @@ class StoryScreen extends StatelessWidget {
                   return const Center(child: Text('No data available'));
                 } else {
                   return RefreshIndicator(
-                    onRefresh: () => context.read<GetallStoryProvider>().getAllStories(),
+                    onRefresh: () =>
+                        context.read<GetallStoryProvider>().getAllStories(),
                     child: GridView.builder(
                       padding:
                           const EdgeInsets.only(top: 10, left: 15, right: 15),
@@ -167,19 +173,19 @@ class StoryScreen extends StatelessWidget {
                               showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
-                                  title:const Text('Delete'),
-                                  content:
-                                    const  Text('Do you want to delete this story?'),
+                                  title: const Text('Delete'),
+                                  content: const Text(
+                                      'Do you want to delete this story?'),
                                   actions: <Widget>[
                                     TextButton(
-                                      child:const Text('CANCEL',
+                                      child: const Text('CANCEL',
                                           style: TextStyle(color: tealColor)),
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
                                     ),
                                     TextButton(
-                                      child:const Text('DELETE',
+                                      child: const Text('DELETE',
                                           style: TextStyle(color: tealColor)),
                                       onPressed: () async {
                                         await context

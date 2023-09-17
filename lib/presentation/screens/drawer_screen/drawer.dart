@@ -10,6 +10,7 @@ import 'package:hotspot/presentation/screens/about_app/about_app.dart';
 import 'package:hotspot/presentation/screens/privacy_policy/privacy_policy.dart';
 import 'package:hotspot/presentation/widgets/snackbar_warning.dart';
 import 'package:hotspot/presentation/widgets/space_with_height.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import '../../../applications/provider/theme_provider/theme_provider.dart';
 import '../../../domain/user_model/user_model.dart';
@@ -18,6 +19,28 @@ class DrawerScreen extends StatelessWidget {
   DrawerScreen({super.key});
 
   final String uid = FirebaseAuth.instance.currentUser!.uid.toString();
+
+  Future<String> getAppVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    return packageInfo.version;
+  }
+
+  FutureBuilder<String> buildAppVersionWidget() {
+    return FutureBuilder<String>(
+      future: getAppVersion(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Text('Loading...');
+        } else if (snapshot.hasData) {
+          return Text('App Version: ${snapshot.data}',
+              style: const TextStyle(color: Colors.grey));
+        } else {
+          return const Text('Failed to get app version.',
+              style: TextStyle(color: Colors.grey));
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,49 +68,50 @@ class DrawerScreen extends StatelessWidget {
                   color: tealColor,
                 ),
                 child: Center(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(75)),
-                        border: Border.all(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(75)),
+                          border: Border.all(
+                            color: Colors.white,
+                            width: 7.0,
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CircleAvatar(
+                            radius: 60.0,
+                            backgroundImage:
+                                NetworkImage(user.imgpath.toString()),
+                          ),
+                        ),
+                      ),
+                      SpaceWithHeight(size: size),
+                      Text(
+                        user.username.toString(),
+                        style: const TextStyle(
+                          fontSize: 25.0,
                           color: Colors.white,
-                          width: 7.0,
                         ),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CircleAvatar(
-                          radius: 60.0,
-                          backgroundImage:
-                              NetworkImage(user.imgpath.toString()),
-                        ),
-                      ),
-                    ),
-                    SpaceWithHeight(size: size),
-                    Text(
-                      user.username.toString(),
-                      style: const TextStyle(
-                        fontSize: 25.0,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                )),
+                    ],
+                  ),
+                ),
               );
             },
           ),
           SpaceWithHeight(size: size),
           ListTile(
             leading: const Icon(FontAwesomeIcons.themeco),
-            title:  Text('Theme',
-            style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black)
-            ),
+            title: Text('Theme',
+                style: TextStyle(
+                    color: themeProvider.isDarkMode ? Colors.white : Colors.black)),
             trailing: Switch(
               value: themeProvider.isDarkMode,
-              thumbColor:const MaterialStatePropertyAll(tealColor),
+              thumbColor: const MaterialStatePropertyAll(tealColor),
               onChanged: (newValue) {
                 themeProvider.toggleTheme();
               },
@@ -95,32 +119,42 @@ class DrawerScreen extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(FontAwesomeIcons.book),
-            title:  Text('Privacy Policy',
-            style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),),
+            title: Text('Privacy Policy',
+                style: TextStyle(
+                    color: themeProvider.isDarkMode ? Colors.white : Colors.black)),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) =>const PrivacyPolicy(),));
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const PrivacyPolicy()),
+              );
             },
           ),
           ListTile(
             leading: const Icon(FontAwesomeIcons.share),
-            title:  Text('Share App',
-            style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black)),
+            title: Text('Share App',
+                style: TextStyle(
+                    color: themeProvider.isDarkMode ? Colors.white : Colors.black)),
             onTap: () {
               shareApp();
             },
           ),
           ListTile(
             leading: const Icon(FontAwesomeIcons.newspaper),
-            title:  Text('About Us',
-            style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black)),
+            title: Text('About Us',
+                style: TextStyle(
+                    color: themeProvider.isDarkMode ? Colors.white : Colors.black)),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) =>const AboutApp(),));
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AboutApp()),
+              );
             },
           ),
           ListTile(
             leading: const Icon(FontAwesomeIcons.rightFromBracket),
-            title:  Text('LogOut',
-            style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black)),
+            title: Text('LogOut',
+                style: TextStyle(
+                    color: themeProvider.isDarkMode ? Colors.white : Colors.black)),
             onTap: () async {
               showDialog(
                 context: context,
@@ -129,13 +163,13 @@ class DrawerScreen extends StatelessWidget {
                   content: const Text('Do yo want to LogOut'),
                   actions: <Widget>[
                     TextButton(
-                      child: const Text('CANCEL',style: TextStyle(color: tealColor)),
+                      child: const Text('CANCEL', style: TextStyle(color: tealColor)),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
                     ),
                     TextButton(
-                      child: const Text('LOGOUT',style: TextStyle(color: tealColor)),
+                      child: const Text('LOGOUT', style: TextStyle(color: tealColor)),
                       onPressed: () async {
                         try {
                           await FirebaseAuth.instance.signOut();
@@ -143,8 +177,7 @@ class DrawerScreen extends StatelessWidget {
                           // ignore: use_build_context_synchronously
                           Navigator.pushAndRemoveUntil(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => const MyApp()),
+                            MaterialPageRoute(builder: (context) => const MyApp()),
                             (route) => false,
                           );
                         } catch (e) {
@@ -156,6 +189,16 @@ class DrawerScreen extends StatelessWidget {
                 ),
               );
             },
+          ),
+          // Text at the bottom
+          Column(mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              SizedBox(height: size.height*0.1,),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                child: buildAppVersionWidget(),
+              ),
+            ],
           ),
         ],
       ),

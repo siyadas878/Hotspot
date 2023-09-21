@@ -1,8 +1,8 @@
 import 'package:share/share.dart';
 
 void shareApp() {
-  String musicTitle = "Mr.musik";
+  String musicTitle = "Hotspot";
   String musicUrl =
-      "https://play.google.com/store/apps/details?id=com.example.hotspot";
-  Share.share("Check out this amazing music player App: $musicTitle\n\n$musicUrl");
+      "https://play.google.com/store/apps/details?id=in.hotspot";
+  Share.share("Check out this amazing social media App: $musicTitle\n\n$musicUrl");
 }
